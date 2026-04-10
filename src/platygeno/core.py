@@ -1,6 +1,6 @@
 import os
 import torch
-from evo import Evo  # Ensure you have the latest evo-model or evo2 installed
+from evo2 import Evo2  # Ensure you have the latest evo-model or evo2 installed
 from huggingface_hub import hf_hub_download
 
 class PlatyGenoEngine:
