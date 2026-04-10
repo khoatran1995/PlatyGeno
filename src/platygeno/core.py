@@ -1,3 +1,6 @@
+# Copyright 2026 Khoa Tu Tran
+# Licensed under the Apache License, Version 2.0 (the "License")
+
 import torch
 from evo import Evo
 
