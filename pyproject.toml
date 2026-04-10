@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "platygeno"
+version = "0.1.0"
+description = "Unsupervised Gene Discovery via Evo 2 & SAE Interpretability"
+dependencies = [
+    "torch",
+    "biopython",
+    "pandas",
+    "tqdm"
+]
