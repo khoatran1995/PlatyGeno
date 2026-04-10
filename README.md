@@ -19,5 +19,5 @@ Note: For a step-by-step guide on how to configure these dependencies in a RunPo
 
 
 Acknowledgements
-
 This tool is built upon the Evo 2 genomic foundation model developed by the Arc Institute. We are grateful to the Arc Institute and the Goodfire team for providing the model weights and sparse autoencoder (SAE) architectures that make PlatyGeno possible.
+This project was developed with the assistance of AI tools for code optimization and debugging, with all biological logic and architectural design directed by the author.
