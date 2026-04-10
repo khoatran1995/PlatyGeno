@@ -4,24 +4,21 @@ from evo import Evo  # Ensure you have the latest evo-model or evo2 installed
 from huggingface_hub import hf_hub_download
 
 class PlatyGenoEngine:
-    def __init__(self, sae_weights_path=None, model_version='evo2-7b', device='cuda:0'):
-        self.device = device
+    def __init__(self, sae_weights_path=None, model_name='evo2_7b'):
+        # Evo2 handles device placement automatically. 
+        # It will use CUDA if a GPU is detected.
+        print(f"🚀 Initializing {model_name}...")
         
-        # 1. Initialize Evo 2 (Using the 2026 identifier)
-        print(f"🚀 Initializing {model_version}...")
-        try:
-            self.evo = Evo(model_version).to(device).eval()
-        except ValueError:
-            print(f"⚠️ Warning: '{model_version}' not found in local registry. Attempting fallback...")
-            # Fallback for specific environment setups
-            self.evo = Evo('evo-1.5-8k-base').to(device).eval() 
-
-        # 2. Handle SAE Weights Auto-Download
+        # Load Evo 2 (The correct ID is 'evo2_7b')
+        self.evo = Evo2(model_name) 
+        
+        # Handle SAE Weights
         self.sae_path = sae_weights_path or "weights/sae_layer26.pt"
         self._ensure_weights_exist()
         
-        self.sae = self._load_sae(self.sae_path)
-        print(f"✅ PlatyGeno Engine Ready: {model_version} + Layer 26 SAE.")
+        # self.sae = self._load_sae(self.sae_path)
+        print(f"✅ PlatyGeno Engine Ready: {model_name} loaded.")
+
 
     def _ensure_weights_exist(self):
         """Checks if SAE weights exist locally; if not, downloads from Hugging Face."""
