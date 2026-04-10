@@ -17,5 +17,5 @@ print(f"🔍 Scanning {fastq_file} for novel gene candidates...")
 report = read_evo_features(fastq_file, engine, limit=4000)
 
 # 3. Save results
-report.to_csv("layer26_features.csv", index=False)
+report.to_csv("/workspace/PlatyGeno/data/layer26_features.csv", index=False)
 print("🎉 Discovery Complete! Report saved to novel_candidates.csv")
