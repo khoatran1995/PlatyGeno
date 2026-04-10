@@ -3,9 +3,11 @@ PlatyGeno is an interpretability tool for the Evo 2 genomic foundation model.
 
 
 🛠 Dependencies
-To run PlatyGeno, users must have the following installed (these are not included in this repository, but will be guided below):
-Evo 2 Foundation Model (Arc Institute)
-Sparse Autoencoder Weights (Goodfire)
+To run PlatyGeno, the following external components are required (not included in this repository):
+Evo 2 Foundation Model (Arc Institute) : https://huggingface.co/arcinstitute
+Sparse Autoencoder Weights (Goodfire) : https://huggingface.co/Goodfire
+
+Note: For a step-by-step guide on how to configure these dependencies in a RunPod environment, please refer to the Installation section.
 
 
 
