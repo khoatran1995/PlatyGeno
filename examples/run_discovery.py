@@ -11,7 +11,7 @@ engine = PlatyGenoEngine(model_name='evo2_7b')
 
 # 2. Run Discovery on your FASTQ
 # Ensure this path matches your RunPod workspace
-fastq_file = "/workspace/data/sample.fastq"
+fastq_file = "/workspace/PlatyGeno/data/sample.fastq"
 
 print(f"🔍 Scanning {fastq_file} for novel gene candidates...")
 report = read_evo_features(fastq_file, engine, limit=4000)
