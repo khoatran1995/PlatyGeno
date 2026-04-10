@@ -75,3 +75,20 @@ class PlatyGenoEngine:
                 features = self.sae.encode(mean_emb, k=64)
                 return features.view(-1) # Return as 1D for the reader
         return None
+def get_token_features_deep(self, dna_string):
+        """
+        Phase 2: Deep Token-Aware Scan.
+        Returns features for EVERY base pair.
+        Used only on 'Winner' reads to find the precise gene boundaries.
+        """
+        tokens = self.evo.tokenizer.tokenize(dna_string)
+        input_ids = torch.tensor([tokens], dtype=torch.long).to(self.device)
+        
+        with torch.no_grad():
+            _ = self.evo.model(input_ids)
+            if self.extracted_data is not None:
+                # Squeeze to get [Seq_Len, Hidden_Dim]
+                token_embeddings = self.extracted_data.squeeze(0)
+                # Apply SAE to every single base token
+                return self.sae.encode(token_embeddings, k=64)
+        return None
