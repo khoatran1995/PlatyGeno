@@ -1,32 +1,21 @@
-from platygeno.core import PlatyGenoEngine
-from platygeno.evo_reader import read_evo_features
-from platygeno.mapper import get_high_score_reads
 import torch
 import _codecs
+# Your Skeleton Key from the notebook
 torch.serialization.add_safe_globals([_codecs.encode])
 
-# 1. Initialize Engine
-# SET sae_weights_path=None to trigger the automatic download logic we wrote!
-# Use 'evo2-7b' (standard ID) or ensure your core.py handles the fallback.
-engine = PlatyGenoEngine(sae_weights_path=None, model_name='evo2_7b')
+from platygeno.core import PlatyGenoEngine
+from platygeno.evo_reader import read_evo_features
 
-# 2. Run targeted range discovery
-# Update fasta_path to point to your 'data/' folder
-raw_report = read_evo_features(
-    fasta_path="data/sample.fastq",  # Change .fasta to .fastq
-    engine=engine,
-    start_idx=0, 
-    end_idx=4000, 
-    score_thres=12.0
-)
+# 1. Start the Engine
+engine = PlatyGenoEngine(model_name='evo2_7b')
 
-# 3. Extract high-importance signals
-discovery = get_high_score_reads(raw_report, score_thres=20.0)
+# 2. Run Discovery on your FASTQ
+# Ensure this path matches your RunPod workspace
+fastq_file = "/workspace/sample.fastq"
 
-# 4. Final output
-if not discovery.empty:
-    print(discovery.head())
-    discovery.to_csv("discovery_results.csv", index=False)
-    print("✅ Results saved to discovery_results.csv")
-else:
-    print("❌ No features found above the threshold.")
+print(f"🔍 Scanning {fastq_file} for novel gene candidates...")
+report = read_evo_features(fastq_file, engine, limit=4000)
+
+# 3. Save results
+report.to_csv("novel_candidates.csv", index=False)
+print("🎉 Discovery Complete! Report saved to novel_candidates.csv")
