@@ -10,5 +10,7 @@ dependencies = [
     "torch",
     "biopython",
     "pandas",
-    "tqdm"
+    "tqdm",
+    "huggingface_hub",  # Required for auto-download
+    "evo-model>=0.5"    # Ensure latest version for Evo 2 support
 ]
