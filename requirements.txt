@@ -1,0 +1,6 @@
+torch>=2.0.0
+biopython
+pandas
+tqdm
+# Note: Evo-2 and Goodfire weights must be installed separately 
+# as per the guide in the README.
