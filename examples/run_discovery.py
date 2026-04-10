@@ -5,10 +5,7 @@ from platygeno.mapper import get_high_score_reads
 # 1. Initialize Engine
 # SET sae_weights_path=None to trigger the automatic download logic we wrote!
 # Use 'evo2-7b' (standard ID) or ensure your core.py handles the fallback.
-engine = PlatyGenoEngine(
-    sae_weights_path=None, 
-    model_version='evo2-7b' 
-)
+engine = PlatyGenoEngine(sae_weights_path=None, model_name='evo2_7b')
 
 # 2. Run targeted range discovery
 # Update fasta_path to point to your 'data/' folder
