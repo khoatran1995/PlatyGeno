@@ -29,11 +29,12 @@ class PlatyGenoEngine:
             # This fetches the official Goodfire Layer 26 SAE
             downloaded_path = hf_hub_download(
                 repo_id="Goodfire/Evo-2-Layer-26-Mixed",
-                filename="sae_layer26.pt", # Verify exact filename on HF
+                filename="sae-layer26-mixed-expansion_8-k_64.pt", # Verify exact filename on HF
                 local_dir="weights"
             )
             self.sae_path = downloaded_path
             print(f"✅ Download complete: {self.sae_path}")
+
 
     def _load_sae(self, path):
         # Your specific SAE loading logic goes here
