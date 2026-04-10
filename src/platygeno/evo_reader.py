@@ -1,47 +1,49 @@
 # Copyright 2026 Khoa Tu Tran
 # Licensed under the Apache License, Version 2.0 (the "License")
 
+import os
 import pandas as pd
 from Bio import SeqIO
-from tqdm import tqdm
 from itertools import islice
+from tqdm import tqdm
+import torch
 
-def read_evo_features(fasta_path, engine, start_idx=0, end_idx=1000, layer=26, score_thres=10.0):
+def read_evo_features(file_path, engine, limit=4000):
     """
-    Function 1: Scans a FASTA/FASTQ range through Evo 2 and maps Layer 26 activations.
-    
-    Args:
-        fasta_path (str): Path to genomic file.
-        engine (PlatyGenoEngine): Initialized model engine.
-        start_idx (int): Start index for reads.
-        end_idx (int): End index for reads.
-        layer (int): Evo 2 layer to interpret (default 26).
-        score_thres (float): Minimum activation strength to record.
+    Reads DNA sequences, extracts SAE features, and returns a report.
+    Works for both .fasta and .fastq files.
     """
-    results = []
+    # 1. Auto-detect file format
+    ext = os.path.splitext(file_path)[1].lower()
+    file_format = "fastq" if ext in [".fastq", ".fq"] else "fasta"
     
-    # Efficiently skip to start_idx and stop at end_idx
+    print(f"📖 Reading {file_format.upper()} file: {file_path}")
+    
+    # 2. Use islice to respect the limit without loading the whole file
+    record_iterator = islice(SeqIO.parse(file_path, file_format), 0, limit)
+    
+    discovery_results = []
 
-    file_format = "fastq" if fasta_path.endswith((".fastq", ".fq")) else "fasta"
-
-    with open(fasta_path, "r") as handle:
-        records = islice(SeqIO.parse(handle, file_format), start_idx, end_idx)
+    # 3. Processing Loop
+    print(f"🧬 EvoReader: Analyzing up to {limit} reads...")
+    for record in tqdm(record_iterator, total=limit):
+        safe_id = record.id.replace("/", "_").replace("|", "_").replace(":", "_")
+        seq = str(record.seq)
         
-        print(f"🧬 EvoReader: Analyzing reads {start_idx} to {end_idx}...")
-        for i, record in enumerate(tqdm(records, total=(end_idx - start_idx))):
-            # Get activations from the SAE
-            activations = engine.get_features(str(record.seq))
+        # Get features from our Engine (which uses the SAE)
+        features = engine.get_features(seq)
+        
+        if features is not None:
+            # Find which features 'fired' (activation > 0)
+            active_indices = torch.where(features > 0)[0]
+            active_values = features[active_indices]
             
-            # Identify indices above the score_thres
-            indices = activations.nonzero(as_tuple=True)[0]
-            for idx in indices:
-                val = activations[idx].item()
-                if val >= score_thres:
-                    results.append({
-                        "read_id": record.id,
-                        "feature_id": int(idx.item()),
-                        "score": round(val, 4),
-                        "sequence": str(record.seq)
-                    })
-            
-    return pd.DataFrame(results)
+            for idx, val in zip(active_indices, active_values):
+                discovery_results.append({
+                    "read_id": safe_id,
+                    "feature_id": int(idx.item()),
+                    "activation": float(val.item())
+                })
+
+    # 4. Convert to DataFrame for the final report
+    return pd.DataFrame(discovery_results)
