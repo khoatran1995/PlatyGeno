@@ -1,6 +1,9 @@
 from platygeno.core import PlatyGenoEngine
 from platygeno.evo_reader import read_evo_features
 from platygeno.mapper import get_high_score_reads
+import torch
+import _codecs
+torch.serialization.add_safe_globals([_codecs.encode])
 
 # 1. Initialize Engine
 # SET sae_weights_path=None to trigger the automatic download logic we wrote!
