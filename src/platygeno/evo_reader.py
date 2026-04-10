@@ -21,8 +21,11 @@ def read_evo_features(fasta_path, engine, start_idx=0, end_idx=1000, layer=26, s
     results = []
     
     # Efficiently skip to start_idx and stop at end_idx
+
+    file_format = "fastq" if fasta_path.endswith((".fastq", ".fq")) else "fasta"
+
     with open(fasta_path, "r") as handle:
-        records = islice(SeqIO.parse(handle, "fasta"), start_idx, end_idx)
+        records = islice(SeqIO.parse(handle, file_format), start_idx, end_idx)
         
         print(f"🧬 EvoReader: Analyzing reads {start_idx} to {end_idx}...")
         for i, record in enumerate(tqdm(records, total=(end_idx - start_idx))):
