@@ -13,7 +13,7 @@ engine = PlatyGenoEngine(
 # 2. Run targeted range discovery
 # Update fasta_path to point to your 'data/' folder
 raw_report = read_evo_features(
-    fasta_path="data/sample.fasta", 
+    fasta_path="data/sample.fastq",  # Change .fasta to .fastq
     engine=engine,
     start_idx=0, 
     end_idx=4000, 
