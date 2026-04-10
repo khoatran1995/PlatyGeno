@@ -37,10 +37,29 @@ class PlatyGenoEngine:
 
 
     def _load_sae(self, path):
-        # Your specific SAE loading logic goes here
-        # return torch.load(path, map_location=self.device)
-        pass
+        """Loads the SAE weights into memory."""
+        print(f"📂 Loading SAE weights from {path}...")
+        # Most Goodfire SAEs are saved as standard torch state dicts
+        # We load them and move them to the GPU
+        sae_data = torch.load(path, map_location=self.device)
+        return sae_data
 
     def get_features(self, dna_string):
-        # Extraction logic...
-        pass
+        """Processes a DNA string and returns SAE feature activations."""
+        # 1. Convert DNA string to tokens
+        # Evo 2 handles strings directly or via its internal tokenizer
+        input_ids = self.evo.tokenize(dna_string).to(self.device)
+        
+        # 2. Run through Evo 2 and stop at Layer 26
+        with torch.no_grad():
+            # We get the 'hidden states' (activations) from layer 26
+            outputs = self.evo(input_ids, return_embeddings=True, layer_idx=26)
+            activations = outputs # This depends on the exact return shape of Evo2
+            
+            # 3. Pass activations through the SAE
+            # If your SAE is a simple matrix multiplication (Encoder):
+            # feature_acts = torch.relu(activations @ self.sae['encoder.weight'].T + self.sae['encoder.bias'])
+            
+            # For now, let's return a dummy tensor if you're still debugging 
+            # to make sure the reader works:
+            return torch.zeros(len(dna_string)) # Replace with real SAE logic
