@@ -1,3 +1,6 @@
+# Copyright 2026 Khoa Tu Tran
+# Licensed under the Apache License, Version 2.0 (the "License")
+
 def get_high_score_reads(df, score_thres=15.0, top_n=None):
     """Function 2: Filter the report for high-impact genomic signals."""
     filtered_df = df[df['score'] >= score_thres]
