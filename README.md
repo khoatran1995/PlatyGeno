@@ -20,9 +20,13 @@ PlatyGeno includes a professional, PhD-grade benchmarking pipeline designed for 
    ```bash
    python validation/step2_local_blast.py
    ```
-3. **Local Folding Phase (PC)**:
+3. **Local Folding Phase (GPU)**:
    ```bash
-   python validation/step3_local_fold.py
+   python validation/step3_gpu_fold.py
+   ```
+4. **AlphaFold 2 Phase (Gold Standard)**:
+   ```bash
+   python validation/step4_alpha_fold.py
    ```
 
 ---
