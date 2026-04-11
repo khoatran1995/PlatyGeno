@@ -10,15 +10,19 @@ PlatyGeno is a professional Python package designed to interpret the **Evo 2 gen
 
 ## 🔬 Clinical Discovery Benchmark
 
-PlatyGeno includes a professional, PhD-grade benchmarking pipeline designed for clinical metagenome samples (e.g., from the **IBDMDB**). To replicate our high-resolution discovery run (**Top 100 Features**), use the optimized **Cost-Saving Workflow**:
+PlatyGeno includes a professional, PhD-grade benchmarking pipeline designed for clinical metagenome samples (e.g., from the **IBDMDB**). To replicate our high-resolution discovery run (**Top 100 Features**), use the optimized **3-Step Cost-Saving Workflow**:
 
 1. **GPU Discovery Phase (RunPod)**:
    ```bash
    python benchmarks/discovery_phase.py
    ```
-2. **Local Validation Phase (Local PC)**:
+2. **Local BLAST Phase (PC)**:
    ```bash
-   python benchmarks/validate_local.py
+   python benchmarks/step2_local_blast.py
+   ```
+3. **Local Folding Phase (PC)**:
+   ```bash
+   python benchmarks/step3_local_fold.py
    ```
 
 ---

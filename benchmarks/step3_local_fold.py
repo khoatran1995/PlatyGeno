@@ -1,10 +1,6 @@
 import os
 import pandas as pd
 import requests
-from Bio.Blast import NCBIWWW
-from Bio.Blast import NCBIXML
-
-# --- Scientific Utilities (Local Version) ---
 
 def translate_dna(dna):
     """Translates DNA to protein across all 6 frames."""
@@ -28,22 +24,6 @@ def translate_dna(dna):
     frames = [dna, dna[1:], dna[2:], rev_comp, rev_comp[1:], rev_comp[2:]]
     return max([get_longest_orf(f) for f in frames], key=len)
 
-def blast_validation(dna_sequence):
-    """Submits DNA to NCBI BLAST and returns novelty and significance metrics."""
-    print(f"   🔎 Querying NCBI BLAST...")
-    try:
-        result_handle = NCBIWWW.qblast("blastn", "nt", dna_sequence, format_type="XML")
-        blast_record = NCBIXML.read(result_handle)
-        if len(blast_record.alignments) > 0:
-            top_hit = blast_record.alignments[0]
-            hsp = top_hit.hsps[0]
-            identity = (hsp.identities / hsp.align_length) * 100
-            e_value = hsp.expect
-            return top_hit.title[:50], identity, (identity < 70), e_value
-        return "No Hits Found", 0, True, 10.0 # High E-value for no hits
-    except Exception as e:
-        return f"BLAST Error ({e})", 0, False, 1.0
-
 def esm_fold_protein(sequence):
     """Folds protein using Meta ESMFold API."""
     url = "https://api.esmatlas.com/fold/v1/pdb"
@@ -58,67 +38,56 @@ def esm_fold_protein(sequence):
     except Exception:
         return None, 0
 
-def run_local_validation():
+def run_folding_phase():
     print("="*70)
-    print("🔬 Starting PlatyGeno Local Validation Phase (Free CPU Logic)")
+    print("💎 PHASE 3: Local 3D Protein Folding (Novel Genes Only)")
     print("="*70)
     
-    # Smart path check: looks in root, then in the benchmarks/ folder
-    input_csv = "discovery_hits.csv"
+    input_csv = "blast_results.csv"
     if not os.path.exists(input_csv):
-        if os.path.exists("benchmarks/discovery_hits.csv"):
-            input_csv = "benchmarks/discovery_hits.csv"
-        else:
-            print(f"❌ Error: {input_csv} not found in root or benchmarks/ folder.")
-            return
+        print(f"❌ Error: {input_csv} not found. Run 'step2_local_blast.py' first.")
+        return
 
-    hits_df = pd.read_csv(input_csv)
-    print(f"✅ Loaded {len(hits_df)} unique motifs from RunPod. Starting Scientific Validation...")
+    blast_df = pd.read_csv(input_csv)
+    print(f"✅ Loaded {len(blast_df)} BLAST entries. Monitoring for NOVEL genes...")
 
     final_report = []
     os.makedirs("data/folds", exist_ok=True)
 
-    for i, row in hits_df.iterrows():
+    for i, row in blast_df.iterrows():
         dna = row['sequence']
         feature_id = row['feature_id']
+        is_novel = (row['novelty'] == "🌟 NOVEL")
         
-        # 1. BLAST (Run for all 100)
-        hit_title, identity, is_novel = blast_validation(dna)
-        status = "🌟 NOVEL" if is_novel else "🧬 KNOWN"
-        
-        # 2. Conditional ESMFold (Only for NEW Genes)
-        pdb_data, plddt = None, 0
+        # We only fold if it is NOVEL (as per your request)
         if is_novel:
-            print(f"   [{status}] Feature {feature_id} | Folding Protein (Discovery Mode)...")
+            print(f"   ✨ Novel hit detected (Feature {feature_id}). Triggering ESMFold...")
             protein = translate_dna(dna)
             pdb_data, plddt = esm_fold_protein(protein)
             
             if pdb_data:
                 with open(f"data/folds/feature_{feature_id}.pdb", "w") as f:
                     f.write(pdb_data)
-                print(f"   ✨ Confidence Score (pLDDT): {plddt:.2f}")
+                print(f"      ✅ High-accuracy fold saved. Confidence (pLDDT): {plddt:.1f}")
+            else:
+                plddt = 0
         else:
-            print(f"   [{status}] Feature {feature_id} | Skipping ESMFold (Rediscovery). Hit: {hit_title}")
+            print(f"   🧬 Skipping Feature {feature_id} (Rediscovery: {row['top_hit'][:30]}...)")
+            plddt = 0
         
         final_report.append({
             'feature_id': feature_id,
-            'discovery_type': row.get('discovery_type', 'N/A'),
-            'method': row.get('method', 'N/A'),
-            'novelty': status,
+            'novelty': row['novelty'],
             'plddt': plddt,
-            'blast_identity': identity,
-            'top_hit': hit_title,
+            'e_value': row['e_value'],
+            'top_hit': row['top_hit'],
             'sequence': dna
         })
 
-    # 3. Final Report
     report_df = pd.DataFrame(final_report)
-    report_df.to_csv("ibd_clinical_report.csv", index=False)
-    print("\n🏆 VALIDATION COMPLETE")
-    print("="*70)
-    print(report_df[['feature_id', 'novelty', 'plddt', 'blast_identity']])
-    print("="*70)
-    print("\nFull PhD Technical Report saved as: ibd_clinical_report.csv")
+    report_df.to_csv("ibd_final_report.csv", index=False)
+    print("\n🏆 FOLDING PHASE COMPLETE. Summary saved to: ibd_final_report.csv")
+    print("3D PDB files saved to: data/folds/")
 
 if __name__ == "__main__":
-    run_local_validation()
+    run_folding_phase()
