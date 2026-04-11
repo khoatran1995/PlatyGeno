@@ -19,22 +19,27 @@ def main():
     parser.add_argument("--output", type=str, default=os.path.join(base_dir, "data", "gene_discovery_results.csv"),
                         help="Output results CSV")
     
-    # Advanced Range & Thresholds
-    parser.add_argument("--start", type=int, default=10000, help="First read index to scan")
-    parser.add_argument("--end", type=int, default=20000, help="Last read index to scan")
-    parser.add_argument("--threshold", type=float, default=15.0, help="Min activation score")
+    # Range & Filtering Arguments
+    parser.add_argument("--start", type=int, default=0, help="First read index to scan")
+    parser.add_argument("--end", type=int, default=4000, help="Last read index to scan")
+    parser.add_argument("--threshold", type=float, default=5.0, help="Min activation score")
+    
+    # Extraction & Assembly Arguments
+    parser.add_argument("--top_n", type=int, default=10, help="Number of rare features to target")
+    parser.add_argument("--window", type=int, default=60, help="Snippet window size (bp)")
     parser.add_argument("--min_overlap", type=int, default=20, help="Min assembly overlap (bp)")
     
     args = parser.parse_args()
 
     # MASTER PIPELINE CALL
-    # This single function handles Scanning, Filtering, Extraction, and Assembly.
     results = platygeno.discover_genes(
         input_path=args.input,
         scan_start=args.start,
         scan_end=args.end,
-        min_activation=args.threshold,
+        top_n=args.top_n,
+        window_size=args.window,
         min_overlap=args.min_overlap,
+        min_activation=args.threshold,
         output_path=args.output
     )
 

@@ -30,11 +30,16 @@ def main():
     
     parser.add_argument("--input", type=str, default=os.path.join(base_dir, "data", "sample.fastq"))
     parser.add_argument("--output", type=str, default=os.path.join(base_dir, "data", "gene_discovery_results.csv"))
-    parser.add_argument("--start", type=int, default=0)
-    parser.add_argument("--end", type=int, default=4000)
-    parser.add_argument("--window", type=int, default=60)
-    parser.add_argument("--min_overlap", type=int, default=20)
-    parser.add_argument("--threshold", type=float, default=5.0)
+    # Range & Filtering Arguments
+    parser.add_argument("--start", type=int, default=0, help="First read index to scan")
+    parser.add_argument("--end", type=int, default=4000, help="Last read index to scan")
+    parser.add_argument("--threshold", type=float, default=5.0, help="Min activation score")
+    
+    # Extraction & Assembly Arguments
+    parser.add_argument("--top_n", type=int, default=10, help="Number of rare features to target")
+    parser.add_argument("--window", type=int, default=60, help="Snippet window size (bp)")
+    parser.add_argument("--min_overlap", type=int, default=20, help="Min assembly overlap (bp)")
+    
     args = parser.parse_args()
 
     if not os.path.exists(args.input):
@@ -51,8 +56,8 @@ def main():
 
     # 3. Phase 2: Rare Signal Filtering
     # We find features that appear rarely but with very high activation scores.
-    print(f"🔬 Phase 2: Filtering for rare features with activation >= {args.threshold}...")
-    candidates = find_rare_needle_signals(report, top_n=10, min_activation=args.threshold)
+    print(f"🔬 Phase 2: Filtering for top {args.top_n} rare features with activation >= {args.threshold}...")
+    candidates = find_rare_needle_signals(report, top_n=args.top_n, min_activation=args.threshold)
     
     # 4. Phase 3: Extraction (Dual Mode)
     print(f"🧬 Phase 3: Extracting snippets & assembling contigs...")
