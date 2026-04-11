@@ -12,12 +12,14 @@ license = {text = "Apache-2.0"}
 authors = [
     {name = "Khoa Tu Tran"}
 ]
-keywords = ["genomics", "interpretability", "bioinformatics", "evo2", "sae"]
+keywords = ["genomics", "interpretability", "bioinformatics", "evo2", "sae", "gene-discovery"]
 classifiers = [
+    "Development Status :: 4 - Beta",
     "Programming Language :: Python :: 3.11",
     "License :: OSI Approved :: Apache Software License",
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Intended Audience :: Science/Research",
 ]
 dependencies = [
     "torch",
@@ -32,3 +34,11 @@ dependencies = [
 [project.urls]
 Homepage = "https://github.com/khoatran1995/PlatyGeno"
 Repository = "https://github.com/khoatran1995/PlatyGeno"
+Documentation = "https://github.com/khoatran1995/PlatyGeno#readme"
+"Bug Tracker" = "https://github.com/khoatran1995/PlatyGeno/issues"
+
+[project.scripts]
+platygeno = "platygeno.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
