@@ -147,5 +147,24 @@ The logic behind the "Assembled Contig" method.
 
 ---
 
+## 📜 Citation
+
+If you use **PlatyGeno** in your research, please cite it as follows:
+
+**APA:**
+Tran, K. T. (2026). PlatyGeno: Unsupervised Gene Discovery via Evo 2 & Sparse Autoencoders. GitHub. https://github.com/khoatran1995/PlatyGeno
+
+**BibTeX:**
+```bibtex
+@software{PlatyGeno2026,
+  author = {Khoa Tu Tran},
+  title = {PlatyGeno: Unsupervised Gene Discovery via Evo 2 & Sparse Autoencoders},
+  url = {https://github.com/khoatran1995/PlatyGeno},
+  year = {2026}
+}
+```
+
+---
+
 ## Acknowledgements
 Developed by **Khoa Tu Tran**. This project leverages the **Evo 2** model by the **Arc Institute** and Sparse Autoencoder architectures by **Goodfire**.
