@@ -140,4 +140,4 @@ If you use **PlatyGeno** in your research, please cite:
 ---
 
 ## Acknowledgements
-Developed by **Khoa Tu Tran**. This project leverages the **Evo 2** model by the **Arc Institute** and Sparse Autoencoder architectures by **Goodfire**.
+Developed by **[Khoa Tu Tran](https://github.com/khoatran1995)**. This project leverages the **[Evo 2](https://github.com/arcinstitute/evo2)** model by the **[Arc Institute](https://arcinstitute.org)** and Sparse Autoencoder architectures by **[Goodfire](https://goodfire.ai)**.
