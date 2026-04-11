@@ -41,7 +41,7 @@ def run_blast_phase():
             print(f"❌ Error: {input_csv} not found.")
             return
 
-    hits_df = pd.read_csv(input_csv)
+    hits_df = pd.read_csv(input_csv, encoding='utf-8-sig')
     print(f"✅ Loaded {len(hits_df)} hits. Starting BLAST searches...")
 
     blast_results = []
@@ -65,7 +65,7 @@ def run_blast_phase():
         })
 
     out_df = pd.DataFrame(blast_results)
-    out_df.to_csv("blast_results.csv", index=False)
+    out_df.to_csv("blast_results.csv", index=False, encoding='utf-8-sig')
     print("\n🏆 BLAST PHASE COMPLETE. Results saved to: blast_results.csv")
 
 if __name__ == "__main__":

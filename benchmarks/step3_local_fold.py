@@ -54,7 +54,7 @@ def run_folding_phase():
             print(f"❌ Error: Results CSV not found. Run Step 2 or Validation first.")
             return
 
-    blast_df = pd.read_csv(input_csv)
+    blast_df = pd.read_csv(input_csv, encoding='utf-8-sig')
     print(f"✅ Loaded {len(blast_df)} entries. Starting Force-Folding for Structural Proof...")
 
     final_report = []
@@ -87,7 +87,7 @@ def run_folding_phase():
         })
 
     report_df = pd.DataFrame(final_report)
-    report_df.to_csv("ibd_final_report.csv", index=False)
+    report_df.to_csv("ibd_final_report.csv", index=False, encoding='utf-8-sig')
     print("\n🏆 FOLDING PHASE COMPLETE. Summary saved to: ibd_final_report.csv")
     print("3D PDB files saved to: data/folds/")
 
