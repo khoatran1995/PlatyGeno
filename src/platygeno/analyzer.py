@@ -2,8 +2,8 @@ import pandas as pd
 from Bio import SeqIO
 from tqdm import tqdm
 
-def analyze_reads(fasta_path, engine, limit=100, layer=26):
-    """Function 1: Run reads through Evo 2 and return Feature Report."""
+def analyze_reads(fasta_path, engine, limit=100):
+    """Runs FASTA reads through Evo 2 and returns a Feature Report DataFrame."""
     results = []
     
     for i, record in enumerate(tqdm(SeqIO.parse(fasta_path, "fasta"))):
@@ -18,7 +18,6 @@ def analyze_reads(fasta_path, engine, limit=100, layer=26):
             for idx in indices:
                 results.append({
                     "read_id": record.id,
-                    "seq": str(record.seq),
                     "feature_id": idx.item(),
                     "activation": activations[idx].item()
                 })
