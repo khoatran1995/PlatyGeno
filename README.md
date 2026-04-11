@@ -35,10 +35,14 @@ platygeno --input sample.fastq --threshold 10.0
 ## 📦 Usage
 
 ### 1. Command Line Interface (CLI)
-PlatyGeno comes with a built-in CLI for rapid discovery without writing code.
+PlatyGeno comes with a built-in CLI. Most parameters are optional and have biological defaults.
 
 ```bash
-platygeno --input your_data.fastq --start 0 --end 1000 --output results.csv
+# Basic run (uses default threshold 5.0)
+platygeno --input your_data.fastq
+
+# Stringent run (custom threshold)
+platygeno --input your_data.fastq --threshold 10.0 --start 0 --end 5000
 ```
 
 ### 2. Python API
@@ -47,13 +51,10 @@ Integrate PlatyGeno into your own bioinformatics pipelines.
 ```python
 import platygeno
 
-# Discover genes in a single line
+# Discover genes in a single line (defaults: threshold=5.0, top_n=10)
 df = platygeno.discover_genes(
     input_path="sample.fastq",
-    scan_start=0,
-    scan_end=1000,
-    min_activation=8.5,
-    output_path="discovery_report.csv"
+    scan_end=1000
 )
 
 print(df.head())
