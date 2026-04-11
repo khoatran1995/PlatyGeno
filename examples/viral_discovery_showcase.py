@@ -102,7 +102,18 @@ def run_showcase():
             shutil.copyfileobj(f_in, f_out)
 
     print("🔍 Scanning for novel viral features...")
-    results = platygeno.discover_genes(input_path=fastq_path, scan_end=2000, min_activation=8.0, top_n=10)
+    
+    # Check file size for diagnostics
+    file_size = os.path.getsize(fastq_path)
+    print(f"📊 Dataset Size: {file_size/1024:.2f} KB")
+
+    # Lower sensitivity to 5.0 and increase range to 4000 for better discovery
+    results = platygeno.discover_genes(
+        input_path=fastq_path, 
+        scan_end=4000, 
+        min_activation=5.0, 
+        top_n=10
+    )
     
     if results.empty:
         print("⚠️ No strong signals found. Try increasing scan_end.")
