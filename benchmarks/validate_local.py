@@ -29,18 +29,20 @@ def translate_dna(dna):
     return max([get_longest_orf(f) for f in frames], key=len)
 
 def blast_validation(dna_sequence):
-    """Submits DNA to NCBI BLAST."""
+    """Submits DNA to NCBI BLAST and returns novelty and significance metrics."""
     print(f"   🔎 Querying NCBI BLAST...")
     try:
         result_handle = NCBIWWW.qblast("blastn", "nt", dna_sequence, format_type="XML")
         blast_record = NCBIXML.read(result_handle)
         if len(blast_record.alignments) > 0:
             top_hit = blast_record.alignments[0]
-            identity = (top_hit.hsps[0].identities / top_hit.hsps[0].align_length) * 100
-            return top_hit.title[:50], identity, (identity < 70)
-        return "No Hits Found", 0, True
+            hsp = top_hit.hsps[0]
+            identity = (hsp.identities / hsp.align_length) * 100
+            e_value = hsp.expect
+            return top_hit.title[:50], identity, (identity < 70), e_value
+        return "No Hits Found", 0, True, 10.0 # High E-value for no hits
     except Exception as e:
-        return f"BLAST Error ({e})", 0, False
+        return f"BLAST Error ({e})", 0, False, 1.0
 
 def esm_fold_protein(sequence):
     """Folds protein using Meta ESMFold API."""
@@ -81,7 +83,7 @@ def run_local_validation():
         feature_id = row['feature_id']
         
         # 1. BLAST (Run for all 100)
-        hit_title, identity, is_novel = blast_validation(dna)
+        hit_title, identity, is_novel, e_value = blast_validation(dna)
         status = "🌟 NOVEL" if is_novel else "🧬 KNOWN"
         
         # 2. Conditional ESMFold (Only for NEW Genes)
@@ -94,7 +96,7 @@ def run_local_validation():
             if pdb_data:
                 with open(f"data/folds/feature_{feature_id}.pdb", "w") as f:
                     f.write(pdb_data)
-                print(f"   ✨ Confidence Score (pLDDT): {plddt:.2f}")
+                print(f"   ✨ Confidence Score (pLDDT): {plddt:.2f} | E-value: {e_value}")
         else:
             print(f"   [{status}] Feature {feature_id} | Skipping ESMFold (Rediscovery). Hit: {hit_title}")
         
@@ -103,6 +105,7 @@ def run_local_validation():
             'discovery_type': row.get('discovery_type', 'N/A'),
             'method': row.get('method', 'N/A'),
             'novelty': status,
+            'e_value': e_value,
             'plddt': plddt,
             'blast_identity': identity,
             'top_hit': hit_title,
