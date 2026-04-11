@@ -36,15 +36,26 @@ PlatyGeno is designed to be modular. You can use the high-level pipeline or buil
 
 #### 1. `workflow.py` (The Master Pipeline)
 The high-level controller that automates the entire discovery process. It is the easiest way to use the library.
-*   **How to use:** `df = platygeno.discover_genes("sample.fastq", scan_end=5000)`
+*   **How to use:** 
+    ```python
+    df = platygeno.discover_genes(
+        input_path="sample.fastq", 
+        scan_start=0, 
+        scan_end=5000, 
+        top_n=10, 
+        min_activation=5.0, 
+        window_size=60, 
+        min_overlap=20
+    )
+    ```
 
 #### 2. `core.py` (The Model Engine)
 Manages the connection between the **Evo 2 Foundation Model** and the **Sparse Autoencoder (SAE)**. It handles GPU allocation and layer-26 feature extraction.
-*   **How to use:** `engine = platygeno.PlatyGenoEngine()` (Initialize once to save VRAM).
+*   **How to use:** `engine = platygeno.PlatyGenoEngine(model_name='evo2_7b', device='cuda')`
 
 #### 3. `mapper.py` (The Bioinformatic Assembly)
 Contains the greedy assembly algorithm and signal filtering logic. It "connects" short reads into long, biologically significant contigs based on shared SAE features.
-*   **How to use:** `contig = platygeno.assemble_feature_consensus(overlapping_reads)`
+*   **How to use:** `contig = platygeno.assemble_feature_consensus(overlapping_reads, min_overlap=20)`
 
 #### 4. `evo_reader.py` (The File Streamer)
 Provides memory-efficient streaming for massive `.fasta` or `.fastq` files. It uses `islice` to scan specific chunks of a file without loading the whole thing into RAM.
