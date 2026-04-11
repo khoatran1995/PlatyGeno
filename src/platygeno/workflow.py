@@ -67,8 +67,12 @@ def discover_genes(
 
     # 4. Phase 3: Extraction & Assembly
     print(f"🧬 Extracting snippets and assembling contigs...")
-    ext = os.path.splitext(input_path)[1].lower()
-    fmt = "fastq" if ext in [".fastq", ".fq"] else "fasta"
+    # Use content-peeking for format detection (more robust than extension check)
+    with open(input_path, "r") as f:
+        first_char = f.read(1)
+        while first_char and first_char.isspace():
+            first_char = f.read(1)
+        fmt = "fasta" if first_char == ">" else "fastq"
     
     # Pool sequence IDs for the top candidates
     winning_ids = set()
