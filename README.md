@@ -27,10 +27,28 @@ PlatyGeno is designed to be modular. You can use the high-level pipeline or buil
 
 | Module | Purpose | Key Function |
 | :--- | :--- | :--- |
-| **`workflow.py`** | **Automated Pipeline** | `discover_genes()` — The one-line discovery API. |
-| **`core.py`** | **Model & SAE Engine** | `PlatyGenoEngine` — Manages Evo 2 and SAE weights. |
-| **`mapper.py`** | **Signal Analysis** | `assemble_feature_consensus()` — Greedy contig builder. |
-| **`evo_reader.py`** | **Data Streaming** | `read_evo_features()` — Efficiently scans large FASTQ files. |
+| **`workflow.py`** | **Automated Pipeline** | `discover_genes()` — The one-stop-shop for discovery. |
+| **`core.py`** | **Model & SAE Engine** | `PlatyGenoEngine` — Manages high-mem model loading. |
+| **`mapper.py`** | **Signal Analysis** | `assemble_feature_consensus()` — Greedy contig assembly. |
+| **`evo_reader.py`** | **Data Streaming** | `read_evo_features()` — High-speed file scanning. |
+
+### 🛠 Module Breakdown
+
+#### 1. `workflow.py` (The Master Pipeline)
+The high-level controller that automates the entire discovery process. It is the easiest way to use the library.
+*   **How to use:** `df = platygeno.discover_genes("sample.fastq", scan_end=5000)`
+
+#### 2. `core.py` (The Model Engine)
+Manages the connection between the **Evo 2 Foundation Model** and the **Sparse Autoencoder (SAE)**. It handles GPU allocation and layer-26 feature extraction.
+*   **How to use:** `engine = platygeno.PlatyGenoEngine()` (Initialize once to save VRAM).
+
+#### 3. `mapper.py` (The Bioinformatic Assembly)
+Contains the greedy assembly algorithm and signal filtering logic. It "connects" short reads into long, biologically significant contigs based on shared SAE features.
+*   **How to use:** `contig = platygeno.assemble_feature_consensus(overlapping_reads)`
+
+#### 4. `evo_reader.py` (The File Streamer)
+Provides memory-efficient streaming for massive `.fasta` or `.fastq` files. It uses `islice` to scan specific chunks of a file without loading the whole thing into RAM.
+*   **How to use:** `report = platygeno.read_evo_features("data.fastq", engine, start=0, stop=1000)`
 
 ---
 
