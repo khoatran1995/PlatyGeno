@@ -52,13 +52,11 @@ cd PlatyGeno
 
 ### Step 3 — Install FlashAttention (Required for Evo 2)
 
-This compiles the CUDA kernel for FlashAttention. It takes ~5–10 minutes:
+This compiles the CUDA kernel for FlashAttention:
 
 ```bash
 pip install flash-attn --no-build-isolation
 ```
-
-> ℹ️ The `WARNING: Running pip as 'root'` message is expected on RunPod — it is safe to ignore.
 
 ### Step 4 — Install PlatyGeno and All Dependencies
 
@@ -78,7 +76,7 @@ Upload your `.fastq` or `.fasta` file to the pod. The default expected path is:
 
 You can upload via the **JupyterLab file browser** (drag & drop), or use:
 
-```bash
+```
 # Example: download from a public URL
 wget -O data/sample.fastq "YOUR_FILE_URL"
 ```
@@ -89,47 +87,26 @@ wget -O data/sample.fastq "YOUR_FILE_URL"
 python examples/gene_discovery_sample.py
 ```
 
-> ⚠️ Do **not** run as `examples/gene_discovery_sample.py` — you will get a "Permission denied" error.
-> Always prefix with `python`.
+Optional arguments:
+- `--window 60`: Size of individual snippets.
+- `--min_overlap 20`: Minimum overlap (bp) required to connect two reads into a contig.
+- `--limit 4000`: How many reads to scan.
 
 ---
 
 ## 📁 Output Files
 
-Results are saved to the `data/` directory:
-
-```
-data/
-├── phase1_feature_report.csv    ← Full feature activation report (all reads)
-└── gene_snippets_top10.csv      ← Top 10 discovered gene snippets
-```
-
-The final `gene_snippets_top10.csv` contains:
+Results are saved to `data/gene_discovery_results.csv`:
 
 | Column | Description |
 |--------|-------------|
-| `rank` | Discovery rank (1 = strongest signal) |
-| `feature_id` | SAE feature index |
-| `read_id` | Source read from the input file |
-| `phase1_activation` | Mean-pooled activation from Phase 1 |
-| `peak_activation` | Precise token-level peak activation |
-| `peak_bp_index` | Base-pair position of the peak in the read |
-| `gene_snippet_60bp` | The extracted 60bp DNA sequence |
+| `method` | **Best Snippet** (single read) or **Assembled Contig** (merged consensus). |
+| `feature_id` | The biological motif identified by the model. |
+| `read_id` | The source read or "Consensus" (if assembled). |
+| `activation` | The strength of the biological signal. |
+| `length` | Result length in base-pairs (60bp for snippets, variable for contigs). |
+| `sequence` | The final DNA sequence result. |
 
----
-
-## 🐛 Troubleshooting
-
-| Error | Cause | Fix |
-|-------|-------|-----|
-| `No module named 'flash_attn_2_cuda'` | FlashAttention not installed | Run `pip install flash-attn --no-build-isolation` |
-| `ModuleNotFoundError: evo2` | Evo 2 not installed | Run `pip install -e .` |
-| `FileNotFoundError: sample.fastq` | Input file missing | Upload your FASTQ to `data/sample.fastq` |
-| `CUDA out of memory` | GPU too small | Use A100 80GB or reduce `SCAN_LIMIT` in the script |
-| `Permission denied` when running script | Missing `python` prefix | Use `python examples/gene_discovery_sample.py` |
-| HuggingFace rate limit warning | No HF token set | Run `export HF_TOKEN=your_token` before the script |
-
----
 
 ## Acknowledgements
 

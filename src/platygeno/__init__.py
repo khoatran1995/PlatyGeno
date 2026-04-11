@@ -7,6 +7,7 @@ from .mapper import (
     find_rare_needle_signals,
     get_best_reads_for_features,
     extract_precise_gene_code,
+    assemble_feature_consensus,
     annotate_with_biology,
 )
 
@@ -16,5 +17,6 @@ __all__ = [
     "find_rare_needle_signals",
     "get_best_reads_for_features",
     "extract_precise_gene_code",
+    "assemble_feature_consensus",
     "annotate_with_biology",
 ]

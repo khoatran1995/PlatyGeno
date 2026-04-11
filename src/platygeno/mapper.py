@@ -60,6 +60,60 @@ def extract_precise_gene_code(engine, dna_seq, feature_id, window_size=60):
     
     return gene_snippet, precise_activation, peak_idx
 
+def _get_overlap(s1, s2, min_len=20):
+    """Calculates the suffix-prefix overlap between two strings."""
+    max_len = min(len(s1), len(s2))
+    for length in range(max_len, min_len - 1, -1):
+        if s1.endswith(s2[:length]):
+            return length
+    return 0
+
+def assemble_feature_consensus(sequences, min_overlap=20):
+    """
+    Greedy Assembler: Merges DNA sequences sharing a common feature into a contig.
+    Starts with the highest activation read and extends it using overlaps.
+    """
+    if not sequences:
+        return ""
+    if len(sequences) == 1:
+        return sequences[0]
+
+    # Use the first sequence (highest activation) as the seed
+    contig = sequences[0]
+    unused = list(sequences[1:])
+    
+    changed = True
+    while changed and unused:
+        changed = False
+        best_overlap = 0
+        best_idx = -1
+        mode = None # 'suffix' or 'prefix'
+
+        for i, seq in enumerate(unused):
+            # 1. Check if seq is a suffix of contig
+            ov_s = _get_overlap(contig, seq, min_overlap)
+            if ov_s > best_overlap:
+                best_overlap = ov_s
+                best_idx = i
+                mode = 'suffix'
+            
+            # 2. Check if contig is a suffix of seq (seq is a prefix)
+            ov_p = _get_overlap(seq, contig, min_overlap)
+            if ov_p > best_overlap:
+                best_overlap = ov_p
+                best_idx = i
+                mode = 'prefix'
+
+        if best_idx != -1:
+            if mode == 'suffix':
+                contig = contig + unused[best_idx][best_overlap:]
+            else:
+                contig = unused[best_idx] + contig[best_overlap:]
+            unused.pop(best_idx)
+            changed = True
+            
+    return contig
+
 def annotate_with_biology(df, mapping_file=None):
     """Cross-references discovery hits with biological labels (e.g., 'Promoter')."""
     if mapping_file is None:
