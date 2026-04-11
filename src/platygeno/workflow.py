@@ -52,7 +52,7 @@ def discover_genes(
         raise FileNotFoundError(f"Input file not found: {input_path}")
 
     # 2. Phase 1: Feature Scanning
-    print(f"📡 Scanning reads {scan_start} to {scan_end} from {os.path.basename(input_path)}...")
+    print(f"📡 Scanning reads {scan_start} to {scan_end if scan_end is not None else 'End'} from {os.path.basename(input_path)}...")
     report = read_evo_features(input_path, engine, start=scan_start, stop=scan_end)
     if report.empty:
         print("⚠️ No features detected in initial scan.")
