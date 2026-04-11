@@ -26,8 +26,8 @@ def read_evo_features(file_path, engine, start=0, stop=4000):
     discovery_results = []
 
     # 3. Processing Loop
-    print(f"🧬 EvoReader: Analyzing up to {limit} reads...")
-    for record in tqdm(record_iterator, total=limit):
+    print(f"🧬 EvoReader: Analyzing reads from index {start} to {stop}...")
+    for record in tqdm(record_iterator, total=(stop - start)):
         safe_id = record.id.replace("/", "_").replace("|", "_").replace(":", "_")
         seq = str(record.seq)
         
