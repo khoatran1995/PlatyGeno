@@ -14,11 +14,14 @@ def read_evo_features(file_path, engine, start=0, stop=4000):
     Works for both .fasta and .fastq files.
     Allows range-based scanning (from 'start' to 'stop').
     """
-    # 1. Auto-detect file format
-    ext = os.path.splitext(file_path)[1].lower()
-    file_format = "fastq" if ext in [".fastq", ".fq"] else "fasta"
+    # 1. Auto-detect file format by peeking at the first character
+    with open(file_path, "r") as f:
+        first_char = f.read(1)
+        while first_char and first_char.isspace():
+            first_char = f.read(1)
+        file_format = "fasta" if first_char == ">" else "fastq"
     
-    print(f"📖 Reading {file_format.upper()} file: {file_path}")
+    print(f"📡 Detected format: {file_format.upper()} | File: {file_path}")
     
     # 2. Use islice to respect the range [start, stop)
     record_iterator = islice(SeqIO.parse(file_path, file_format), start, stop)
