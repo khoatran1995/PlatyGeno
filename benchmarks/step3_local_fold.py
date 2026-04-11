@@ -40,16 +40,22 @@ def esm_fold_protein(sequence):
 
 def run_folding_phase():
     print("="*70)
-    print("💎 PHASE 3: Local 3D Protein Folding (Novel Genes Only)")
+    print("💎 PHASE 3: Local 3D Protein Folding (Full Structural Proof)")
     print("="*70)
     
-    input_csv = "blast_results.csv"
+    # Smart path check for the previous step's results
+    input_csv = "ibd_clinical_report.csv"
     if not os.path.exists(input_csv):
-        print(f"❌ Error: {input_csv} not found. Run 'step2_local_blast.py' first.")
-        return
+        if os.path.exists("benchmarks/ibd_clinical_report.csv"):
+            input_csv = "benchmarks/ibd_clinical_report.csv"
+        elif os.path.exists("blast_results.csv"):
+            input_csv = "blast_results.csv"
+        else:
+            print(f"❌ Error: Results CSV not found. Run Step 2 or Validation first.")
+            return
 
     blast_df = pd.read_csv(input_csv)
-    print(f"✅ Loaded {len(blast_df)} BLAST entries. Monitoring for NOVEL genes...")
+    print(f"✅ Loaded {len(blast_df)} entries. Starting Force-Folding for Structural Proof...")
 
     final_report = []
     os.makedirs("data/folds", exist_ok=True)
@@ -57,22 +63,18 @@ def run_folding_phase():
     for i, row in blast_df.iterrows():
         dna = row['sequence']
         feature_id = row['feature_id']
-        is_novel = (row['novelty'] == "🌟 NOVEL")
         
-        # We only fold if it is NOVEL (as per your request)
-        if is_novel:
-            print(f"   ✨ Novel hit detected (Feature {feature_id}). Triggering ESMFold...")
-            protein = translate_dna(dna)
-            pdb_data, plddt = esm_fold_protein(protein)
-            
-            if pdb_data:
-                with open(f"data/folds/feature_{feature_id}.pdb", "w") as f:
-                    f.write(pdb_data)
-                print(f"      ✅ High-accuracy fold saved. Confidence (pLDDT): {plddt:.1f}")
-            else:
-                plddt = 0
+        # --- PHASE 3: FORCE FOLDING ---
+        print(f"   ✨ Feature {feature_id} | Force-Folding Protein for Structural Proof...")
+        protein = translate_dna(dna)
+        pdb_data, plddt = esm_fold_protein(protein)
+        
+        if pdb_data:
+            with open(f"data/folds/feature_{feature_id}.pdb", "w") as f:
+                f.write(pdb_data)
+            print(f"      ✅ High-accuracy fold saved. Confidence (pLDDT): {plddt:.1f}")
         else:
-            print(f"   🧬 Skipping Feature {feature_id} (Rediscovery: {row['top_hit'][:30]}...)")
+            print(f"      ⚠️ ESMFold Error for Feature {feature_id}")
             plddt = 0
         
         final_report.append({
