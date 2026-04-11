@@ -91,16 +91,16 @@ wget -O data/sample.fastq "YOUR_FILE_URL"
 
 You can choose between a detailed step-by-step example or a simplified automated pipeline:
 
-#### 1. Detailed Manual Workflow (Learn Mode)
-Shows exactly how Phase 1, 2, and 3 work under the hood.
+#### 1. Easy Mode (Automated Pipeline)
+The "One-for-All" script. Uses a single high-level function.
 ```bash
-python examples/gene_discovery_sample.py --start 0 --end 4000
+python examples/easy_discovery.py --start 10000 --end 20000 --threshold 15.0
 ```
 
-#### 2. Automated Pipeline (Production Mode)
-Uses the high-level `platygeno.discover_genes()` API for ease of use.
+#### 2. Advanced Mode (Manual Steps)
+Shows every internal function for custom bioinformatics workflows.
 ```bash
-python examples/gene_discovery_pipeline.py --start 10000 --end 20000 --threshold 15.0
+python examples/advanced_discovery.py --start 0 --end 4000
 ```
 
 ---
