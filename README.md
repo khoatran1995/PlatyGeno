@@ -89,12 +89,18 @@ wget -O data/sample.fastq "YOUR_FILE_URL"
 
 ### Step 6 — Run the Discovery
 
-```bash
-# Basic run (Reads 0 to 4000)
-python examples/gene_discovery_sample.py
+You can choose between a detailed step-by-step example or a simplified automated pipeline:
 
-# Advanced run (Reads 10000 to 20000, threshold 15.0)
-python examples/gene_discovery_sample.py --start 10000 --end 20000 --threshold 15.0
+#### 1. Detailed Manual Workflow (Learn Mode)
+Shows exactly how Phase 1, 2, and 3 work under the hood.
+```bash
+python examples/gene_discovery_sample.py --start 0 --end 4000
+```
+
+#### 2. Automated Pipeline (Production Mode)
+Uses the high-level `platygeno.discover_genes()` API for ease of use.
+```bash
+python examples/gene_discovery_pipeline.py --start 10000 --end 20000 --threshold 15.0
 ```
 
 ---
@@ -106,12 +112,13 @@ You can use PlatyGeno in your own Python scripts with a single function call:
 ```python
 import platygeno
 
+# Returns a DataFrame and optionally saves to CSV
 results = platygeno.discover_genes(
     input_path="data/sample.fastq",
     scan_start=0,
     scan_end=5000,
     min_activation=10.0,
-    min_overlap=30
+    output_path="results.csv"
 )
 ```
 
