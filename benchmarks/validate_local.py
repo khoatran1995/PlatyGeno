@@ -76,19 +76,23 @@ def run_local_validation():
         dna = row['sequence']
         feature_id = row['feature_id']
         
-        # 1. BLAST
+        # 1. BLAST (Run for all 100)
         hit_title, identity, is_novel = blast_validation(dna)
         status = "🌟 NOVEL" if is_novel else "🧬 KNOWN"
         
-        # 2. ESMFold
-        protein = translate_dna(dna)
-        pdb_data, plddt = esm_fold_protein(protein)
-        
-        print(f"   [{status}] Feature {feature_id} | pLDDT: {plddt:.1f} | Top Hit: {hit_title}")
-
-        if pdb_data:
-            with open(f"data/folds/feature_{feature_id}.pdb", "w") as f:
-                f.write(pdb_data)
+        # 2. Conditional ESMFold (Only for NEW Genes)
+        pdb_data, plddt = None, 0
+        if is_novel:
+            print(f"   [{status}] Feature {feature_id} | Folding Protein (Discovery Mode)...")
+            protein = translate_dna(dna)
+            pdb_data, plddt = esm_fold_protein(protein)
+            
+            if pdb_data:
+                with open(f"data/folds/feature_{feature_id}.pdb", "w") as f:
+                    f.write(pdb_data)
+                print(f"   ✨ Confidence Score (pLDDT): {plddt:.2f}")
+        else:
+            print(f"   [{status}] Feature {feature_id} | Skipping ESMFold (Rediscovery). Hit: {hit_title}")
         
         final_report.append({
             'feature_id': feature_id,
