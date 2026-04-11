@@ -25,38 +25,32 @@ def translate_dna(dna):
 
 def prepare_alphafold_package():
     print("="*70)
-    print("👑 PHASE 4: AlphaFold 2 Preparation (Gold Standard)")
+    print("👑 PHASE 4: AlphaFold 2 Preparation (Single-Sequence Focus)")
     print("="*70)
     
-    # Input CSV from discovery/validation phase
-    input_csv = "ibd_clinical_report.csv"
-    if not os.path.exists(input_csv):
-        if os.path.exists("validation/ibd_clinical_report.csv"):
-            input_csv = "validation/ibd_clinical_report.csv"
-        else:
-            print(f"❌ Error: {input_csv} not found. Please run Step 2/3 first.")
-            return
+    # Target Signature Sequence from your discovery
+    target_dna = "CACCTACTGCACACACACCATGTGCACATGCATACACCCCATACAGACACCACACACTGCACACACACCACACATAGACACTACACACAC"
+    target_id = "signature_motif_01"
+    
+    print(f"✅ Target DNA detected: {target_dna[:30]}...")
+    protein = translate_dna(target_dna)
+    print(f"✅ Translated Protein: {protein} ({len(protein)} aa)")
 
-    df = pd.read_csv(input_csv, encoding='utf-8-sig')
-    print(f"✅ Loaded {len(df)} candidates for AlphaFold 2 validation.")
-
-    # Create FASTA file for ColabFold
+    # Create specialized AlphaFold directory
     fasta_path = "validation/alphafold_input.fasta"
     os.makedirs("validation/alpha_results", exist_ok=True)
     
+    # Save the specialized package
     with open(fasta_path, "w") as f:
-        for i, row in df.iterrows():
-            dna = row['sequence']
-            fid = row['feature_id']
-            protein = translate_dna(dna)
-            
-            # Skip very short sequences (< 5 aa) for AlphaFold
-            if len(protein) < 5:
-                continue
-                
-            f.write(f">feature_{fid}\n{protein}\n")
+        f.write(f">{target_id}\n{protein}\n")
     
-    print(f"✅ Standardized FASTA package created at: {fasta_path}")
+    print(f"\n✅ Standardized AlphaFold Package created at: {fasta_path}")
+    print("-" * 50)
+    print("🚀 LAUNCH TARGETED FOLDING ON YOUR GPU:")
+    print("-" * 50)
+    print(f"   colabfold_batch {fasta_path} validation/alpha_results/")
+    print("-" * 50)
+    print("\nAlphaFold 2 will now render the 3D structure of this specific motif.")
     print("\n🚀 TO RUN ALPHAFOLD 2 (COLABFOLD) ON YOUR POD:")
     print("-" * 50)
     print("1. Install ColabFold (One-time):")
