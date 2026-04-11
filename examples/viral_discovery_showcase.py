@@ -45,13 +45,23 @@ def blast_validation(dna_sequence):
 
 def esm_fold_protein(sequence):
     """Folds protein using Meta ESMFold API and extracts pLDDT accuracy."""
-    url = "https://api.esmatlas.com/fold/v1/pdb/"
+    # Corrected URL (removed trailing slash) and added explicit headers
+    url = "https://api.esmatlas.com/fold/v1/pdb"
+    headers = {"Content-Type": "text/plain"}
+    
     try:
-        response = requests.post(url, data=sequence, timeout=60)
+        response = requests.post(url, data=sequence, headers=headers, timeout=60)
         pdb_string = response.text
+        
+        # Security check: If the response doesn't look like a PDB file, it's an API error
+        if "ATOM" not in pdb_string:
+            print(f"⚠️ ESMFold API Error: {pdb_string[:100]}")
+            return None, 0
+            
         plddts = [float(line[60:66].strip()) for line in pdb_string.splitlines() if line.startswith("ATOM") and " CA " in line]
         return pdb_string, (sum(plddts) / len(plddts) if plddts else 0)
-    except Exception:
+    except Exception as e:
+        print(f"❌ Network error calling ESMFold: {e}")
         return None, 0
 
 # --- Main Showcase ---
