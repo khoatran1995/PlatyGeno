@@ -7,7 +7,7 @@ PlatyGeno is a professional Python package designed to interpret the **Evo 2 gen
 
 ## 🚀 Quick Start (RunPod)
 
-The fastest way to run PlatyGeno is on a GPU-enabled instance (A100/H100).
+The fastest way to run PlatyGeno is on a GPU-enabled instance (RTX 3090).
 
 ```bash
 # 1. Clone & Install
