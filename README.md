@@ -81,16 +81,39 @@ You can upload via the **JupyterLab file browser** (drag & drop), or use:
 wget -O data/sample.fastq "YOUR_FILE_URL"
 ```
 
+---
+
+## 🚀 Installation — RunPod (Recommended)
+
+...
+
 ### Step 6 — Run the Discovery
 
 ```bash
+# Basic run (Reads 0 to 4000)
 python examples/gene_discovery_sample.py
+
+# Advanced run (Reads 10000 to 20000, threshold 15.0)
+python examples/gene_discovery_sample.py --start 10000 --end 20000 --threshold 15.0
 ```
 
-Optional arguments:
-- `--window 60`: Size of individual snippets.
-- `--min_overlap 20`: Minimum overlap (bp) required to connect two reads into a contig.
-- `--limit 4000`: How many reads to scan.
+---
+
+## 💻 Library Usage (One-Line API)
+
+You can use PlatyGeno in your own Python scripts with a single function call:
+
+```python
+import platygeno
+
+results = platygeno.discover_genes(
+    input_path="data/sample.fastq",
+    scan_start=0,
+    scan_end=5000,
+    min_activation=10.0,
+    min_overlap=30
+)
+```
 
 ---
 
@@ -104,7 +127,7 @@ Results are saved to `data/gene_discovery_results.csv`:
 | `feature_id` | The biological motif identified by the model. |
 | `read_id` | The source read or "Consensus" (if assembled). |
 | `activation` | The strength of the biological signal. |
-| `length` | Result length in base-pairs (60bp for snippets, variable for contigs). |
+| `length` | Result length in base-pairs. |
 | `sequence` | The final DNA sequence result. |
 
 

@@ -8,10 +8,11 @@ from itertools import islice
 from tqdm import tqdm
 import torch
 
-def read_evo_features(file_path, engine, limit=4000):
+def read_evo_features(file_path, engine, start=0, stop=4000):
     """
     Reads DNA sequences, extracts SAE features, and returns a report.
     Works for both .fasta and .fastq files.
+    Allows range-based scanning (from 'start' to 'stop').
     """
     # 1. Auto-detect file format
     ext = os.path.splitext(file_path)[1].lower()
@@ -19,8 +20,8 @@ def read_evo_features(file_path, engine, limit=4000):
     
     print(f"📖 Reading {file_format.upper()} file: {file_path}")
     
-    # 2. Use islice to respect the limit without loading the whole file
-    record_iterator = islice(SeqIO.parse(file_path, file_format), 0, limit)
+    # 2. Use islice to respect the range [start, stop)
+    record_iterator = islice(SeqIO.parse(file_path, file_format), start, stop)
     
     discovery_results = []
 
