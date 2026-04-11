@@ -27,7 +27,9 @@ def read_evo_features(file_path, engine, start=0, stop=4000):
 
     # 3. Processing Loop
     print(f"🧬 EvoReader: Analyzing reads from index {start} to {stop}...")
-    for record in tqdm(record_iterator, total=(stop - start)):
+    total_val = (stop - start) if stop is not None else None
+    
+    for record in tqdm(record_iterator, total=total_val, desc=f"🧬 EvoReader: Analyzing reads"):
         safe_id = record.id.replace("/", "_").replace("|", "_").replace(":", "_")
         seq = str(record.seq)
         
