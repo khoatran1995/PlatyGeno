@@ -1,11 +1,11 @@
-# Viral Discovery Benchmark: Methodology & Audit Trail 🧪
+# Clinical Gene Discovery Benchmark: Methodology & Audit Trail 🧪
 
-This document provides the full technical and scientific context for the **Viral Discovery Showcase** (`examples/viral_discovery_showcase.py`). This benchmark was designed to prove the clinical and biological significance of PlatyGeno for unsupervised gene discovery.
+This document provides the full technical and scientific context for the **Clinical Discovery Showcase** (`examples/viral_discovery_showcase.py`). This benchmark was designed to prove the clinical and biological significance of PlatyGeno for unsupervised gene discovery.
 
 ## 1. Data Sourcing (Provenance)
 *   **Dataset**: `benchmark_sample.fastq`
-*   **Origin**: Subsampled from a validated mutant bacterial metagenome hosted on the **Zenodo** scientific repository.
-*   **Rationale**: We selected this sample because it provides a clean, raw FASTQ stream with high-quality functional features, making it the "Gold Standard" for verifying Evo 2's sensitivity.
+*   **Origin**: Subsampled from the clinical sample **HSMA33OT_R1** of **The Inflammatory Bowel Disease Multi'omics Database (IBDMDB)**.
+*   **Rationale**: We selected this clinical IBD sample because it represents a high-impact human health environment where unsupervised gene discovery can reveal unique biomarkers and functional genes associated with gut dysbiosis.
 
 ## 2. Processing Pipeline (Three-Phase Discovery)
 

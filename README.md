@@ -147,3 +147,7 @@ If you use **PlatyGeno** in your research, please cite this package along with t
 
 ## Acknowledgements
 Developed by **[Khoa Tu Tran](https://github.com/khoatran1995)**. This project leverages the **[Evo 2](https://github.com/arcinstitute/evo2)** model by the **[Arc Institute](https://arcinstitute.org)** and Sparse Autoencoder architectures by **[Goodfire](https://goodfire.ai)**.
+
+### 📊 Dataset Credits
+The clinical benchmarking data used in this project is a subsample of **HSMA33OT_R1** from **The Inflammatory Bowel Disease Multi'omics Database (IBDMDB)**. We thank the IBDMDB investigators for making this high-impact clinical data publicly available for research.
+*   **Source**: [ibdmdb.org](https://ibdmdb.org/)
