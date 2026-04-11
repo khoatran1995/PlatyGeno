@@ -3,9 +3,6 @@
 
 PlatyGeno is a professional Python package designed to interpret the **Evo 2 genomic foundation model**. It bridges the gap between AI interpretability and biological discovery by identifying functional genomic motifs (promoters, enhancers, coding sequences) without requiring labels.
 
-> [!TIP]
-> **Discovery Metric:** By using the integrated assembly engine, PlatyGeno has achieved biological matches with E-values as low as **2e-12** (verified via NCBI BLAST).
-
 ---
 
 ## 🚀 Quick Start (RunPod)
@@ -16,10 +13,11 @@ The fastest way to run PlatyGeno is on a GPU-enabled instance (A100/H100).
 # 1. Clone & Install
 git clone https://github.com/khoatran1995/PlatyGeno.git
 cd PlatyGeno
+pip install flash-attn --no-build-isolation
 pip install -e .
 
 # 2. Run the Automated Pipeline
-python examples/all_in_one_discovery.py --start 0 --end 5000
+python examples/all_in_one_discovery.py
 ```
 
 ---
@@ -79,6 +77,35 @@ Results are saved to `data/gene_discovery_results.csv`.
 *   **`feature_id`**: The SAE index (the "AI's concept" of the biological signal).
 *   **`activation`**: The strength of the signal. Higher is better.
 *   **`sequence`**: The DNA sequence ready for BLAST search.
+
+---
+
+## 📚 API Reference
+
+### `platygeno.discover_genes()`
+The high-level discovery pipeline used in `all_in_one_discovery.py`.
+
+| Parameter | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `input_path` | `str` | Required | Path to the genomic file (`.fasta`/`.fastq`). |
+| `scan_start` | `int` | `0` | First read index to scan. |
+| `scan_end` | `int` | `4000` | Last read index to scan. |
+| `min_activation` | `float` | `5.0` | Minimum strength of a feature to be considered. |
+| `top_n` | `int` | `10` | The number of rare features to target. |
+| `window_size` | `int` | `60` | Snippet window size in base-pairs. |
+| `min_overlap` | `int` | `20` | Min overlap required for assembly. |
+| `output_path` | `str` | `None` | Optional path to save CSV results. |
+
+### `platygeno.PlatyGenoEngine()`
+Initializes the Evo 2 and SAE models.
+
+*   `model_name`: Default `'evo2_7b'`.
+*   `device`: Auto-detects `'cuda'`.
+
+### `platygeno.assemble_feature_consensus()`
+The logic behind the "Assembled Contig" method.
+*   **Input**: A list of overlapping DNA strings.
+*   **Output**: A single merged consensus string.
 
 ---
 
