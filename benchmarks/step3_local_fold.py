@@ -24,18 +24,31 @@ def translate_dna(dna):
     frames = [dna, dna[1:], dna[2:], rev_comp, rev_comp[1:], rev_comp[2:]]
     return max([get_longest_orf(f) for f in frames], key=len)
 
-def esm_fold_protein(sequence):
-    """Folds protein using Meta ESMFold API."""
+def esm_fold_protein(sequence, feature_id):
+    """Folds protein using Meta ESMFold API with detailed error reporting."""
     url = "https://api.esmatlas.com/fold/v1/pdb"
     headers = {"Content-Type": "text/plain"}
+    
+    if len(sequence) < 5:
+        print(f"      ⚠️ Feature {feature_id}: Protein sequence too short ({len(sequence)} aa). Skipping.")
+        return None, 0
+
     try:
         response = requests.post(url, data=sequence, headers=headers, timeout=60)
         pdb_string = response.text
-        if "ATOM" not in pdb_string:
+        
+        if response.status_code != 200:
+            print(f"      ⚠️ Meta API Error (Status {response.status_code}): {pdb_string[:100]}")
             return None, 0
+            
+        if "ATOM" not in pdb_string:
+            print(f"      ⚠️ Feature {feature_id}: Invalid PDB response (no ATOM records).")
+            return None, 0
+            
         plddts = [float(line[60:66].strip()) for line in pdb_string.splitlines() if line.startswith("ATOM") and " CA " in line]
         return pdb_string, (sum(plddts) / len(plddts) if plddts else 0)
-    except Exception:
+    except Exception as e:
+        print(f"      ⚠️ Network/Request Error: {e}")
         return None, 0
 
 def run_folding_phase():
@@ -67,14 +80,14 @@ def run_folding_phase():
         # --- PHASE 3: FORCE FOLDING ---
         print(f"   ✨ Feature {feature_id} | Force-Folding Protein for Structural Proof...")
         protein = translate_dna(dna)
-        pdb_data, plddt = esm_fold_protein(protein)
+        pdb_data, plddt = esm_fold_protein(protein, feature_id)
         
         if pdb_data:
             with open(f"data/folds/feature_{feature_id}.pdb", "w") as f:
                 f.write(pdb_data)
             print(f"      ✅ High-accuracy fold saved. Confidence (pLDDT): {plddt:.1f}")
         else:
-            print(f"      ⚠️ ESMFold Error for Feature {feature_id}")
+            # Error message is handled inside esm_fold_protein
             plddt = 0
         
         final_report.append({
