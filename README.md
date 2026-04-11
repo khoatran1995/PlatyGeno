@@ -15,19 +15,48 @@ PlatyGeno is built for high-performance genomic research:
 
 ---
 
-## 🚀 Quick Start (RunPod)
+## 🚀 Quick Start (Production)
 
-The fastest way to run PlatyGeno is on a GPU-enabled instance (RTX 3090).
+The easiest way to run PlatyGeno is via PyPI on a GPU-enabled instance (A100, H100, or RTX 3090/4090).
 
 ```bash
-# 1. Clone & Install
-git clone https://github.com/khoatran1995/PlatyGeno.git
-cd PlatyGeno
-pip install flash-attn --no-build-isolation
-pip install -e .
+# 1. Install from PyPI
+pip install platygeno
 
-# 2. Run the Automated Pipeline
-python examples/all_in_one_discovery.py
+# 2. Install high-performance GPU kernels
+pip install flash-attn --no-build-isolation
+
+# 3. Run the CLI
+platygeno --input sample.fastq --threshold 10.0
+```
+
+---
+
+## 📦 Usage
+
+### 1. Command Line Interface (CLI)
+PlatyGeno comes with a built-in CLI for rapid discovery without writing code.
+
+```bash
+platygeno --input your_data.fastq --start 0 --end 1000 --output results.csv
+```
+
+### 2. Python API
+Integrate PlatyGeno into your own bioinformatics pipelines.
+
+```python
+import platygeno
+
+# Discover genes in a single line
+df = platygeno.discover_genes(
+    input_path="sample.fastq",
+    scan_start=0,
+    scan_end=1000,
+    min_activation=8.5,
+    output_path="discovery_report.csv"
+)
+
+print(df.head())
 ```
 
 ---
