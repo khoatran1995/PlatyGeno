@@ -1,6 +1,4 @@
 import os
-import gzip
-import shutil
 import pandas as pd
 import requests
 from Bio.Blast import NCBIWWW
@@ -43,7 +41,7 @@ def blast_validation(dna_sequence):
             return top_hit.title[:50], identity, (identity < 70)
         return "No Hits Found", 0, True
     except Exception as e:
-        return f"BLAST Error ({e})", 0, False
+        return "BLAST Timeout/Error", 0, False
 
 def esm_fold_protein(sequence):
     """Folds protein using Meta ESMFold API and extracts pLDDT accuracy."""
@@ -56,48 +54,41 @@ def esm_fold_protein(sequence):
     except Exception:
         return None, 0
 
-# --- Data Management ---
-
-def get_discovery_dataset(dest_path):
-    """Ensures a valid dataset exists at the destination."""
-    url = "https://zenodo.org/record/582600/files/mutant_R1.fastq"
-    if not os.path.exists(dest_path) or os.path.getsize(dest_path) == 0:
-        print(f"📥 Loading discovery dataset from Zenodo ({os.path.basename(dest_path)})...")
-        os.makedirs(os.path.dirname(dest_path), exist_ok=True)
-        try:
-            response = requests.get(url, stream=True)
-            with open(dest_path, 'wb') as f:
-                shutil.copyfileobj(response.raw, f)
-            print("✅ Dataset acquisition successful.")
-        except Exception as e:
-            print(f"❌ Failed to download dataset: {e}")
-            return False
-    return True
-
 # --- Main Showcase ---
 
 def run_discovery_showcase():
-    print("🧬 Starting PlatyGeno PhD Discovery Benchmark...")
-    input_path = "data/raw/benchmark_sample.fastq"
+    print("="*70)
+    print("🧬 Starting PlatyGeno Clinical IBD Discovery Benchmark")
+    print("📊 Sample: HSMA33OT_R1 (IBD Multi'omics Database)")
+    print("="*70)
     
-    if not get_discovery_dataset(input_path):
-        return
+    # Simplified path: now looks in the same folder as the script
+    input_path = "sample.fastq"
+    
+    if not os.path.exists(input_path):
+        # Check if it is in data/raw as a fallback
+        fallback = "data/raw/sample.fastq"
+        if os.path.exists(fallback):
+            input_path = fallback
+        else:
+            print(f"❌ Error: {input_path} not found.")
+            print("Please upload your 20,000-read file as 'sample.fastq' in this folder.")
+            return
 
-    # 1. Scanning
-    print(f"🔍 Analyzing dataset ({os.path.getsize(input_path)/1024:.1f} KB)...")
+    print(f"🔍 Analyzing Clinical Metagenome ({os.path.getsize(input_path)/1024:.1f} KB)...")
     results = platygeno.discover_genes(
         input_path=input_path,
-        scan_end=None, # Full file scan
+        scan_end=None, # Full file scan (20,000+ reads)
         min_activation=5.0,
         top_n=10
     )
     
     if results.empty:
-        print("⚠️ No unique genomic features detected. Scan ended.")
+        print("⚠️ No unique genomic features detected. Try lowering min_activation.")
         return
 
     # 2. Validation Loop
-    print(f"✅ Isolated {len(results)} high-confidence features. Validating...")
+    print(f"✅ Isolated {len(results)} high-confidence features. Validating Novelty...")
     final_report = []
     os.makedirs("data/folds", exist_ok=True)
     
@@ -129,10 +120,13 @@ def run_discovery_showcase():
 
     # 3. Final Technical Report
     report_df = pd.DataFrame(final_report)
-    report_df.to_csv("data/benchmarking_full_report.csv", index=False)
-    print("\n🏆 BENCHMARK COMPLETE")
+    report_df.to_csv("data/ibd_discovery_report.csv", index=False)
+    print("\n🏆 CLINICAL BENCHMARK COMPLETE")
+    print("="*70)
     print(report_df[['feature_id', 'novelty', 'plddt', 'blast_identity']])
-    print("\nFull data saved to data/benchmarking_full_report.csv and data/folds/.")
+    print("="*70)
+    print("\nFull data saved to: data/ibd_discovery_report.csv")
+    print("3D Protein Structures (PDB) saved to: data/folds/")
 
 if __name__ == "__main__":
     run_discovery_showcase()
