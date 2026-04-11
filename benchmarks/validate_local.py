@@ -96,27 +96,28 @@ def run_local_validation():
         
         # 1. BLAST (Run for all)
         hit_title, identity, is_novel, e_value = blast_validation(dna)
-        status = "🌟 NOVEL" if is_novel else "🧬 KNOWN"
         
-        # 2. Conditional ESMFold (Only for NEW Genes)
-        pdb_data, plddt = None, 0
-        if is_novel:
-            print(f"   [{status}] Feature {feature_id} | Folding Protein (Discovery Mode)...")
-            protein = translate_dna(dna)
-            pdb_data, plddt = esm_fold_protein(protein)
-            
-            if pdb_data:
-                with open(f"data/folds/feature_{feature_id}.pdb", "w") as f:
-                    f.write(pdb_data)
-                print(f"   ✨ Confidence Score (pLDDT): {plddt:.2f} | E-value: {e_value}")
+        # --- PHASE 3: FORCE FOLDING ---
+        # We are force-folding these hits for structural proof in the PhD application.
+        status = "🌟 FOLDING"
+        print(f"   [{status}] Feature {feature_id} | Force-Folding Protein for Structural Proof...")
+        
+        protein = translate_dna(dna)
+        pdb_data, plddt = esm_fold_protein(protein)
+        
+        if pdb_data:
+            with open(f"data/folds/feature_{feature_id}.pdb", "w") as f:
+                f.write(pdb_data)
+            print(f"   ✨ Confidence Score (pLDDT): {plddt:.2f} | E-value: {e_value}")
         else:
-            print(f"   [{status}] Feature {feature_id} | Skipping ESMFold (Rediscovery). Hit: {hit_title}")
+            print(f"   ⚠️ ESMFold Error for Feature {feature_id}")
+            plddt = 0
         
         final_report.append({
             'feature_id': feature_id,
             'discovery_type': row.get('discovery_type', 'N/A'),
             'method': row.get('method', 'N/A'),
-            'novelty': status,
+            'novelty': "🧬 KNOWN" if not is_novel else "🌟 NOVEL",
             'e_value': e_value,
             'plddt': plddt,
             'blast_identity': identity,
