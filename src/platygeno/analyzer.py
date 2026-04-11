@@ -10,16 +10,17 @@ def analyze_reads(fasta_path, engine, limit=100, layer=26):
         if i >= limit: break
         
         # Get activations from core engine
-        activations = engine.process(str(record.seq), layer=layer)
+        activations = engine.get_features(str(record.seq))
         
         # Find features above zero/threshold
-        indices = activations.nonzero(as_tuple=True)[0]
-        for idx in indices:
-            results.append({
-                "read_id": record.id,
-                "seq": str(record.seq),
-                "feature_id": idx.item(),
-                "strength": activations[idx].item()
-            })
+        if activations is not None:
+            indices = activations.nonzero(as_tuple=True)[0]
+            for idx in indices:
+                results.append({
+                    "read_id": record.id,
+                    "seq": str(record.seq),
+                    "feature_id": idx.item(),
+                    "activation": activations[idx].item()
+                })
             
     return pd.DataFrame(results)
