@@ -22,12 +22,12 @@ def run_discovery_showcase():
             return
 
     # 1. Scanning (GPU Phase)
-    print(f"🔍 Analyzing Clinical Metagenome ({os.path.getsize(input_path)/1024:.1f} KB)...")
+    print(f"🔍 Analyzing Clinical Metagenome for Top 100 Features ({os.path.getsize(input_path)/1024:.1f} KB)...")
     results = platygeno.discover_genes(
         input_path=input_path,
         scan_end=None, 
         min_activation=5.0,
-        top_n=15 # Increased for better discovery
+        top_n=100 # Increased for high-resolution PhD profiling
     )
     
     if results.empty:
