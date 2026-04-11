@@ -96,6 +96,8 @@ def run_local_validation():
         
         final_report.append({
             'feature_id': feature_id,
+            'discovery_type': row.get('discovery_type', 'N/A'),
+            'method': row.get('method', 'N/A'),
             'novelty': status,
             'plddt': plddt,
             'blast_identity': identity,

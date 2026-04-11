@@ -86,13 +86,14 @@ def discover_genes(
         f_reads = report[report['feature_id'] == fid].sort_values('activation', ascending=False)
         best_row = f_reads.iloc[0]
         
-        # Method A: Single Best Snippet
+        # Method A: Read-Centric (Precision Extraction from Best Read)
         rid = best_row['read_id']
         dna = seq_map.get(rid)
         if dna:
             snippet, act, pos = extract_precise_gene_code(engine, dna, fid, window_size=window_size)
             final_results.append({
-                "method": "Best Snippet",
+                "discovery_type": "Read-Centric",
+                "method": "Precision Snippet",
                 "feature_id": fid,
                 "read_id": rid,
                 "activation": round(act, 4),
@@ -100,14 +101,15 @@ def discover_genes(
                 "sequence": snippet
             })
 
-        # Method B: Assembly
+        # Method B: Feature-Centric (Cross-Read Consensus Assembly)
         top_reads = f_reads.head(10)['read_id'].tolist()
         pool = [seq_map[r] for r in top_reads if r in seq_map]
         
         if len(pool) > 1:
             contig = assemble_feature_consensus(pool, min_overlap=min_overlap)
             final_results.append({
-                "method": "Assembled Contig",
+                "discovery_type": "Feature-Centric",
+                "method": "Consensus Assembly",
                 "feature_id": fid,
                 "read_id": f"Consensus (N={len(pool)})",
                 "activation": round(best_row['activation'], 4),
