@@ -10,13 +10,13 @@ PlatyGeno is a professional Python package designed to interpret the **Evo 2 gen
 
 ## ⚙️ Hardware Requirements
 
-PlatyGeno supports different scales of hardware:
+PlatyGeno is optimized for high-performance genomic research:
 
 > [!IMPORTANT]
-> **GPU Mandatory**: An NVIDIA CUDA-enabled GPU is required for inference.
+> **GPU Mandatory**: An NVIDIA CUDA-enabled GPU (RTX 3090, 4090, A100, or H100) is required for inference.
+> **VRAM**: We recommend **24GB VRAM** for the best experience.
 
-*   **10GB VRAM Tier**: Use the **Evo 2 1B** model (`evo2_1b_base`). Perfect for consumer GPUs (RTX 3080 10GB, 4070).
-*   **24GB VRAM Tier**: Use the **Evo 2 7B** model (`evo2_7b`). Recommended for highest accuracy on professional/enthusiast GPUs (RTX 3090/4090, A100).
+*   **Primary Model**: By default, PlatyGeno utilizes the **Evo 2 7B** model. This provides the ideal balance between biological accuracy and memory efficiency for large-scale discovery.
 
 ---
 
