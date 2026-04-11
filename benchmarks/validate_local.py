@@ -61,10 +61,14 @@ def run_local_validation():
     print("🔬 Starting PlatyGeno Local Validation Phase (Free CPU Logic)")
     print("="*70)
     
+    # Smart path check: looks in root, then in the benchmarks/ folder
     input_csv = "discovery_hits.csv"
     if not os.path.exists(input_csv):
-        print(f"❌ Error: {input_csv} not found. Please download it from your RunPod instance.")
-        return
+        if os.path.exists("benchmarks/discovery_hits.csv"):
+            input_csv = "benchmarks/discovery_hits.csv"
+        else:
+            print(f"❌ Error: {input_csv} not found in root or benchmarks/ folder.")
+            return
 
     hits_df = pd.read_csv(input_csv)
     print(f"✅ Loaded {len(hits_df)} unique motifs from RunPod. Starting Scientific Validation...")
