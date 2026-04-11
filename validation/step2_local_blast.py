@@ -35,8 +35,8 @@ def run_blast_phase():
     
     input_csv = "discovery_hits.csv"
     if not os.path.exists(input_csv):
-        if os.path.exists("benchmarks/discovery_hits.csv"):
-            input_csv = "benchmarks/discovery_hits.csv"
+        if os.path.exists("validation/discovery_hits.csv"):
+            input_csv = "validation/discovery_hits.csv"
         else:
             print(f"❌ Error: {input_csv} not found.")
             return

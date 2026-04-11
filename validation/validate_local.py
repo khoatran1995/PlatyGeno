@@ -75,13 +75,13 @@ def run_local_validation():
     print("🔬 Starting PlatyGeno Local Validation Phase (Free CPU Logic)")
     print("="*70)
     
-    # Smart path check: looks in root, then in the benchmarks/ folder
+    # Smart path check: looks in root, then in the validation/ folder
     input_csv = "discovery_hits.csv"
     if not os.path.exists(input_csv):
-        if os.path.exists("benchmarks/discovery_hits.csv"):
-            input_csv = "benchmarks/discovery_hits.csv"
+        if os.path.exists("validation/discovery_hits.csv"):
+            input_csv = "validation/discovery_hits.csv"
         else:
-            print(f"❌ Error: {input_csv} not found in root or benchmarks/ folder.")
+            print(f"❌ Error: {input_csv} not found in root or validation/ folder.")
             return
 
     hits_df = pd.read_csv(input_csv)

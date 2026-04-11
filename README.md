@@ -14,15 +14,15 @@ PlatyGeno includes a professional, PhD-grade benchmarking pipeline designed for 
 
 1. **GPU Discovery Phase (RunPod)**:
    ```bash
-   python benchmarks/step1_discovery.py
+   python validation/step1_discovery.py
    ```
 2. **Local BLAST Phase (PC)**:
    ```bash
-   python benchmarks/step2_local_blast.py
+   python validation/step2_local_blast.py
    ```
 3. **Local Folding Phase (PC)**:
    ```bash
-   python benchmarks/step3_local_fold.py
+   python validation/step3_local_fold.py
    ```
 
 ---

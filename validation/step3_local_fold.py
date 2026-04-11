@@ -59,8 +59,8 @@ def run_folding_phase():
     # Smart path check for the previous step's results
     input_csv = "ibd_clinical_report.csv"
     if not os.path.exists(input_csv):
-        if os.path.exists("benchmarks/ibd_clinical_report.csv"):
-            input_csv = "benchmarks/ibd_clinical_report.csv"
+        if os.path.exists("validation/ibd_clinical_report.csv"):
+            input_csv = "validation/ibd_clinical_report.csv"
         elif os.path.exists("blast_results.csv"):
             input_csv = "blast_results.csv"
         else:
