@@ -62,17 +62,19 @@ def run_discovery_showcase():
     print("📊 Sample: HSMA33OT_R1 (IBD Multi'omics Database)")
     print("="*70)
     
-    # Simplified path: now looks in the same folder as the script
-    input_path = "sample.fastq"
+    # Primary search path: inside the data folder
+    input_path = "data/sample.fastq"
     
     if not os.path.exists(input_path):
-        # Check if it is in data/raw as a fallback
-        fallback = "data/raw/sample.fastq"
-        if os.path.exists(fallback):
-            input_path = fallback
+        # Fallback 1: Root directory
+        if os.path.exists("sample.fastq"):
+            input_path = "sample.fastq"
+        # Fallback 2: Old data/raw path
+        elif os.path.exists("data/raw/sample.fastq"):
+            input_path = "data/raw/sample.fastq"
         else:
-            print(f"❌ Error: {input_path} not found.")
-            print("Please upload your 20,000-read file as 'sample.fastq' in this folder.")
+            print("❌ Error: Clinical sample not found.")
+            print("Please ensure your 20,000-read file is named 'sample.fastq' and placed in the 'data/' folder.")
             return
 
     print(f"🔍 Analyzing Clinical Metagenome ({os.path.getsize(input_path)/1024:.1f} KB)...")
