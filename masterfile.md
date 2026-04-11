@@ -62,8 +62,20 @@ graph TD
     *   **Rare Needle Filter**: Identifies features with low frequency but high activation strength.
     *   **Token-Aware Scan**: Re-runs the model on winning sequences to find the exact base-pair responsible for activation.
 
-### 4. `analyzer.py`: Utility
-*   **Purpose**: Provides high-level entry points for sequence-to-feature conversion.
+### 4. `workflow.py`: The Pipeline
+*   **Purpose**: Provides the "End-to-End" high-level API.
+*   **Key Function**: `discover_genes()`
+    *   Automates the entire flow: Scan -> Filter -> Extract -> Assemble.
+    *   Supports range-based scanning (`start/stop`) and activation thresholds.
+
+---
+
+## 🚀 Usage Modes
+
+PlatyGeno supports two primary ways to run discoveries:
+
+1.  **Production Mode (`gene_discovery_pipeline.py`)**: Uses the high-level `platygeno.discover_genes()` API. Ideal for processing large datasets quickly with a single function call.
+2.  **Learn Mode (`gene_discovery_sample.py`)**: A step-by-step implementation that manually calls each phase. Ideal for researchers who want to customize or inspect the internal logic of the 3-phase workflow.
 
 ---
 
@@ -78,16 +90,14 @@ Always ensure hooks are registered properly. In `core.py`, the hook captures the
 *   Evo 2 7B is heavy. Ensure `torch.no_grad()` is used during inference.
 *   `extracted_data` in `PlatyGenoEngine` should be detached (`.detach()`) to prevent GPU memory leaks from the computation graph.
 
-### 3. Data Consistency (⚠️ Current TO-DOs)
-There are currently naming inconsistencies that need fixing:
-*   Standardize column names: Use `activation` across both `evo_reader` and `mapper`.
-*   Standardize API: Update `analyzer.py` to use `get_features` instead of `process`.
-
-### 4. Weights & Dependencies
+### 3. Weights & Dependencies
 *   **Evo 2**: Requires `evo2` package.
 *   **SAE**: Weights are pulled from `Goodfire/Evo-2-Layer-26-Mixed` on Hugging Face.
+*   **Safety**: Uses a `torch.serialization` global bypass to load legacy encoded weights from the SAE.
 
 ---
 
 ## 🧬 Biological Context
 The target is **Layer 26**. Research suggests this layer in Evo 2 is rich in functional biological motifs (promoters, enhancers, coding regions). The sparse features discovered here represent "disentangled" biological concepts that the model has learned during pre-training.
+
+By using the **Greedy Assembly** logic in `mapper.py`, we can reconstruct these local features into long, consensus contigs with extremely high biological significance (E-values reaching $10^{-12}$ and below).
