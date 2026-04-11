@@ -6,12 +6,29 @@ build-backend = "setuptools.build_meta"
 name = "platygeno"
 version = "0.1.0"
 description = "Unsupervised Gene Discovery via Evo 2 & SAE Interpretability"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "Khoa Tu Tran"}
+]
+keywords = ["genomics", "interpretability", "bioinformatics", "evo2", "sae"]
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
 dependencies = [
     "torch",
     "numpy",
     "biopython",
     "pandas",
     "tqdm",
-    "huggingface_hub",  # Required for SAE weight auto-download
-    "evo2",             # Arc Institute Evo 2 foundation model package
+    "huggingface_hub",
+    "evo2",
 ]
+
+[project.urls]
+Homepage = "https://github.com/khoatran1995/PlatyGeno"
+Repository = "https://github.com/khoatran1995/PlatyGeno"
