@@ -19,6 +19,7 @@
 #   Isolate the exact 60bp nucleotide window responsible for the high activation.
 #   Output: A final results table saved as a CSV.
 
+import argparse
 import os
 import torch
 import _codecs
@@ -37,16 +38,39 @@ from platygeno.mapper import (
 )
 
 # =============================================================================
-# CONFIGURATION
+# CLI ARGUMENTS & CONFIGURATION
 # =============================================================================
-base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FASTQ_FILE   = os.path.join(base_dir, "data", "sample.fastq")
-PHASE1_CSV   = os.path.join(base_dir, "data", "phase1_feature_report.csv")
-RESULTS_CSV  = os.path.join(base_dir, "data", "gene_snippets_top10.csv")
+def parse_args():
+    parser = argparse.ArgumentParser(description="PlatyGeno 3-Phase Gene Discovery Workflow")
+    
+    # Path Arguments
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    parser.add_argument("--input", type=str, default=os.path.join(base_dir, "data", "sample.fastq"),
+                        help="Path to input FASTQ/FASTA file")
+    parser.add_argument("--report", type=str, default=os.path.join(base_dir, "data", "phase1_feature_report.csv"),
+                        help="Path to save Phase 1 feature report")
+    parser.add_argument("--output", type=str, default=os.path.join(base_dir, "data", "gene_snippets.csv"),
+                        help="Path to save final gene snippets")
+    
+    # Logic Arguments
+    parser.add_argument("--limit", type=int, default=4000, 
+                        help="Max number of reads to scan in Phase 1 (default: 4000)")
+    parser.add_argument("--top_n", type=int, default=10, 
+                        help="Number of top candidate features to extract (default: 10)")
+    parser.add_argument("--window", type=int, default=60, 
+                        help="Size in base-pairs of the extracted gene snippet (default: 60)")
+    
+    return parser.parse_args()
 
-SCAN_LIMIT   = 4000   # Max reads to process in Phase 1
-TOP_N        = 10     # Number of candidate genes to extract in Phase 3
-WINDOW_SIZE  = 60     # Size (bp) of the extracted gene snippet
+args = parse_args()
+
+FASTQ_FILE   = args.input
+PHASE1_CSV   = args.report
+RESULTS_CSV  = args.output
+
+SCAN_LIMIT   = args.limit
+TOP_N        = args.top_n
+WINDOW_SIZE  = args.window
 
 # =============================================================================
 # SETUP
