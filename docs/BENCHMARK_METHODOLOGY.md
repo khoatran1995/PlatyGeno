@@ -3,9 +3,9 @@
 This document provides the full technical and scientific context for the **Viral Discovery Showcase** (`examples/viral_discovery_showcase.py`). This benchmark was designed to prove the clinical and biological significance of PlatyGeno for unsupervised gene discovery.
 
 ## 1. Data Sourcing (Provenance)
-*   **Dataset**: `small_virome.fastq.gz`
-*   **Origin**: Subsampled from a validated clinical viral metagenome used in the *Virome Benchmarking Study* (Beard Group).
-*   **Rationale**: We selected a clinical virome because viral "Dark Matter" often lacks high-accuracy labels, making it the perfect test case for Evo 2's unsupervised foundation features.
+*   **Dataset**: `benchmark_sample.fastq`
+*   **Origin**: Subsampled from a validated mutant bacterial metagenome hosted on the **Zenodo** scientific repository.
+*   **Rationale**: We selected this sample because it provides a clean, raw FASTQ stream with high-quality functional features, making it the "Gold Standard" for verifying Evo 2's sensitivity.
 
 ## 2. Processing Pipeline (Three-Phase Discovery)
 
