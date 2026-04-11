@@ -8,7 +8,8 @@ def run_discovery_showcase():
     print("📊 Sample: HSMA33OT_R1 (Clinical IBD Metagenome)")
     print("="*70)
     
-    input_path = "data/sample.fastq"
+    # Path to the FULL clinical dataset
+    input_path = "data/HSMA33OT_R1.fastq"
     
     # Check data/sample.fastq first
     if not os.path.exists(input_path):
