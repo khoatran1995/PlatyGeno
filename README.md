@@ -123,11 +123,11 @@ Results are saved as a CSV with the following columns:
 
 ---
 
-## 📜 Citation
+## 📜 Primary References
 
-If you use **PlatyGeno** in your research, please cite:
+If you use **PlatyGeno** in your research, please cite this package along with the foundational works it is built upon:
 
-**BibTeX:**
+**1. PlatyGeno (This Package):**
 ```bibtex
 @software{PlatyGeno2026,
   author = {Khoa Tu Tran},
@@ -136,6 +136,12 @@ If you use **PlatyGeno** in your research, please cite:
   year = {2026}
 }
 ```
+
+**2. Evo 2 (Foundation Model):**
+> Arc Institute. (2026). **Genome modeling and design across all domains of life with Evo 2**. *Nature*. [DOI: 10.1038/s41586-026-10176-5]
+
+**3. Evo 2 Interpretability & SAEs:**
+> Deng, M., et al. (2025). **Interpreting Evo 2: Arc Institute's Next-Generation Genomic Foundation Model**. *Goodfire Research*. [DOI: 10.5281/zenodo.14895891]
 
 ---
 
