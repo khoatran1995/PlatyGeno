@@ -96,8 +96,8 @@ def run_showcase():
     fastq_path = "data/raw/benchmark_virome.fastq"
     
     download_dataset(raw_path)
-    if not os.path.exists(fastq_path):
-        print("📦 Extracting sample dataset...")
+    if not os.path.exists(fastq_path) or os.path.getsize(fastq_path) == 0:
+        print("📦 Extracting and verifying sample dataset...")
         with gzip.open(raw_path, 'rb') as f_in, open(fastq_path, 'wb') as f_out:
             shutil.copyfileobj(f_in, f_out)
 
@@ -107,10 +107,11 @@ def run_showcase():
     file_size = os.path.getsize(fastq_path)
     print(f"📊 Dataset Size: {file_size/1024:.2f} KB")
 
-    # Lower sensitivity to 5.0 and increase range to 4000 for better discovery
+    # Use scan_end=None to scan the ENTIRE sample for better discovery
     results = platygeno.discover_genes(
         input_path=fastq_path, 
-        scan_end=4000, 
+        scan_start=0,
+        scan_end=None, 
         min_activation=5.0, 
         top_n=10
     )
