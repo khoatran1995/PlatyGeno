@@ -14,7 +14,7 @@ PlatyGeno includes a professional, PhD-grade benchmarking pipeline designed for 
 
 1. **GPU Discovery Phase (RunPod)**:
    ```bash
-   python benchmarks/discovery_phase.py
+   python benchmarks/step1_discovery.py
    ```
 2. **Local BLAST Phase (PC)**:
    ```bash
