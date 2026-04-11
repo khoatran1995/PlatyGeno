@@ -26,7 +26,7 @@ def translate_dna(dna):
 
 def esm_fold_protein(sequence, feature_id):
     """Folds protein using Meta ESMFold API with detailed error reporting."""
-    url = "https://api.esmatlas.com/fold/v1/pdb"
+    url = "https://api.esmatlas.com/fold/v1/pdb/" # Mandatory trailing slash
     headers = {"Content-Type": "text/plain"}
     
     if len(sequence) < 5:
