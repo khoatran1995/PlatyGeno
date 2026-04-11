@@ -34,17 +34,17 @@ def run_discovery_showcase():
         print("⚠️ No unique genomic features detected.")
         return
 
-    # 2. Saving Hits (Fast Exit)
+    # 2. Saving Hits (Standardized Validation)
     print(f"✅ Isolated {len(results)} high-confidence clinical features.")
     
-    # Save the raw DNA hits for local validation
-    results.to_csv("discovery_hits.csv", index=False)
+    # Save the raw DNA hits directly in the validation folder
+    output_path = os.path.join(os.path.dirname(__file__), "discovery_hits.csv")
+    results.to_csv(output_path, index=False)
     
-    print("\n🏆 DISCOVERY PHASE COMPLETE")
+    print("\n🏆 STEP 1 COMPLETE")
     print("="*70)
-    print(f"Discovery Results saved to: discovery_hits.csv")
-    print("🚀 ACTION: Download 'discovery_hits.csv' and shut down your RunPod to save costs!")
-    print("Then run 'python examples/validate_local.py' on your personal computer.")
+    print(f"Results saved to: {output_path}")
+    print("🚀 NEXT STEP: Run 'python validation/step2_local_blast.py'")
     print("="*70)
 
 if __name__ == "__main__":

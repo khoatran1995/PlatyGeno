@@ -65,8 +65,25 @@ def run_blast_phase():
         })
 
     out_df = pd.DataFrame(blast_results)
-    out_df.to_csv("blast_results.csv", index=False, encoding='utf-8-sig')
-    print("\n🏆 BLAST PHASE COMPLETE. Results saved to: blast_results.csv")
+    
+    # Path standardization: Always save to the validation folder
+    base_dir = os.path.dirname(__file__)
+    full_path = os.path.join(base_dir, "blast_results.csv")
+    novel_path = os.path.join(base_dir, "potential_novel_sequences.csv")
+    
+    # 1. Save Full Audit Trail
+    out_df.to_csv(full_path, index=False, encoding='utf-8-sig')
+    
+    # 2. Filter and Save Potential Novel Sequences (Identity < 70% or no hits)
+    novel_df = out_df[out_df['novelty'] == "🌟 NOVEL"]
+    novel_df.to_csv(novel_path, index=False, encoding='utf-8-sig')
+    
+    print("\n🏆 STEP 2 COMPLETE")
+    print("="*70)
+    print(f"Full Results: {full_path}")
+    print(f"Novel Hits: {novel_path}")
+    print(f"🚀 NEXT STEP: Run 'python validation/step3_fasta_prep.py'")
+    print("="*70)
 
 if __name__ == "__main__":
     run_blast_phase()

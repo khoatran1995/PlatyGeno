@@ -10,24 +10,12 @@ PlatyGeno is a professional Python package designed to interpret the **Evo 2 gen
 
 ## 🔬 Clinical Discovery Benchmark
 
-PlatyGeno includes a professional, PhD-grade benchmarking pipeline designed for clinical metagenome samples (e.g., from the **IBDMDB**). To replicate our high-resolution discovery run (**Top 100 Features**), use the optimized **3-Step Cost-Saving Workflow**:
+PlatyGeno includes a professional, PhD-grade benchmarking pipeline designed for clinical metagenome samples (e.g., from the **IBDMDB**). To replicate our high-resolution discovery run (**Top 100 Features**), use the standardized **4-Step Ph.D. Workflow**:
 
-1. **GPU Discovery Phase (RunPod)**:
-   ```bash
-   python validation/step1_discovery.py
-   ```
-2. **Local BLAST Phase (PC)**:
-   ```bash
-   python validation/step2_local_blast.py
-   ```
-3. **Local Folding Phase (GPU)**:
-   ```bash
-   python validation/step3_gpu_fold.py
-   ```
-4. **AlphaFold 2 Phase (Gold Standard)**:
-   ```bash
-   python validation/step4_alpha_fold.py
-   ```
+1. **GPU Discovery**: `python validation/step1_discovery.py` — High-speed GPU feature scanning.
+2. **Novelty Check**: `python validation/step2_local_blast.py` — identifies `potential_novel_sequences.csv`.
+3. **FASTA Prep**: `python validation/step3_fasta_prep.py` — Translates novel DNA for AlphaFold.
+4. **Gold Standard**: `python validation/step4_alphafold_run.py` — High-precision folding on RunPod.
 
 ---
 
