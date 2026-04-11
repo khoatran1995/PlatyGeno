@@ -20,9 +20,9 @@ def main():
                         help="Output results CSV")
     
     # Advanced Range & Thresholds
-    parser.add_argument("--start", type=int, default=0, help="First read index to scan")
-    parser.add_argument("--end", type=int, default=4000, help="Last read index to scan")
-    parser.add_argument("--threshold", type=float, default=5.0, help="Min activation score")
+    parser.add_argument("--start", type=int, default=10000, help="First read index to scan")
+    parser.add_argument("--end", type=int, default=20000, help="Last read index to scan")
+    parser.add_argument("--threshold", type=float, default=15.0, help="Min activation score")
     parser.add_argument("--min_overlap", type=int, default=20, help="Min assembly overlap (bp)")
     
     args = parser.parse_args()
