@@ -51,15 +51,24 @@ The high-level controller that automates the entire discovery process. It is the
 
 #### 2. `core.py` (The Model Engine)
 Manages the connection between the **Evo 2 Foundation Model** and the **Sparse Autoencoder (SAE)**. It handles GPU allocation and layer-26 feature extraction.
-*   **How to use:** `engine = platygeno.PlatyGenoEngine(model_name='evo2_7b', device='cuda')`
+*   **How to use:** 
+    ```python
+    engine = platygeno.PlatyGenoEngine(model_name='evo2_7b', device='cuda')
+    ```
 
 #### 3. `mapper.py` (The Bioinformatic Assembly)
 Contains the greedy assembly algorithm and signal filtering logic. It "connects" short reads into long, biologically significant contigs based on shared SAE features.
-*   **How to use:** `contig = platygeno.assemble_feature_consensus(overlapping_reads, min_overlap=20)`
+*   **How to use:** 
+    ```python
+    contig = platygeno.assemble_feature_consensus(overlapping_reads, min_overlap=20)
+    ```
 
 #### 4. `evo_reader.py` (The File Streamer)
 Provides memory-efficient streaming for massive `.fasta` or `.fastq` files. It uses `islice` to scan specific chunks of a file without loading the whole thing into RAM.
-*   **How to use:** `report = platygeno.read_evo_features("data.fastq", engine, start=0, stop=1000)`
+*   **How to use:** 
+    ```python
+    report = platygeno.read_evo_features("data.fastq", engine, start=0, stop=1000)
+    ```
 
 ---
 
