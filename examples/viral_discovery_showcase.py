@@ -3,8 +3,6 @@ import gzip
 import shutil
 import pandas as pd
 import requests
-from Bio.Blast import NCBIWWW
-from Bio.Blast import NCBIXML
 import platygeno
 
 def translate_dna(dna):
@@ -58,48 +56,13 @@ def fold_protein(sequence):
         print(f"Error folding: {e}")
         return None, 0
 
-def blast_dna(dna_sequence):
-    """
-    Submits DNA to NCBI BLAST. Returns (top_hit_title, identity_perc, is_novel).
-    """
-    print(f"   🔎 Querying NCBI BLAST (this may take 1-2 mins)...")
-    try:
-        result_handle = NCBIWWW.qblast("blastn", "nt", dna_sequence, format_type="XML")
-        blast_record = NCBIXML.read(result_handle)
-        
-        if len(blast_record.alignments) > 0:
-            top_hit = blast_record.alignments[0]
-            top_hsp = top_hit.hsps[0]
-            identity = (top_hsp.identities / top_hsp.align_length) * 100
-            is_novel = identity < 70
-            return top_hit.title[:50], identity, is_novel
-        else:
-            return "No Hits Found", 0, True
-    except Exception as e:
-        print(f"   ⚠️ BLAST Error: {e}")
-        return "BLAST Timeout/Error", 0, False
-
-def download_dataset(dest_path):
-    """
-    Downloads the benchmark dataset if it doesn't exist.
-    """
-    url = "https://github.com/beard-group/virome-benchmarking/raw/master/data/small_virome.fastq.gz"
-    if not os.path.exists(dest_path):
-        print(f"📥 Downloading benchmark dataset from {url}...")
-        os.makedirs(os.path.dirname(dest_path), exist_ok=True)
-        response = requests.get(url, stream=True)
-        with open(dest_path, 'wb') as f:
-            shutil.copyfileobj(response.raw, f)
-        print("✅ Download complete.")
-
 def run_showcase():
     print("🧬 Starting PlatyGeno Viral Discovery Showcase...")
     
     raw_path = "data/raw/benchmark_virome.fastq.gz"
     fastq_path = "data/raw/benchmark_virome.fastq"
     
-    # 1. Download & Extraction
-    download_dataset(raw_path)
+    # 1. Extraction
     if not os.path.exists(fastq_path):
         print("📦 Extracting sample dataset...")
         with gzip.open(raw_path, 'rb') as f_in:
@@ -113,30 +76,24 @@ def run_showcase():
         input_path=fastq_path,
         scan_end=2000,
         min_activation=8.0,
-        top_n=10
+        top_n=5
     )
     
     if results.empty:
         print("⚠️ No strong signals found in this subsample. Try lowering threshold or increasing scan_end.")
         return
 
-    # 3. Validation (BLAST + Folding)
-    print(f"✅ Found {len(results)} potential features. Starting Parallel Validation...")
+    # 3. Validation & Folding
+    print(f"✅ Found {len(results)} potential features. Folding top 3...")
     
     final_report = []
     os.makedirs("data/folds", exist_ok=True)
     
-    for i, row in results.iterrows():
+    for i, row in results.head(3).iterrows():
         dna_seq = row['sequence']
-        
-        # 3a. BLAST Validation
-        hit_title, identity, is_novel = blast_dna(dna_seq)
-        status = "🌟 NOVEL" if is_novel else "🧬 KNOWN"
-        print(f"   [{status}] Feature {row['feature_id']} | Identity: {identity:.1f}% | Hit: {hit_title}")
-
-        # 3b. Protein Translation & Folding
         protein_seq = translate_dna(dna_seq)
-        print(f"   🧬 Folding (Protein Len: {len(protein_seq)}aa)...")
+        
+        print(f"➡️ Folding Feature {row['feature_id']} (Protein Len: {len(protein_seq)}aa)...")
         pdb_data, plddt = fold_protein(protein_seq)
         
         if pdb_data:
@@ -148,21 +105,18 @@ def run_showcase():
                 'feature_id': row['feature_id'],
                 'dna_len': len(dna_seq),
                 'p_len': len(protein_seq),
-                'blast_hit': hit_title,
-                'identity': identity,
-                'is_novel': is_novel,
                 'plddt': plddt,
                 'pdb_file': pdb_filename
             })
-            print(f"   ✨ Structural Confidence: {plddt:.2f}")
+            print(f"   🌟 Confidence (pLDDT): {plddt:.2f}")
 
     # 4. Save Final Report
     report_df = pd.DataFrame(final_report)
     report_df.to_csv("data/benchmark_results_summary.csv", index=False)
     print("\n🏆 SHOWCASE COMPLETE")
-    print("="*60)
-    print(report_df[['feature_id', 'is_novel', 'identity', 'plddt']])
-    print("="*60)
+    print("="*40)
+    print(report_df[['feature_id', 'plddt', 'p_len']])
+    print("="*40)
     print("All PDB structures and the summary report are in data/folds and data/benchmark_results_summary.csv.")
 
 if __name__ == "__main__":
