@@ -5,26 +5,38 @@ import os
 import pandas as pd
 import numpy as np
 
-def find_rare_needle_signals(df, freq_max=1000, top_n=10, min_activation=5.0):
+def find_rare_needle_signals(df, rel_freq_max=0.0005, top_n=10, min_activation=5.0, total_population=None):
     """
-    Statistical Filter: Groups activations to find 'Rare but Powerful' features.
-    Filters for features that appear in very few reads (Scaled MetaGenomic Discovery) 
-    and have activations above min_activation.
+    Scale-Aware Statistical Filter: Finds 'Rare but Powerful' features.
+    
+    Args:
+        rel_freq_max: Maximum allowed percentage of reads containing the feature (default 0.05%).
+        total_population: Total number of reads in the sample (used to calculate relative rarity).
     """
-    # 1. Calculate population statistics for every feature detected in Phase 1
+    # 1. Calculate population statistics
     feature_stats = df.groupby('feature_id').agg(
         occurrence_count=('read_id', 'count'),
         max_score=('activation', 'max')
     ).reset_index()
 
-    # 2. Filter for Rare Candidates with strong signal
-    candidates = feature_stats[
-        (feature_stats['occurrence_count'] > 1) & 
-        (feature_stats['occurrence_count'] < freq_max) &
-        (feature_stats['max_score'] >= min_activation)
-    ].sort_values(by='max_score', ascending=False)
+    # 2. Determine Dynamic Frequency Cap
+    # If total_population isn't provided, we estimate it from the unique reads in the report
+    total_processed = total_population if total_population else df['read_id'].nunique()
+    dynamic_freq_max = max(2, int(total_processed * rel_freq_max))
+    
+    print(f"   Scale-Aware Filter: Total Population = {total_processed} | Rarity Cap = {dynamic_freq_max} reads ({rel_freq_max*100:.3f}%)")
 
-    return candidates.head(top_n)
+    # 3. Filter for candidates
+    candidates = feature_stats[
+        (feature_stats['occurrence_count'] >= 2) & # Min 2 to avoid noise/errors
+        (feature_stats['occurrence_count'] <= dynamic_freq_max) &
+        (feature_stats['max_score'] >= min_activation)
+    ].copy()
+    
+    # Add Rarity Percentage to metadata
+    candidates['rarity_pct'] = (candidates['occurrence_count'] / total_processed) * 100
+    
+    return candidates.sort_values(by='max_score', ascending=False).head(top_n)
 
 def get_best_reads_for_features(df, winning_feature_ids):
     """

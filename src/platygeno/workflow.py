@@ -22,6 +22,7 @@ def discover_genes(
     window_size=60,
     min_overlap=20,
     min_activation=5.0,
+    rel_freq_max=0.0005,
     output_path=None
 ):
     """
@@ -36,6 +37,7 @@ def discover_genes(
         window_size (int): Size (bp) of best hit snippets.
         min_overlap (int): Min overlap (bp) for assembly.
         min_activation (float): Min activation to consider a feature as a 'winner'.
+        rel_freq_max (float): Maximum allowed percentage of reads containing the feature.
         output_path (str, optional): Save results to this CSV path.
         
     Returns:
@@ -53,17 +55,28 @@ def discover_genes(
 
     # 2. Phase 1: Feature Scanning
     print(f"📡 Scanning reads {scan_start} to {scan_end if scan_end is not None else 'End'} from {os.path.basename(input_path)}...")
-    report = read_evo_features(input_path, engine, start=scan_start, stop=scan_end)
+    report, total_scanned = read_evo_features(input_path, engine, start=scan_start, stop=scan_end)
+    
     if report.empty:
         print("⚠️ No features detected in initial scan.")
         return pd.DataFrame()
 
-    # 3. Phase 2: Filtering
-    # Filter for rare features that meet the activation threshold
-    candidates = find_rare_needle_signals(report, top_n=top_n, min_activation=min_activation)
+    # 3. Phase 2: Filtering (Scale-Aware)
+    # Filter for rare features that meet the activation threshold using relative frequency
+    candidates = find_rare_needle_signals(
+        report, 
+        rel_freq_max=rel_freq_max, 
+        top_n=top_n, 
+        min_activation=min_activation,
+        total_population=total_scanned
+    )
+    
     if candidates.empty:
         print(f"⚠️ No rare features met the activation threshold (>={min_activation}).")
         return pd.DataFrame()
+
+    # Create a mapping of feature_id to its rarity percentage for the final report
+    rarity_map = dict(zip(candidates['feature_id'], candidates['rarity_pct']))
 
     # 4. Phase 3: Extraction & Assembly
     print(f"🧬 Extracting snippets and assembling contigs...")
@@ -82,13 +95,9 @@ def discover_genes(
 
     final_results = []
 
-    # Create a mapping for occurrence counts to include in final report
-    occ_map = dict(zip(candidates['feature_id'], candidates['occurrence_count']))
-
     for fid in candidates['feature_id']:
         f_reads = report[report['feature_id'] == fid].sort_values('activation', ascending=False)
         best_row = f_reads.iloc[0]
-        occ_count = int(occ_map.get(fid, 0))
         
         # Method A: Read-Centric (Precision Extraction from Best Read)
         rid = best_row['read_id']
@@ -100,8 +109,8 @@ def discover_genes(
                 "method": "Precision Snippet",
                 "feature_id": fid,
                 "read_id": rid,
-                "occurrence_count": occ_count,
                 "activation": round(act, 4),
+                "rarity_pct": round(rarity_map.get(fid, 0), 6),
                 "length": len(snippet),
                 "sequence": snippet
             })
@@ -117,8 +126,8 @@ def discover_genes(
                 "method": "Consensus Assembly",
                 "feature_id": fid,
                 "read_id": f"Consensus (N={len(pool)})",
-                "occurrence_count": occ_count,
                 "activation": round(best_row['activation'], 4),
+                "rarity_pct": round(rarity_map.get(fid, 0), 6),
                 "length": len(contig),
                 "sequence": contig
             })

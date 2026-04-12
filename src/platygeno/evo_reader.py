@@ -32,6 +32,7 @@ def read_evo_features(file_path, engine, start=0, stop=4000):
     Reads DNA sequences, extracts SAE features, and returns a report.
     Works for both .fasta and .fastq files, including .gz compressed files.
     Allows range-based scanning (from 'start' to 'stop').
+    Returns: (pd.DataFrame, int) - The hits and the total count of sequences scanned.
     """
     file_format = get_format(file_path)
     is_gz = file_path.endswith('.gz')
@@ -41,12 +42,14 @@ def read_evo_features(file_path, engine, start=0, stop=4000):
     print(f"EvoReader: Analyzing reads from index {start} to {stop if stop is not None else 'End'}...")
 
     discovery_results = []
+    scanned_count = 0
     
     with opener(file_path, 'rt') as f:
         # Use islice for efficient range-based scanning
         records = islice(SeqIO.parse(f, file_format), start, stop)
         
         for record in tqdm(records, desc="Feature Scanning", unit="read"):
+            scanned_count += 1
             dna_seq = str(record.seq)
             # Standardize ID for reporting
             safe_id = record.id.replace("/","_").replace("|","_").replace(":","_")
@@ -66,5 +69,5 @@ def read_evo_features(file_path, engine, start=0, stop=4000):
                         "activation": float(val.item())
                     })
 
-    # 4. Convert to DataFrame for the final report
-    return pd.DataFrame(discovery_results)
+    # Convert to DataFrame
+    return pd.DataFrame(discovery_results), scanned_count
