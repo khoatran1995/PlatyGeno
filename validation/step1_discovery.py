@@ -1,6 +1,6 @@
-import os
-import argparse
-import pandas as pd
+import sys
+# Force local source to ensure latest optimizations are used
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src"))
 import platygeno
 
 def run_significance_scan(input_path=None, top_pct=None, start=0, limit=None, ignore_rarity=True, batch_size=16, excluded_features=None):
