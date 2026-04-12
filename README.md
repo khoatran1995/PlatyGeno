@@ -168,6 +168,13 @@ A 100bp "Novel" sequence is not the end of the road—it is the starting point f
 | `top_n` | `int` | `10` | The number of rare features to target. |
 | `output_path` | `str` | `None` | Path to save CSV results. |
 
+### `platygeno.validate_novelty()`
+| Parameter | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `df` | `pd.DataFrame` | *Req* | The results from `discover_genes()`. |
+| `output_path` | `str` | `None` | Path for the full BLAST audit trail. |
+| `novel_path` | `str` | `None` | Path for high-confidence novel sequences. |
+
 ---
 
 ## 📜 Primary References
