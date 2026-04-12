@@ -24,12 +24,12 @@ def run_discovery_showcase(input_path=None):
     print("="*70)
 
     # 2. Scanning (GPU Phase)
-    print(f"Analyzing Metagenome with Hardcore Novelty Mode (Threshold: 10.0)...")
+    print(f"Analyzing Metagenome with Surgical Sensitivity Mode (Threshold: 5.0)...")
     results = platygeno.discover_genes(
         input_path=input_path,
         scan_end=None, 
-        min_activation=10.0, 
-        top_n=50 
+        min_activation=5.0, 
+        top_n=200 
     )
     
     if results.empty:
