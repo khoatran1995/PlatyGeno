@@ -1,6 +1,11 @@
 import os
+import sys
 import argparse
 import pandas as pd
+
+# Ensure the local 'src' directory is in the path for development/pip-free runs
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src"))
+
 import platygeno
 
 def run_significance_scan(input_path=None, top_pct=None, start=0, limit=None, ignore_rarity=True, batch_size=16, excluded_features=None, min_activation=3.0):
@@ -29,7 +34,7 @@ def run_significance_scan(input_path=None, top_pct=None, start=0, limit=None, ig
 
     # Discovery parameters
     rel_freq_max = 1.0 if ignore_rarity else 0.001
-    top_n = 50 if ignore_rarity else 20
+    top_n = 50 if ignore_rarity else 25
 
     # 3. Bio-Beacon Discovery
     output_label = f"{start}_{limit if limit else 'all'}_{mode_label}"
@@ -38,7 +43,7 @@ def run_significance_scan(input_path=None, top_pct=None, start=0, limit=None, ig
     results = platygeno.discover_genes(
         input_path=input_path,
         scan_start=start,
-        scan_end=start + limit if limit else None, 
+        scan_end=start + (limit if limit else 0) if limit else None, 
         min_activation=min_activation, 
         rel_freq_max=rel_freq_max, 
         top_n=top_n, 
@@ -75,7 +80,7 @@ if __name__ == "__main__":
     # Parse exclusion list
     excluded = [int(x.strip()) for x in args.exclude.split(",")] if args.exclude else None
     
-    # Default is now Significance Scanning (ignore_rarity=True)
+    # Run scan
     run_significance_scan(
         input_path=args.input, 
         top_pct=args.top_pct,
