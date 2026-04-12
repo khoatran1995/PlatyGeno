@@ -5,16 +5,16 @@ import os
 import pandas as pd
 import numpy as np
 
-def find_rare_needle_signals(df, rel_freq_max=0.001, top_n=10, top_pct=None, min_activation=5.0, total_population=None):
+def find_rare_needle_signals(df, rel_freq_max=0.001, top_n=10, top_pct=None, min_activation=5.0, total_population=None, excluded_features=None):
     """
     Bio-Significance Mapping: Identifies high-confidence genomic landmarks.
     
     This function discovers features that are 'Intrinsically Significant' (high activation)
     based on the Evo 2 foundation model. Optional rarity filtering can be applied.
     """
-    return find_significant_landmarks(df, rel_freq_max, top_n, top_pct, min_activation, total_population)
+    return find_significant_landmarks(df, rel_freq_max, top_n, top_pct, min_activation, total_population, excluded_features)
 
-def find_significant_landmarks(df, rel_freq_max=1.0, top_n=10, top_pct=None, min_activation=5.0, total_population=None):
+def find_significant_landmarks(df, rel_freq_max=1.0, top_n=10, top_pct=None, min_activation=5.0, total_population=None, excluded_features=None):
     """
     Primary Significance Engine: Identifies 'Biological Landmarks' in raw DNA.
     """
@@ -23,6 +23,10 @@ def find_significant_landmarks(df, rel_freq_max=1.0, top_n=10, top_pct=None, min
         occurrence_count=('read_id', 'count'),
         max_score=('activation', 'max')
     ).reset_index()
+
+    # 2. Strategic Subtraction: Remove known or unwanted features
+    if excluded_features:
+        feature_stats = feature_stats[~feature_stats['feature_id'].isin(excluded_features)]
 
     # 2. Determine Dynamic Frequency Cap
     total_processed = total_population if total_population else df['read_id'].nunique()

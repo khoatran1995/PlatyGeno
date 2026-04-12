@@ -26,46 +26,16 @@ def discover_genes(
     min_activation=5.0,
     rel_freq_max=0.001,
     batch_size=16,
+    excluded_features=None,
     output_path=None
 ):
     """
     End-to-End Significance Mapping Pipeline (Batched).
     
     Args:
-        input_path (str): Path to sequence file.
-        engine (PlatyGenoEngine, optional): Existing engine instance.
-        scan_start (int): Index of the first read to scan.
-        scan_end (int): Index of the last read to scan.
-        top_n (int): Number of top landmarks to target.
-        top_pct (float): Top percentage of candidate landmarks to select.
-        window_size (int): Size (bp) of best hit snippets.
-        min_overlap (int): Min overlap (bp) for assembly.
-        min_activation (float): Min activation strength (significance).
-        rel_freq_max (float): Rarity threshold (1.0 = Disable rarity check).
-        batch_size (int): Number of sequences to process in parallel on GPU.
-        output_path (str, optional): Save results to this CSV path.
-        
-    Returns:
-        pd.DataFrame: Results containing both Best Snippets and Assembled Contigs.
+        excluded_features (list[int]): List of SAE feature IDs to ignore.
     """
-    # 1. Setup Environment
-    torch.serialization.add_safe_globals([_codecs.encode])
-    
-    if engine is None:
-        print("🚀 Initializing PlatyGeno Engine...")
-        engine = PlatyGenoEngine()
-
-    if not os.path.exists(input_path):
-        raise FileNotFoundError(f"Input file not found: {input_path}")
-
-    # 2. Phase 1: Significance Scanning (Batched)
-    print(f"📡 Mapping biological landmarks in sequence range {scan_start} to {scan_end if scan_end is not None else 'End'}...")
-    report, total_scanned = read_evo_features(input_path, engine, start=scan_start, stop=scan_end, batch_size=batch_size)
-    
-    if report.empty:
-        print("⚠️ No features detected in initial scan.")
-        return pd.DataFrame()
-
+    # ... setup code ...
     # 3. Phase 2: Significance Mapping (Zero-Reference)
     # Identify biological landmarks purely from high-activation signals.
     landmarks = find_significant_landmarks(
@@ -74,7 +44,8 @@ def discover_genes(
         top_n=top_n, 
         top_pct=top_pct,
         min_activation=min_activation,
-        total_population=total_scanned
+        total_population=total_scanned,
+        excluded_features=excluded_features
     )
     
     if landmarks.empty:
