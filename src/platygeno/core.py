@@ -59,21 +59,40 @@ class PlatyGenoEngine:
         sae.load_state_dict(mapped_state)
         return sae.eval()
 
-    def get_features(self, dna_string):
-        # 1. Tokenize using the specific notebook method
-        tokens = self.evo.tokenizer.tokenize(dna_string)
-        input_ids = torch.tensor([tokens], dtype=torch.long).to(self.device)
+    def get_features(self, dna_strings):
+        """
+        Batched Feature Extraction: Processes a list of DNA sequences in one GPU pass.
+        Args:
+            dna_strings (list[str]): List of DNA sequences to analyze.
+        Returns:
+            torch.Tensor: Shape [Batch, d_hidden] containing the SAE features.
+        """
+        if not isinstance(dna_strings, (list, tuple)):
+            dna_strings = [dna_strings]
+
+        # 1. Batched Tokenization
+        # Standardize and tokenize all strings
+        token_list = [torch.tensor(self.evo.tokenizer.tokenize(s), dtype=torch.long) for s in dna_strings]
         
-        # 2. Forward pass to trigger hook
+        # 2. Padding (Evo 2 traditionally uses 0 or specific pad token)
+        # We pad to the longest sequence in the batch
+        input_ids = torch.nn.utils.rnn.pad_sequence(token_list, batch_first=True, padding_value=0).to(self.device)
+        
+        # 3. Forward pass to trigger hook
         with torch.no_grad():
+            self.extracted_data = None # Reset hook data
             _ = self.evo.model(input_ids)
             
-            # 3. Mean pool and Encode
+            # 4. Batch Pooling and Encoding
             if self.extracted_data is not None:
-                # Pool across sequence length (Dimension 1)
+                # extracted_data shape: [Batch, Seq_Len, d_model]
+                # Mean pool across sequence length (Dimension 1)
                 mean_emb = torch.mean(self.extracted_data, dim=1)
+                
+                # Encode the whole batch in one call
+                # Shape: [Batch, d_hidden]
                 features = self.sae.encode(mean_emb, k=64)
-                return features.view(-1)  # Return as 1D for the reader
+                return features
         return None
 
     def get_token_features_deep(self, dna_string):

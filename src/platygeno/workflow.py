@@ -24,22 +24,24 @@ def discover_genes(
     min_overlap=20,
     min_activation=5.0,
     rel_freq_max=0.001,
+    batch_size=16,
     output_path=None
 ):
     """
-    End-to-End Discovery Pipeline: Scan -> Filter -> Extract & Assemble.
+    End-to-End Significance Mapping Pipeline (Batched).
     
     Args:
-        input_path (str): Path to FASTQ/FASTA file.
+        input_path (str): Path to sequence file.
         engine (PlatyGenoEngine, optional): Existing engine instance.
         scan_start (int): Index of the first read to scan.
         scan_end (int): Index of the last read to scan.
-        top_n (int): Number of top rare features to target.
-        top_pct (float): Top percentage of candidate features to select.
+        top_n (int): Number of top landmarks to target.
+        top_pct (float): Top percentage of candidate landmarks to select.
         window_size (int): Size (bp) of best hit snippets.
         min_overlap (int): Min overlap (bp) for assembly.
-        min_activation (float): Min activation to consider a feature as a 'winner'.
-        rel_freq_max (float): Maximum allowed percentage of reads containing the feature.
+        min_activation (float): Min activation strength (significance).
+        rel_freq_max (float): Rarity threshold (1.0 = Disable rarity check).
+        batch_size (int): Number of sequences to process in parallel on GPU.
         output_path (str, optional): Save results to this CSV path.
         
     Returns:
@@ -55,9 +57,9 @@ def discover_genes(
     if not os.path.exists(input_path):
         raise FileNotFoundError(f"Input file not found: {input_path}")
 
-    # 2. Phase 1: Feature Scanning
-    print(f"📡 Scanning reads {scan_start} to {scan_end if scan_end is not None else 'End'} from {os.path.basename(input_path)}...")
-    report, total_scanned = read_evo_features(input_path, engine, start=scan_start, stop=scan_end)
+    # 2. Phase 1: Significance Scanning (Batched)
+    print(f"📡 Mapping biological landmarks in sequence range {scan_start} to {scan_end if scan_end is not None else 'End'}...")
+    report, total_scanned = read_evo_features(input_path, engine, start=scan_start, stop=scan_end, batch_size=batch_size)
     
     if report.empty:
         print("⚠️ No features detected in initial scan.")
