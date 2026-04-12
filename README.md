@@ -40,6 +40,22 @@ PlatyGeno is organized as a professional, Ph.D.-grade discovery pipeline:
 2. **Novelty Validation**: `python validation/step2_local_blast.py` — identifies `novel_sequences.csv`.
 3. **Structural Analysis**: `python validation/step3_fasta_prep.py` and `step4_alphafold_run.py`.
 
+## ⚙️ Hardware Optimization
+
+PlatyGeno is optimized for high-performance discovery. To resolve the "12-hour bottleneck" on large datasets, utilize the **Batched Inference** engine.
+
+### Batch Size Guide (`--batch-size`)
+Parallelizing your scan is the fastest way to get results. Match this setting to your GPU VRAM:
+
+| Hardware | VRAM | Recommended Batch Size |
+| :--- | :--- | :--- |
+| **A100 / H100** | 80GB | `32` – `64` |
+| **RTX 3090 / 4090** | 24GB | `8` – `16` |
+| **RTX 3060 / 4070** | 12GB | `1` – `2` |
+
+> [!TIP]
+> **Out of Memory?** If you encounter an OOM error, simply lower the `--batch-size`.
+
 ---
 
 ## 🚀 Quick Start (Landmark Scan)
