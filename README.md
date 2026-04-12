@@ -8,6 +8,26 @@ PlatyGeno is a professional Python package designed to interpret the **Evo 2 gen
 
 ---
 
+## 🔭 Scientific Philosophy: Finding "Rare Needles"
+
+Most bioinformatics tools are designed to find what we already know. PlatyGeno is built to find the **Dark Matter** of the genome.
+
+*   **Beyond Database Search**: Traditional tools (like BLAST) find genes by matching them to known sequences. If a gene is entirely novel, BLAST will fail.
+*   **Digital Subtraction**: PlatyGeno uses **Sparse Autoencoders (SAEs)** to identify "concepts" the AI has learned. By filtering out "Common Signals" (housekeeping genes like 16S RNA), we perform digital subtraction of known biology.
+*   **Rare Needles**: We focus specifically on **Rare Features**—patterns that are biologically active but appear infrequently in the dataset. This is where novel antibiotic resistance, exotic enzymes, and viral signatures are most often found.
+
+---
+
+## 🏗️ Simplified Architecture
+
+PlatyGeno layers a "De-coding" layer on top of the Evo 2 foundation model:
+
+1.  **Evo 2 (The Brain)**: A 7-billion parameter model that has "read" the entire genomic history of Earth. It understands the grammar of DNA.
+2.  **Sparse Autoencoders (The Interpreter)**: We use 32,768 "interpreters" (nodes) that translate Evo 2's complex internal math into distinct biological concepts.
+3.  **Discovery Pipeline**: We scan raw FASTQ data through this stack, identifies where specific "interpreters" fire with high intensity, and assemble those signals into precise genomic hits.
+
+---
+
 ## 🔬 Clinical Discovery Benchmark
 
 PlatyGeno includes a professional, PhD-grade benchmarking pipeline designed for clinical metagenome samples (e.g., from the **IBDMDB**). To replicate our high-resolution discovery run (**Top 100 Features**), use the standardized **4-Step Ph.D. Workflow**:
@@ -42,7 +62,10 @@ pip install platygeno
 # 2. Install high-performance GPU kernels
 pip install flash-attn --no-build-isolation
 
-# 3. Verify Discovery
+# 3. Install the package in editable mode
+pip install -e .
+
+# 4. Verify Discovery
 platygeno --input sample.fastq --threshold 10.0
 ```
 
@@ -92,9 +115,9 @@ graph LR
     D --> E[Biological Discovery]
 ```
 
-1.  **Phase 1: Feature Scanning**: Streams sequence data through Evo 2 and records activations of Sparse Autoencoder (SAE) nodes.
-2.  **Phase 2: Rare Signal Filtering**: Identifies "Rare Needles"—features with low frequency but high activation strength—to filter out common structural noise.
-3.  **Phase 3: Extraction & Assembly**: Isolates precise 60bp snippets at activation peaks and merges overlapping reads into longer functional contigs.
+1.  **Phase 1: Feature Scanning**: Streams raw DNA through Evo 2. We record the "firing" of 32,768 SAE nodes for every base pair.
+2.  **Phase 2: Rare Signal Filtering**: We filter for "Rare Needles"—signals that fire strongly but only in a few reads. This automatically skips common genomic "noise."
+3.  **Phase 3: Extraction & Assembly**: We isolate the precise DNA snippets where the AI signal peaks and merge overlapping reads into longer, functional contigs ready for AlphaFold.
 
 ---
 

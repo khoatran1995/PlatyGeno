@@ -37,20 +37,34 @@ def read_evo_features(file_path, engine, start=0, stop=4000):
     is_gz = file_path.endswith('.gz')
     opener = gzip.open if is_gz else open
 
-    print(f"📡 Detected format: {file_format.upper()} | Data: {os.path.basename(file_path)}")
-    print(f"🧬 EvoReader: Analyzing reads from index {start} to {stop if stop is not None else 'End'}...")
+    print(f"Detected format: {file_format.upper()} | Data: {os.path.basename(file_path)}")
+    print(f"EvoReader: Analyzing reads from index {start} to {stop if stop is not None else 'End'}...")
+
+    discovery_results = []
     
-        if features is not None:
-            # Find which features 'fired' (activation > 0)
-            active_indices = torch.where(features > 0)[0]
-            active_values = features[active_indices]
+    with opener(file_path, 'rt') as f:
+        # Use islice for efficient range-based scanning
+        records = islice(SeqIO.parse(f, file_format), start, stop)
+        
+        for record in tqdm(records, desc="Feature Scanning", unit="read"):
+            dna_seq = str(record.seq)
+            # Standardize ID for reporting
+            safe_id = record.id.replace("/","_").replace("|","_").replace(":","_")
             
-            for idx, val in zip(active_indices, active_values):
-                discovery_results.append({
-                    "read_id": safe_id,
-                    "feature_id": int(idx.item()),
-                    "activation": float(val.item())
-                })
+            # Extract features (Evo 2 + SAE)
+            features = engine.get_read_features(dna_seq)
+            
+            if features is not None:
+                # Find which features 'fired' (activation > 0)
+                active_indices = torch.where(features > 0)[0]
+                active_values = features[active_indices]
+                
+                for idx, val in zip(active_indices, active_values):
+                    discovery_results.append({
+                        "read_id": safe_id,
+                        "feature_id": int(idx.item()),
+                        "activation": float(val.item())
+                    })
 
     # 4. Convert to DataFrame for the final report
     return pd.DataFrame(discovery_results)
