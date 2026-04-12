@@ -1,4 +1,5 @@
 import os
+import argparse
 import pandas as pd
 import time
 import socket
@@ -30,28 +31,41 @@ def blast_validation(dna_sequence, max_retries=3):
             time.sleep(30)
     return "BLAST Failed", 0, False, 1.0
 
-def run_benchmarking_validation():
-    """Phase 2: Standard Novelty Validation (Full Re-run Mode)"""
-    input_csv = "discovery_hits.csv"
-    output_csv = "blast_results.csv"
-    novel_csv = "potential_novel_sequences.csv"
+def run_benchmarking_validation(input_csv="discovery_hits.csv", output_prefix=None):
+    """Phase 2: Standard Novelty Validation (Supports Chunked Inputs)"""
+    
+    # Generate output names based on input name if prefix isn't provided
+    if output_prefix is None:
+        base_name = os.path.splitext(input_csv)[0]
+        output_csv = f"blast_results_{base_name.replace('discovery_hits_', '')}.csv" if "discovery_hits_" in base_name else "blast_results.csv"
+        novel_csv = f"novel_sequences_{base_name.replace('discovery_hits_', '')}.csv" if "discovery_hits_" in base_name else "potential_novel_sequences.csv"
+    else:
+        output_csv = f"blast_results_{output_prefix}.csv"
+        novel_csv = f"novel_sequences_{output_prefix}.csv"
 
     print("="*70)
-    print("PHASE 2: Remote NCBI BLAST Validation (Full Re-run Mode)")
+    print(f"PHASE 2: Remote NCBI BLAST Validation")
+    print(f"Input:  {input_csv}")
+    print(f"Audit:  {output_csv}")
     print("="*70)
 
     if not os.path.exists(input_csv):
-        print(f"Error: {input_csv} not found. Run Step 1 first.")
+        print(f"❌ Error: {input_csv} not found.")
+        print(f"Make sure you specified the correct chunk file (e.g., discovery_hits_5001_10000.csv).")
         return
 
     # 1. Load data
     df = pd.read_csv(input_csv)
     # Focusing on consensus sequences (highest quality)
-    consensus_df = df[df['method'] == 'Consensus Assembly'].copy()
+    if 'method' in df.columns:
+        consensus_df = df[df['method'] == 'Consensus Assembly'].copy()
+    else:
+        consensus_df = df.copy()
+        
     consensus_df = consensus_df.drop_duplicates(subset=['feature_id'])
 
     if consensus_df.empty:
-        print("No consensus assemblies found in discovery_hits.csv.")
+        print("No valid sequences found for validation.")
         return
 
     print(f"Starting fresh BLAST searches for {len(consensus_df)} features...")
@@ -92,4 +106,10 @@ def run_benchmarking_validation():
     print("="*70)
 
 if __name__ == "__main__":
-    run_benchmarking_validation()
+    parser = argparse.ArgumentParser(description="PlatyGeno Step 2: BLAST Validation.")
+    parser.add_argument("--input", type=str, default="discovery_hits.csv", help="Discovery CSV to validate")
+    parser.add_argument("--output-prefix", type=str, help="Prefix for result files")
+    
+    args = parser.parse_args()
+    
+    run_benchmarking_validation(input_csv=args.input, output_prefix=args.output_prefix)
