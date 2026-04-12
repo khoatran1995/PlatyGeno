@@ -22,6 +22,25 @@ Most bioinformatics tools are designed to find "matches" to known lists. PlatyGe
 
 ---
 
+## ⚙️ Installation
+
+PlatyGeno requires a CUDA-enabled GPU (RTX 3090, 4090, A100, or H100).
+
+```bash
+# 1. Install the core package
+pip install platygeno
+
+# 2. Install high-performance GPU kernels (Mandatory for speed)
+pip install flash-attn --no-build-isolation
+
+# 3. Development/Editable Install
+git clone https://github.com/khoatran1995/PlatyGeno.git
+cd PlatyGeno
+pip install -e .
+```
+
+---
+
 ## 🏗️ Simplified Architecture
 
 PlatyGeno layers a "De-coding" layer on top of the Evo 2 foundation model:
