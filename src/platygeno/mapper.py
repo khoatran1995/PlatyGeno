@@ -5,10 +5,11 @@ import os
 import pandas as pd
 import numpy as np
 
-def find_rare_needle_signals(df, freq_max=40, top_n=10, min_activation=5.0):
+def find_rare_needle_signals(df, freq_max=10, top_n=10, min_activation=5.0):
     """
     Statistical Filter: Groups activations to find 'Rare but Powerful' features.
-    Filters for features that appear in few reads but have activations above min_activation.
+    Filters for features that appear in very few reads (Genomic Dark Matter) 
+    and have activations above min_activation.
     """
     # 1. Calculate population statistics for every feature detected in Phase 1
     feature_stats = df.groupby('feature_id').agg(
