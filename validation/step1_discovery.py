@@ -30,9 +30,9 @@ def run_discovery_showcase(input_path=None, top_pct=None, start=0, limit=None):
         input_path=input_path,
         scan_start=start,
         scan_end=scan_end, 
-        min_activation=5.0, 
-        rel_freq_max=0.001, # Adjusted to 0.1% (allowing up to 5 reads per 5k chunk)
-        top_n=20, 
+        min_activation=3.0, # Lowered from 5.0 to find more candidates
+        rel_freq_max=0.001, 
+        top_n=50,          # Increased from 20 to 50 candidates
         top_pct=top_pct,
         output_path=output_csv
     )
