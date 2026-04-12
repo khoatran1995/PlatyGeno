@@ -52,7 +52,7 @@ def read_evo_features(file_path, engine, start=0, stop=4000):
             safe_id = record.id.replace("/","_").replace("|","_").replace(":","_")
             
             # Extract features (Evo 2 + SAE)
-            features = engine.get_read_features(dna_seq)
+            features = engine.get_features(dna_seq)
             
             if features is not None:
                 # Find which features 'fired' (activation > 0)
