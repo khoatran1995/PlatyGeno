@@ -20,13 +20,13 @@ def run_discovery_showcase(input_path=None):
         return
 
     # 2. Scanning (GPU Phase)
-    # We use Surgical Sensitivity (5.0 threshold) and Scale-Aware Rarity (0.05%)
+    # We use Surgical Sensitivity (5.0 threshold) and Scale-Aware Rarity (0.1%)
     print(f"Analyzing Metagenome with Surgical Sensitivity Mode (Threshold: 5.0)...")
     results = platygeno.discover_genes(
         input_path=input_path,
         scan_end=None, 
         min_activation=5.0, 
-        rel_freq_max=0.0005, # Scale-Aware rarity limit (0.05%)
+        rel_freq_max=0.001, # Scale-Aware rarity limit (0.1%)
         top_n=200 
     )
     
@@ -49,7 +49,7 @@ def run_discovery_showcase(input_path=None):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="PlatyGeno Step 1: Discover rare genomic features.")
     parser.add_argument("--input", type=str, help="Path to input FASTQ/FASTA file")
-    parser.add_argument("--rarity-pct", type=float, default=0.0005, help="Relative rarity threshold (default 0.05%%)")
+    parser.add_argument("--rarity-pct", type=float, default=0.001, help="Relative rarity threshold (default 0.1%)")
     args = parser.parse_args()
     
     # Override discovery call parameters if needed

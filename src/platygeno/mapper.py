@@ -5,12 +5,12 @@ import os
 import pandas as pd
 import numpy as np
 
-def find_rare_needle_signals(df, rel_freq_max=0.0005, top_n=10, min_activation=5.0, total_population=None):
+def find_rare_needle_signals(df, rel_freq_max=0.001, top_n=10, min_activation=5.0, total_population=None):
     """
     Scale-Aware Statistical Filter: Finds 'Rare but Powerful' features.
     
     Args:
-        rel_freq_max: Maximum allowed percentage of reads containing the feature (default 0.05%).
+        rel_freq_max: Maximum allowed percentage of reads containing the feature (default 0.1%).
         total_population: Total number of reads in the sample (used to calculate relative rarity).
     """
     # 1. Calculate population statistics
