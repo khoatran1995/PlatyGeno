@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(
 
 import platygeno
 
-def run_significance_scan(input_path=None, top_pct=None, start=0, limit=None, ignore_rarity=True, batch_size=16, excluded_features=None, min_activation=3.0):
+def run_significance_scan(input_path=None, top_pct=None, top_n=None, start=0, limit=None, ignore_rarity=True, batch_size=16, excluded_features=None, min_activation=3.0):
     print("="*70)
     print("PHASE 1: Reference-Free Significance Mapping (Bio-Beacon)")
     
@@ -20,13 +20,16 @@ def run_significance_scan(input_path=None, top_pct=None, start=0, limit=None, ig
     if not os.path.exists(input_path):
         print(f"Error: {input_path} not found.")
         return
-
     # 2. Logic for labels
     scan_desc = f"{start} to {start + limit}" if limit else f"{start} to End-of-File"
     mode_label = "panoramic" if ignore_rarity else "novelty"
     
+    # Default top_n if not specified
+    if top_n is None:
+        top_n = 50 if ignore_rarity else 25
+
     print(f"MODE: {mode_label.capitalize()} Mode (Batch Size: {batch_size})")
-    print(f"THRESHOLD: {min_activation} Significance")
+    print(f"THRESHOLD: {min_activation} Significance | TARGET: {top_n} features")
     if excluded_features:
         print(f"EXCLUDING: {len(excluded_features)} features ({excluded_features[:5]}{'...' if len(excluded_features)>5 else ''})")
     print(f"📡 Scanning for biological landmarks: {scan_desc}...")
@@ -34,7 +37,6 @@ def run_significance_scan(input_path=None, top_pct=None, start=0, limit=None, ig
 
     # Discovery parameters
     rel_freq_max = 1.0 if ignore_rarity else 0.001
-    top_n = 50 if ignore_rarity else 25
 
     # 3. Bio-Beacon Discovery
     output_label = f"{start}_{limit if limit else 'all'}_{mode_label}"
@@ -69,6 +71,7 @@ if __name__ == "__main__":
     parser.add_argument("--input", type=str, help="Path to raw sequence file (FASTQ/FASTA)")
     parser.add_argument("--start", type=int, default=0, help="First read index to process")
     parser.add_argument("--limit", type=int, default=None, help="Number of reads to scan (default: All)")
+    parser.add_argument("--top-n", type=int, help="Number of top biological landmarks to return (e.g. 100 or 1000)")
     parser.add_argument("--top-pct", type=float, help="Select the top X% of significant hits")
     parser.add_argument("--batch-size", type=int, default=16, help="Number of sequences per GPU batch (default: 16)")
     parser.add_argument("--rarity-only", action="store_true", help="Enable rarity filtering to target novel dark matter")
@@ -83,6 +86,7 @@ if __name__ == "__main__":
     # Run scan
     run_significance_scan(
         input_path=args.input, 
+        top_n=args.top_n,
         top_pct=args.top_pct,
         start=args.start,
         limit=args.limit,

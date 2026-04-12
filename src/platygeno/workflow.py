@@ -74,7 +74,7 @@ def discover_genes(
     count_map = dict(zip(landmarks['feature_id'], landmarks['occurrence_count']))
 
     # 4. Phase 3: Landmark Extraction & Assembly
-    print(f"🧬 Extracting significant snippets and assembling landmarks...")
+    print(f"🧬 Extracting significant snippets and assembling landmarks for {len(landmarks)} features...")
     ext = os.path.splitext(input_path)[1].lower()
     fmt = "fastq" if ext in [".fastq", ".fq"] else "fasta"
     
@@ -89,8 +89,13 @@ def discover_genes(
                for rec in SeqIO.parse(input_path, fmt) if rec.id.replace("/","_").replace("|","_").replace(":","_") in winning_ids}
 
     final_results = []
+    total_landmarks = len(landmarks)
 
-    for fid in landmarks['feature_id']:
+    for i, fid in enumerate(landmarks['feature_id']):
+        # Progress reporting for Wide Surveys
+        if (i + 1) % 50 == 0 or (i + 1) == total_landmarks:
+            print(f"   Progress: {i+1}/{total_landmarks} ({(i+1)/total_landmarks*100:.1f}%) features extracted...")
+            
         f_reads = report[report['feature_id'] == fid].sort_values('activation', ascending=False)
         best_row = f_reads.iloc[0]
         
