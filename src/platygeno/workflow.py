@@ -35,7 +35,24 @@ def discover_genes(
     Args:
         excluded_features (list[int]): List of SAE feature IDs to ignore.
     """
-    # ... setup code ...
+    # 1. Setup Environment
+    torch.serialization.add_safe_globals([_codecs.encode])
+    
+    if engine is None:
+        print("🚀 Initializing PlatyGeno Engine...")
+        engine = PlatyGenoEngine()
+
+    if not os.path.exists(input_path):
+        raise FileNotFoundError(f"Input file not found: {input_path}")
+
+    # 2. Phase 1: Significance Scanning (Batched)
+    print(f"📡 Mapping biological landmarks in sequence range {scan_start} to {scan_end if scan_end is not None else 'End'}...")
+    report, total_scanned = read_evo_features(input_path, engine, start=scan_start, stop=scan_end, batch_size=batch_size)
+    
+    if report.empty:
+        print("⚠️ No features detected in initial scan.")
+        return pd.DataFrame()
+
     # 3. Phase 2: Significance Mapping (Zero-Reference)
     # Identify biological landmarks purely from high-activation signals.
     landmarks = find_significant_landmarks(
