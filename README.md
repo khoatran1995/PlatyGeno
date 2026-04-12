@@ -133,6 +133,34 @@ graph LR
 
 ---
 
+## ⚙️ Tuning the Discovery Engine: Finding the "Sweet Spot"
+
+PlatyGeno uses three primary "dials" to separate genomic dark matter from housekeeping noise. Balancing these is the key to successful discovery:
+
+### 1. Signal Strength (`min_activation`)
+*   **What it is**: The intensity of the AI's "excitement" about a sequence.
+*   **The Sweet Spot**: 
+    *   **5.0 – 8.0**: "Surgical Sensitivity." Ideal for finding rare variants of known functional domains.
+    *   **10.0+**: "Hardcore Novelty." Targets extreme outliers that the model identifies with high confidence.
+
+### 2. Population Rarity (`rel_freq_max`)
+*   **What it is**: The scale-aware filter that defines what is "Rare."
+*   **The Sweet Spot**: 
+    *   **0.1% (`0.001`)**: Broad net. Good for pilot runs on 20k–50k reads.
+    *   **0.01% (`0.0001`)**: Deep mining. Essential for large datasets to skip "Common Junk."
+
+### 3. Discovery Budget (`top_pct` / `top_n`)
+*   **What it is**: Limits the number of results to prevent BLAST bottlenecks.
+*   **The Sweet Spot**:
+    *   **`top_n=10`**: Quick validation.
+    *   **`top_pct=0.01`**: Recommended for large datasets. Automatically targets the most intense 1% of your outliers.
+
+> [!TIP]
+> If your discovery run returns **0 hits**, lower the `min_activation` to 5.0. 
+> If it returns **too many knowns** (100% BLAST identity), decrease the `rel_freq_max` to 0.05% or 0.01%.
+
+---
+
 ## 📊 Understanding Results
 
 Results are saved as a CSV with the following columns:
