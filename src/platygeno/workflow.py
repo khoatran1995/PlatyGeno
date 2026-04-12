@@ -75,8 +75,9 @@ def discover_genes(
         print(f"⚠️ No rare features met the activation threshold (>={min_activation}).")
         return pd.DataFrame()
 
-    # Create a mapping of feature_id to its rarity percentage for the final report
+    # Create mappings for the final report
     rarity_map = dict(zip(candidates['feature_id'], candidates['rarity_pct']))
+    count_map = dict(zip(candidates['feature_id'], candidates['occurrence_count']))
 
     # 4. Phase 3: Extraction & Assembly
     print(f"🧬 Extracting snippets and assembling contigs...")
@@ -110,6 +111,7 @@ def discover_genes(
                 "feature_id": fid,
                 "read_id": rid,
                 "activation": round(act, 4),
+                "occurrence_count": int(count_map.get(fid, 0)),
                 "rarity_pct": round(rarity_map.get(fid, 0), 6),
                 "length": len(snippet),
                 "sequence": snippet
@@ -127,6 +129,7 @@ def discover_genes(
                 "feature_id": fid,
                 "read_id": f"Consensus (N={len(pool)})",
                 "activation": round(best_row['activation'], 4),
+                "occurrence_count": int(count_map.get(fid, 0)),
                 "rarity_pct": round(rarity_map.get(fid, 0), 6),
                 "length": len(contig),
                 "sequence": contig
