@@ -6,11 +6,6 @@ import platygeno
 def run_significance_scan(input_path=None, top_pct=None, start=0, limit=None, ignore_rarity=True, batch_size=16):
     print("="*70)
     print("PHASE 1: Reference-Free Significance Mapping (Bio-Beacon)")
-    if ignore_rarity:
-        print(f"MODE: Landmarks Mode (Zero-Reference | Batch Size: {batch_size})")
-    else:
-        print(f"MODE: Rarity Mode (Deep-Mining | Batch Size: {batch_size})")
-    print("="*70)
     
     # 1. Configuration
     if input_path is None:
@@ -21,25 +16,27 @@ def run_significance_scan(input_path=None, top_pct=None, start=0, limit=None, ig
         print(f"Error: {input_path} not found.")
         return
 
-    scan_end = start + limit if limit else None
+    # 2. Logic for labels
+    scan_desc = f"{start} to {start + limit}" if limit else f"{start} to End-of-File"
+    mode_label = "panoramic" if ignore_rarity else "novelty"
     
-    # Lead with significance as the primary scientific driver
+    print(f"MODE: {mode_label.capitalize()} Mode (Batch Size: {batch_size})")
+    print(f"📡 Scanning for biological landmarks: {scan_desc}...")
+    print("="*70)
+
+    # Discovery parameters
     min_activation = 3.0
     rel_freq_max = 1.0 if ignore_rarity else 0.001
     top_n = 50 if ignore_rarity else 20
 
-    # 2. Bio-Beacon Discovery
-    print(f"📡 Scanning for biological landmarks in reads {start} to {scan_end if scan_end else 'End'}...")
-    
-    # Scientific labeling for output
-    mode_label = "panoramic" if ignore_rarity else "novelty"
-    output_label = f"{start}_{limit}_{mode_label}" if limit else mode_label
+    # 3. Bio-Beacon Discovery
+    output_label = f"{start}_{limit if limit else 'all'}_{mode_label}"
     output_csv = f"discovery_hits_{output_label}.csv"
 
     results = platygeno.discover_genes(
         input_path=input_path,
         scan_start=start,
-        scan_end=scan_end, 
+        scan_end=start + limit if limit else None, 
         min_activation=min_activation, 
         rel_freq_max=rel_freq_max, 
         top_n=top_n, 
@@ -63,7 +60,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="PlatyGeno: Unsupervised Genomic Significance Scanner.")
     parser.add_argument("--input", type=str, help="Path to raw sequence file (FASTQ/FASTA)")
     parser.add_argument("--start", type=int, default=0, help="First read index to process")
-    parser.add_argument("--limit", type=int, default=5000, help="Number of reads to scan")
+    parser.add_argument("--limit", type=int, default=None, help="Number of reads to scan (default: All)")
     parser.add_argument("--top-pct", type=float, help="Select the top X% of significant hits")
     parser.add_argument("--batch-size", type=int, default=16, help="Number of sequences per GPU batch (default: 16)")
     parser.add_argument("--rarity-only", action="store_true", help="Enable rarity filtering to target novel dark matter")
