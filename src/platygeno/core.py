@@ -25,8 +25,11 @@ class PlatyGenoEngine:
         print(f"🚀 Loading {model_name} into VRAM...")
         
         # Load Evo 2 (Using the wrapper class)
+        # Optimized for 24GB VRAM (3090/4090)
         self.evo = Evo2(model_name)
-        self.evo.model.eval() # Use .model.eval() to avoid the AttributeError
+        if self.device.startswith('cuda'):
+            self.evo.model.half() # Move to half-precision to save 50% VRAM
+        self.evo.model.eval() 
         
         # Setup Hook for Layer 26 (Index 25)
         self.extracted_data = None
