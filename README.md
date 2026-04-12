@@ -110,6 +110,15 @@ PlatyGeno uses the AI's "Excitement" as the primary scientific dial:
 *   **Usage**: `--exclude 212,16509`
 *   **Purpose**: "Mutes" features you have already identified as known biology. This forces the engine to look deeper and surface the next layer of genomic candidates.
 
+## 🧬 Benchmark Dataset: SRR23196177
+
+PlatyGeno includes a high-density clinical benchmark for testing discovery pipelines:
+
+*   **Accession**: [SRR23196177](https://www.ncbi.nlm.nih.gov/sra/?term=SRR23196177)
+*   **Origin**: Human Gut Metagenome (Clinical Sample).
+*   **Role**: Used for testing **Wide Survey** discovery and **Strategic Subtraction**. This dataset is rich in common bacterial housekeeping genes, making it an ideal environment for testing the engine's ability to filter knowns and isolate novel hits.
+*   **Local Subset**: The default `data/SRR23196177_subset.fastq` contains **100,000 reads**, extracted to provide a high-resolution window into the sample's biological landscape.
+
 ---
 
 ## 🧪 Use Case: Hunting for the Unknown
