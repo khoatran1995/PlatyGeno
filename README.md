@@ -102,11 +102,19 @@ PlatyGeno uses the AI's "Excitement" as the primary scientific dial:
 *   **Off (`1.0`)**: Standard mode. Shows all important genes (Known and Unknown).
 *   **On (`0.001`)**: Novelty mode. Automatically subtracts common housekeeping genes to find "Dark Matter."
 
+### 3. Discovery Breadth (`--top-n`)
+*   **Default (`25`)**: Ideal for pinpoint novelty hunting.
+*   **Survey Mode (`100` – `1000`)**: Performs a "Wide Survey." Recommended for your first scan of a new sample to build a biological inventory.
+
+### 4. Strategic Subtraction (`--exclude`)
+*   **Usage**: `--exclude 212,16509`
+*   **Purpose**: "Mutes" features you have already identified as known biology. This forces the engine to look deeper and surface the next layer of genomic candidates.
+
 ---
 
 ## 🧪 Use Case: Hunting for the Unknown
 
-While PlatyGeno identifies all important genes, it is uniquely tuned for **Gromatic Dark Matter**:
+While PlatyGeno identifies all important genes, it is uniquely tuned for **Genomic Dark Matter**:
 *   **Reference-Free**: Identify significance in exotic metagenomes where no reference genomes exist.
 *   **Structural Discovery**: Feed AI-flagged sequences directly into **AlphaFold** to discover never-before-seen 3D protein folds.
 
