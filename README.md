@@ -91,15 +91,13 @@ Integrate discovery logic into your own bioinformatics pipelines.
 ```python
 import platygeno
 
-# Single-line discovery pipeline
-df = platygeno.discover_genes(
-    input_path="sample.fastq",
-    scan_end=1000,
-    min_activation=8.0
-)
+# End-to-end discovery + novelty validation
+df = platygeno.discover_genes("sample.fastq")
+results = platygeno.validate_novelty(df, output_path="results.csv")
 
-# Access precision snippets and assembled contigs
-print(df[['method', 'activation', 'sequence']].head())
+# Access novel hits
+novel_hits = results[results['novelty'] == 'NOVEL']
+print(novel_hits[['feature_id', 'blast_identity', 'sequence']].head())
 ```
 
 ---
