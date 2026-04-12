@@ -7,6 +7,7 @@ from Bio import SeqIO
 from .core import PlatyGenoEngine
 from .evo_reader import read_evo_features
 from .mapper import (
+    find_significant_landmarks,
     find_rare_needle_signals,
     get_best_reads_for_features,
     extract_precise_gene_code,
