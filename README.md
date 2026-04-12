@@ -14,7 +14,8 @@ Most bioinformatics tools are designed to find what we already know. PlatyGeno i
 
 *   **Beyond Database Search**: Traditional tools (like BLAST) find genes by matching them to known sequences. If a gene is entirely novel, BLAST will fail.
 *   **Digital Subtraction**: PlatyGeno uses **Sparse Autoencoders (SAEs)** to identify "concepts" the AI has learned. By filtering out "Common Signals" (housekeeping genes like 16S RNA), we perform digital subtraction of known biology.
-*   **Rare Needles**: We focus specifically on **Rare Features**—patterns that are biologically active but appear infrequently in the dataset. This is where novel antibiotic resistance, exotic enzymes, and viral signatures are most often found.
+*   **Rare Needles**: We focus specifically on **Rare Features**—signals that fire strongly but only in a few reads. This is where novel antibiotic resistance, exotic enzymes, and viral signatures are most often found.
+*   **Scale-Aware Discovery**: PlatyGeno automatically adapts its rarity filters based on dataset size. By using **Relative Frequency (0.1%)** instead of fixed counts, the engine remains just as effective at finding "One-in-a-million" outliers as it is at finding pilot-scale signals.
 
 ---
 
@@ -139,6 +140,8 @@ Results are saved as a CSV with the following columns:
 *   **`method`**: `Best Snippet` (high precision) or `Assembled Contig` (high context).
 *   **`feature_id`**: The SAE index (the AI's internal concept of the biological signal).
 *   **`activation`**: The strength of the signal. Higher scores indicate stronger feature presence.
+*   **`occurrence_count`**: The raw number of reads in your sample that contain this specific feature.
+*   **`rarity_pct`**: The relative frequency of the feature (%) in the dataset (e.g., 0.04%).
 *   **`sequence`**: The isolated DNA sequence ready for BLAST or downstream analysis.
 
 ---
@@ -152,6 +155,7 @@ Results are saved as a CSV with the following columns:
 | `scan_start` | `int` | `0` | First read index to scan. |
 | `scan_end` | `int` | `4000` | Last read index to scan. |
 | `min_activation` | `float` | `5.0` | Minimum activation strength. |
+| `rel_freq_max` | `float` | `0.001` | Rarity limit (e.g., 0.001 = 0.1%). |
 | `top_n` | `int` | `10` | The number of rare features to target. |
 | `output_path` | `str` | `None` | Path to save CSV results. |
 
