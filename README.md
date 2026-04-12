@@ -91,13 +91,15 @@ Integrate discovery logic into your own bioinformatics pipelines.
 ```python
 import platygeno
 
-# End-to-end discovery + novelty validation
-df = platygeno.discover_genes("sample.fastq")
-results = platygeno.validate_novelty(df, output_path="results.csv")
+# Single-line discovery pipeline
+df = platygeno.discover_genes(
+    input_path="sample.fastq",
+    scan_end=1000,
+    min_activation=8.0
+)
 
-# Access novel hits
-novel_hits = results[results['novelty'] == 'NOVEL']
-print(novel_hits[['feature_id', 'blast_identity', 'sequence']].head())
+# Access precision snippets and assembled contigs
+print(df[['method', 'activation', 'sequence']].head())
 ```
 
 ---
@@ -167,13 +169,6 @@ A 100bp "Novel" sequence is not the end of the road—it is the starting point f
 | `rel_freq_max` | `float` | `0.001` | Rarity limit (e.g., 0.001 = 0.1%). |
 | `top_n` | `int` | `10` | The number of rare features to target. |
 | `output_path` | `str` | `None` | Path to save CSV results. |
-
-### `platygeno.validate_novelty()`
-| Parameter | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `df` | `pd.DataFrame` | *Req* | The results from `discover_genes()`. |
-| `output_path` | `str` | `None` | Path for the full BLAST audit trail. |
-| `novel_path` | `str` | `None` | Path for high-confidence novel sequences. |
 
 ---
 
