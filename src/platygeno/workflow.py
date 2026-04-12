@@ -19,10 +19,11 @@ def discover_genes(
     scan_start=0,
     scan_end=4000,
     top_n=10,
+    top_pct=None,
     window_size=60,
     min_overlap=20,
     min_activation=5.0,
-    rel_freq_max=0.0005,
+    rel_freq_max=0.001,
     output_path=None
 ):
     """
@@ -34,6 +35,7 @@ def discover_genes(
         scan_start (int): Index of the first read to scan.
         scan_end (int): Index of the last read to scan.
         top_n (int): Number of top rare features to target.
+        top_pct (float): Top percentage of candidate features to select.
         window_size (int): Size (bp) of best hit snippets.
         min_overlap (int): Min overlap (bp) for assembly.
         min_activation (float): Min activation to consider a feature as a 'winner'.
@@ -67,6 +69,7 @@ def discover_genes(
         report, 
         rel_freq_max=rel_freq_max, 
         top_n=top_n, 
+        top_pct=top_pct,
         min_activation=min_activation,
         total_population=total_scanned
     )

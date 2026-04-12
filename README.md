@@ -167,7 +167,8 @@ A 100bp "Novel" sequence is not the end of the road—it is the starting point f
 | `scan_end` | `int` | `4000` | Last read index to scan. |
 | `min_activation` | `float` | `5.0` | Minimum activation strength. |
 | `rel_freq_max` | `float` | `0.001` | Rarity limit (e.g., 0.001 = 0.1%). |
-| `top_n` | `int` | `10` | The number of rare features to target. |
+| `top_n` | `int` | `10` | Fixed number of rare features to target. |
+| `top_pct` | `float` | `None` | Top % of candidate features to select (e.g. 0.05). |
 | `output_path` | `str` | `None` | Path to save CSV results. |
 
 ---

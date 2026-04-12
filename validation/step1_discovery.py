@@ -3,7 +3,7 @@ import argparse
 import pandas as pd
 import platygeno
 
-def run_discovery_showcase(input_path=None):
+def run_discovery_showcase(input_path=None, top_pct=None):
     print("="*70)
     print("PHASE 1: Rare Genomic Feature Discovery (Clinical Benchmark)")
     print("="*70)
@@ -27,7 +27,8 @@ def run_discovery_showcase(input_path=None):
         scan_end=None, 
         min_activation=5.0, 
         rel_freq_max=0.001, # Scale-Aware rarity limit (0.1%)
-        top_n=200 
+        top_n=200,          # Fallback if top_pct is None
+        top_pct=top_pct     # Dynamic target (e.g., top 1% of outliers)
     )
     
     if results.empty:
@@ -42,7 +43,7 @@ def run_discovery_showcase(input_path=None):
     print("\nSTEP 1 COMPLETE")
     print("="*70)
     print(f"Discovery Report: {output_csv}")
-    print(f"Detected {len(results)} potential novel features.")
+    print(f"Detected {len(results)//2} winning features ({len(results)} rows).")
     print("NEXT STEP: Run 'python validation/step2_local_blast.py'")
     print("="*70)
 
@@ -50,8 +51,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="PlatyGeno Step 1: Discover rare genomic features.")
     parser.add_argument("--input", type=str, help="Path to input FASTQ/FASTA file")
     parser.add_argument("--rarity-pct", type=float, default=0.001, help="Relative rarity threshold (default 0.1%)")
+    parser.add_argument("--top-pct", type=float, help="Top percentage of outliers to target (e.g. 0.01 for 1%)")
     args = parser.parse_args()
     
-    # Override discovery call parameters if needed
-    # For now, we will use the clean showcase wrapper
-    run_discovery_showcase(input_path=args.input)
+    # Execute the discovery showcase
+    run_discovery_showcase(input_path=args.input, top_pct=args.top_pct)
