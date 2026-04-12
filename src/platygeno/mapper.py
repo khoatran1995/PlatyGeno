@@ -7,13 +7,16 @@ import numpy as np
 
 def find_rare_needle_signals(df, rel_freq_max=0.001, top_n=10, top_pct=None, min_activation=5.0, total_population=None):
     """
-    Scale-Aware Statistical Filter: Finds 'Rare but Powerful' features.
+    Bio-Significance Mapping: Identifies high-confidence genomic landmarks.
     
-    Args:
-        rel_freq_max: Maximum allowed percentage of reads containing the feature (default 0.1%).
-        top_n: Fixed number of top features to target.
-        top_pct: Relative percentage of the outliers to target (e.g. 0.05).
-        total_population: Total number of reads in the sample.
+    This function discovers features that are 'Intrinsically Significant' (high activation)
+    based on the Evo 2 foundation model. Optional rarity filtering can be applied.
+    """
+    return find_significant_landmarks(df, rel_freq_max, top_n, top_pct, min_activation, total_population)
+
+def find_significant_landmarks(df, rel_freq_max=1.0, top_n=10, top_pct=None, min_activation=5.0, total_population=None):
+    """
+    Primary Significance Engine: Identifies 'Biological Landmarks' in raw DNA.
     """
     # 1. Calculate population statistics
     feature_stats = df.groupby('feature_id').agg(

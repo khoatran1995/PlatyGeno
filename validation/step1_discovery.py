@@ -3,11 +3,13 @@ import argparse
 import pandas as pd
 import platygeno
 
-def run_discovery_showcase(input_path=None, top_pct=None, start=0, limit=None, is_panoramic=False):
+def run_significance_scan(input_path=None, top_pct=None, start=0, limit=None, ignore_rarity=True):
     print("="*70)
-    print("PHASE 1: Iterative Genomic Discovery (Scale-Aware)")
-    if is_panoramic:
-        print("MODE: Panoramic Mode (Disabling Rarity Filter - Showing EVERYTHING >3.0)")
+    print("PHASE 1: Reference-Free Significance Mapping (Bio-Beacon)")
+    if ignore_rarity:
+        print("MODE: Landmarks Mode (Zero-Reference | Priority: Signal Strength)")
+    else:
+        print("MODE: Rarity Mode (Deep-Mining | Priority: Population Outliers)")
     print("="*70)
     
     # 1. Configuration
@@ -21,21 +23,16 @@ def run_discovery_showcase(input_path=None, top_pct=None, start=0, limit=None, i
 
     scan_end = start + limit if limit else None
     
-    # Define settings based on mode
-    if is_panoramic:
-        min_activation = 3.0
-        rel_freq_max = 1.0  # 100% rarity allowed (Panasonic View)
-        top_n = 100         # Allow a large winner circle
-    else:
-        min_activation = 5.0
-        rel_freq_max = 0.001 # 0.1% Rarity Filter
-        top_n = 20
+    # Lead with significance as the primary scientific driver
+    min_activation = 3.0
+    rel_freq_max = 1.0 if ignore_rarity else 0.001
+    top_n = 50 if ignore_rarity else 20
 
-    # 2. Sequential Discovery
-    print(f"Scanning Reads: {start} to {scan_end if scan_end else 'End'}")
+    # 2. Bio-Beacon Discovery
+    print(f"📡 Scanning for biological landmarks in reads {start} to {scan_end if scan_end else 'End'}...")
     
-    # Dynamic filename for chunked runs
-    mode_label = "panoramic" if is_panoramic else "surgical"
+    # Scientific labeling for output
+    mode_label = "panoramic" if ignore_rarity else "novelty"
     output_label = f"{start}_{limit}_{mode_label}" if limit else mode_label
     output_csv = f"discovery_hits_{output_label}.csv"
 
@@ -51,30 +48,31 @@ def run_discovery_showcase(input_path=None, top_pct=None, start=0, limit=None, i
     )
     
     if results.empty:
-        print(f"⚠️ Chunk {start}-{scan_end} yielded 0 features.")
+        print(f"⚠️ No high-confidence landmarks detected in this region.")
         return
 
-    print(f"\n{mode_label.upper()} SCAN COMPLETE")
+    print(f"\nSIGNIFICANCE MAPPING COMPLETE")
     print("="*70)
-    print(f"Discovery Report: {output_csv}")
-    print(f"Detected {len(results)//2} winning features.")
+    print(f"Landmark Report: {output_csv}")
+    print(f"Mapped {len(results)//2} significant biological features.")
     print(f"NEXT STEP: Run 'python validation/step2_local_blast.py --input {output_csv}'")
     print("="*70)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="PlatyGeno: Iterative Discovery.")
-    parser.add_argument("--input", type=str, help="Path to input FASTQ/FASTA file")
-    parser.add_argument("--start", type=int, default=0, help="Read index to start scanning (e.g. 0)")
-    parser.add_argument("--limit", type=int, default=5000, help="Number of reads to scan (e.g. 5000)")
-    parser.add_argument("--top-pct", type=float, help="Top % of outliers to target (e.g. 0.01)")
-    parser.add_argument("--panoramic", action="store_true", help="Disable rarity filter and show all high-energy hits")
+    parser = argparse.ArgumentParser(description="PlatyGeno: Unsupervised Genomic Significance Scanner.")
+    parser.add_argument("--input", type=str, help="Path to raw sequence file (FASTQ/FASTA)")
+    parser.add_argument("--start", type=int, default=0, help="First read index to process")
+    parser.add_argument("--limit", type=int, default=5000, help="Number of reads to scan")
+    parser.add_argument("--top-pct", type=float, help="Select the top X% of significant hits")
+    parser.add_argument("--rarity-only", action="store_true", help="Enable rarity filtering to target novel dark matter")
     
     args = parser.parse_args()
     
-    run_discovery_showcase(
+    # Default is now Significance Scanning (ignore_rarity=True)
+    run_significance_scan(
         input_path=args.input, 
         top_pct=args.top_pct,
         start=args.start,
         limit=args.limit,
-        is_panoramic=args.panoramic
+        ignore_rarity=not args.rarity_only
     )
