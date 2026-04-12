@@ -146,6 +146,17 @@ Results are saved as a CSV with the following columns:
 
 ---
 
+## 🧪 From Snippet to Science: Downstream Applications
+
+A 100bp "Novel" sequence is not the end of the road—it is the starting point for three high-impact research paths:
+
+1.  **Structural Discovery (AlphaFold)**: We run novel snippets through **AlphaFold 2/3** (Step 4) to predict 3D domains. Even if DNA is novel, the 3D structure can reveal known enzymatic pockets or structural scaffolds.
+2.  **Functional Interpretation (SAE Insights)**: By cross-referencing the `feature_id` with SAE interpretability catalogs, we can infer the biological "concept" the AI detected (e.g., "Manganese Binding" or "Halophilic Promoter").
+3.  **Genomic Fishing**: Discovery hits serve as unique "Genetic Barcodes." Researchers can use these snippets as hooks to backtrack into the 1M+ read metagenome and assemble the **Full Gene** or **Genome** of the unknown organism.
+4.  **Wet-Lab Synthesis**: The ultimate verification. These AI-discovered sequences can be synthesized and tested in vitro (e.g., cell-free expression) to verify novel biochemical functions.
+
+---
+
 ## 📚 API Reference
 
 ### `platygeno.discover_genes()`
