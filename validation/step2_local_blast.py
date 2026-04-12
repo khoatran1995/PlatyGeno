@@ -53,7 +53,7 @@ def process_feature_blast(row):
         'e_value': e_value
     }
 
-def run_benchmarking_validation(input_csv="discovery_hits.csv", output_prefix=None, max_workers=5):
+def run_benchmarking_validation(input_csv="discovery_hits.csv", output_prefix=None, max_workers=5, validate_all=False):
     """Phase 2: Turbo-BLAST Validation (Multi-threaded)"""
     
     # Generate output names
@@ -69,6 +69,7 @@ def run_benchmarking_validation(input_csv="discovery_hits.csv", output_prefix=No
     print("="*70)
     print(f"PHASE 2: Turbo-BLAST Validation (Threads: {max_workers})")
     print(f"Input:  {input_csv}")
+    print(f"Mode:   {'Validate ALL (38+)' if validate_all else 'Consensus-Only (13)'}")
     print(f"Audit:  {output_csv}")
     print("="*70)
 
@@ -78,32 +79,33 @@ def run_benchmarking_validation(input_csv="discovery_hits.csv", output_prefix=No
 
     # 1. Load data
     df = pd.read_csv(input_csv)
-    if 'method' in df.columns:
-        consensus_df = df[df['method'] == 'Consensus Assembly'].copy()
+    if not validate_all and 'method' in df.columns:
+        valid_df = df[df['method'] == 'Consensus Assembly'].copy()
     else:
-        consensus_df = df.copy()
+        valid_df = df.copy()
         
-    consensus_df = consensus_df.drop_duplicates(subset=['feature_id'])
-
-    if consensus_df.empty:
+    if valid_df.empty:
         print("No valid sequences found for validation.")
         return
 
-    print(f"Starting Turbo-BLAST for {len(consensus_df)} features...")
+    print(f"Starting Turbo-BLAST for {len(valid_df)} features...")
 
     # 2. Parallel Validation Loop
     results_list = []
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
         # Convert df to list of dicts for executor
-        rows = consensus_df.to_dict('records')
-        future_to_fid = {executor.submit(process_feature_blast, row): row['feature_id'] for row in rows}
+        rows = valid_df.to_dict('records')
+        future_to_info = {executor.submit(process_feature_blast, row): row for row in rows}
         
-        for future in concurrent.futures.as_completed(future_to_fid):
+        for future in concurrent.futures.as_completed(future_to_info):
+            row_orig = future_to_info[future]
             try:
-                result = future.result()
-                results_list.append(result)
+                res = future.result()
+                # Include the method metadata
+                res['method'] = row_orig.get('method', 'Unknown')
+                results_list.append(res)
             except Exception as exc:
-                fid = future_to_fid[future]
+                fid = row_orig.get('feature_id', '?')
                 print(f"   [ERROR] Feature {fid} generated an exception: {exc}")
 
     # 3. Final reporting
@@ -129,11 +131,13 @@ if __name__ == "__main__":
     parser.add_argument("--input", type=str, default="discovery_hits.csv", help="Discovery CSV to validate")
     parser.add_argument("--output-prefix", type=str, help="Prefix for result files")
     parser.add_argument("--threads", type=int, default=5, help="Number of parallel BLAST threads (default: 5)")
+    parser.add_argument("--all", action="store_true", help="Validate ALL sequences (Method A and B)")
     
     args = parser.parse_args()
     
     run_benchmarking_validation(
         input_csv=args.input, 
         output_prefix=args.output_prefix, 
-        max_workers=args.threads
+        max_workers=args.threads,
+        validate_all=args.all
     )
