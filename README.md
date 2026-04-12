@@ -112,12 +112,13 @@ PlatyGeno uses the AI's "Excitement" as the primary scientific dial:
 
 ## 🧬 Benchmark Dataset: SRR23196177
 
-PlatyGeno includes a high-density clinical benchmark for testing discovery pipelines:
+PlatyGeno includes a high-density "Viral Deep-Mine" benchmark for testing novelty discovery:
 
 *   **Accession**: [SRR23196177](https://www.ncbi.nlm.nih.gov/sra/?term=SRR23196177)
-*   **Origin**: Human Gut Metagenome (Clinical Sample).
-*   **Role**: Used for testing **Wide Survey** discovery and **Strategic Subtraction**. This dataset is rich in common bacterial housekeeping genes, making it an ideal environment for testing the engine's ability to filter knowns and isolate novel hits.
-*   **Local Subset**: The default `data/SRR23196177_subset.fastq` contains **100,000 reads**, extracted to provide a high-resolution window into the sample's biological landscape.
+*   **Origin**: Viral Community of Hypersaline Lakes (Deep Lake, Antarctica).
+*   **BioProject**: [PRJNA916840](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA916840)
+*   **Role**: Used for testing **Wide Survey** discovery in extreme environments. Because viruses in hypersaline lakes are highly divergent, this sample is used to validate the engine's ability to find "Deep Novelty" that is often missing from standard genomic databases.
+*   **Local Subset**: The default `data/SRR23196177_subset.fastq` contains **100,000 reads** extracted to provide a high-resolution window into this viral dark matter.
 
 ---
 
