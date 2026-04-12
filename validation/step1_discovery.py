@@ -31,7 +31,7 @@ def run_discovery_showcase(input_path=None, top_pct=None, start=0, limit=None):
         scan_start=start,
         scan_end=scan_end, 
         min_activation=5.0, 
-        rel_freq_max=0.0001, # Stricter Rarity Filter for chunked runs
+        rel_freq_max=0.001, # Adjusted to 0.1% (allowing up to 5 reads per 5k chunk)
         top_n=20, 
         top_pct=top_pct,
         output_path=output_csv
