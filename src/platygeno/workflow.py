@@ -82,9 +82,13 @@ def discover_genes(
 
     final_results = []
 
+    # Create a mapping for occurrence counts to include in final report
+    occ_map = dict(zip(candidates['feature_id'], candidates['occurrence_count']))
+
     for fid in candidates['feature_id']:
         f_reads = report[report['feature_id'] == fid].sort_values('activation', ascending=False)
         best_row = f_reads.iloc[0]
+        occ_count = int(occ_map.get(fid, 0))
         
         # Method A: Read-Centric (Precision Extraction from Best Read)
         rid = best_row['read_id']
@@ -96,6 +100,7 @@ def discover_genes(
                 "method": "Precision Snippet",
                 "feature_id": fid,
                 "read_id": rid,
+                "occurrence_count": occ_count,
                 "activation": round(act, 4),
                 "length": len(snippet),
                 "sequence": snippet
@@ -112,6 +117,7 @@ def discover_genes(
                 "method": "Consensus Assembly",
                 "feature_id": fid,
                 "read_id": f"Consensus (N={len(pool)})",
+                "occurrence_count": occ_count,
                 "activation": round(best_row['activation'], 4),
                 "length": len(contig),
                 "sequence": contig
