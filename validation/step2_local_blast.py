@@ -31,43 +31,34 @@ def blast_validation(dna_sequence, max_retries=3):
     return "BLAST Failed", 0, False, 1.0
 
 def run_benchmarking_validation():
-    """Phase 2: Checkpoint-Enabled Novelty Validation"""
+    """Phase 2: Standard Novelty Validation (Full Re-run Mode)"""
     input_csv = "discovery_hits.csv"
     output_csv = "blast_results.csv"
     novel_csv = "potential_novel_sequences.csv"
 
     print("="*70)
-    print("PHASE 2: Remote NCBI BLAST Validation (Checkpoint-Enabled)")
+    print("PHASE 2: Remote NCBI BLAST Validation (Full Re-run Mode)")
     print("="*70)
 
     if not os.path.exists(input_csv):
         print(f"Error: {input_csv} not found. Run Step 1 first.")
         return
 
-    # 1. Load data and identify pending work
+    # 1. Load data
     df = pd.read_csv(input_csv)
     # Focusing on consensus sequences (highest quality)
     consensus_df = df[df['method'] == 'Consensus Assembly'].copy()
     consensus_df = consensus_df.drop_duplicates(subset=['feature_id'])
 
-    processed_ids = set()
-    if os.path.exists(output_csv):
-        try:
-            existing_df = pd.read_csv(output_csv, encoding='utf-8-sig')
-            processed_ids = set(existing_df['feature_id'].unique())
-            print(f"Found existing progress. Resuming from {len(processed_ids)} features.")
-        except Exception:
-            pass
-
-    remaining_df = consensus_df[~consensus_df['feature_id'].isin(processed_ids)]
-    if remaining_df.empty:
-        print("All features have already been validated.")
+    if consensus_df.empty:
+        print("No consensus assemblies found in discovery_hits.csv.")
         return
 
-    print(f"Starting BLAST searches for {len(remaining_df)} remaining features...")
+    print(f"Starting fresh BLAST searches for {len(consensus_df)} features...")
 
-    # 2. Validation Loop with Incremental Saving
-    for i, row in remaining_df.iterrows():
+    # 2. Validation Loop
+    results_list = []
+    for i, row in consensus_df.iterrows():
         dna = row['sequence']
         fid = row['feature_id']
         
@@ -76,21 +67,20 @@ def run_benchmarking_validation():
         
         print(f"   [{status}] Feature {fid} | Identity: {identity:.1f}% | E-value: {e_value}")
 
-        # Save this result immediately
-        result_row = {
+        # Add to list
+        results_list.append({
             'feature_id': fid,
             'novelty': status,
             'blast_identity': identity,
             'top_hit': hit_title,
             'sequence': dna,
             'e_value': e_value
-        }
-        res_df = pd.DataFrame([result_row])
-        file_exists = os.path.exists(output_csv)
-        res_df.to_csv(output_csv, mode='a', index=False, header=not file_exists, encoding='utf-8-sig')
+        })
 
-    # 3. Final reporting
-    final_df = pd.read_csv(output_csv, encoding='utf-8-sig')
+    # 3. Final reporting (Always Overwrites)
+    final_df = pd.DataFrame(results_list)
+    final_df.to_csv(output_csv, index=False, encoding='utf-8-sig')
+    
     novel_df = final_df[final_df['novelty'] == "NOVEL"]
     novel_df.to_csv(novel_csv, index=False, encoding='utf-8-sig')
 
