@@ -24,6 +24,7 @@ def discover_genes(
     min_overlap=20,
     min_activation=5.0,
     rel_freq_max=0.001,
+    excluded_features=None,
     output_path=None
 ):
     """
@@ -40,6 +41,7 @@ def discover_genes(
         min_overlap (int): Min overlap (bp) for assembly.
         min_activation (float): Min activation to consider a feature as a 'winner'.
         rel_freq_max (float): Maximum allowed percentage of reads containing the feature.
+        excluded_features (list, optional): Feature IDs to ignore (Digital Subtraction).
         output_path (str, optional): Save results to this CSV path.
         
     Returns:
@@ -63,7 +65,7 @@ def discover_genes(
         print("⚠️ No features detected in initial scan.")
         return pd.DataFrame()
 
-    # 3. Phase 2: Filtering (Scale-Aware)
+    # 3. Phase 2: Filtering (Scale-Aware + Digital Subtraction)
     # Filter for rare features that meet the activation threshold using relative frequency
     candidates = find_rare_needle_signals(
         report, 
@@ -71,7 +73,8 @@ def discover_genes(
         top_n=top_n, 
         top_pct=top_pct,
         min_activation=min_activation,
-        total_population=total_scanned
+        total_population=total_scanned,
+        excluded_features=excluded_features
     )
     
     if candidates.empty:
