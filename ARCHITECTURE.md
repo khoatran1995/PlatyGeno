@@ -21,9 +21,9 @@ This document serves as the high-level roadmap for the PlatyGeno (EVO2) reposito
 *   **Mechanism**: **Mean-Pooling** (Global sequence averaging).
 *   **Diversity**: **Zero-Gate Discovery** (Captures ALL active biological signals).
 *   **Science**: 
-    1.  **Mean-Pooling (The "Big Picture")**: Summarizes the whole read at once to find the main biological theme without getting lost in noise.
-    2.  **Zero-Gate (The "No-Filter" Mode)**: Records everything the AI sees. No hidden genes are missed because we don't 'gate' or filter the results.
-    3.  **Basic Filters**: Still applies `activation` strength and `rarity` checks.
+    1.  **Mean-Pooling**: Stabilizes discovery by averaging sequence embeddings to identify global biological "themes" without token-level noise.
+    2.  **Zero-Gate**: Removes feature bottlenecks, ensuring that rare motifs (up to 64 per read) are recorded alongside dominant signals.
+    3.  **Filtering**: Filters by `activation` strength (Default: 1.0) and `rarity`.
 
 ### 4. The Assembly Layer (Boundary Detection)
 *   **Component**: `src/platygeno/workflow.py` & `src/platygeno/mapper.py`.
