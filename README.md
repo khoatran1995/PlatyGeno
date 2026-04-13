@@ -32,6 +32,7 @@ PlatyGeno requires a CUDA-enabled GPU (RTX 3090, 4090, A100, or H100).
 pip install platygeno
 
 # 2. Install high-performance GPU kernels (Mandatory for speed)
+pip install ninja # for faster installation of flash-attn
 pip install flash-attn --no-build-isolation
 
 # 3. Development/Editable Install
@@ -52,7 +53,32 @@ PlatyGeno layers a "De-coding" layer on top of the Evo 2 foundation model:
 
 ---
 
-## 🔬 Professional Discovery Pipeline
+## 📚 Documentation & Reference
+*   **[Technical API Reference](REFERENCE.md)**: Detailed documentation for every function in the `platygeno` core.
+*   **[Architecture Guide](ARCHITECTURE.md)**: Deep dive into Evo 2, Sparse Autoencoders, and Max-Pooling theory.
+
+---
+
+## 🐍 Python API Quickstart
+Researchers can use PlatyGeno directly in Python/Jupyter for custom discovery workflows:
+
+```python
+import platygeno
+
+# End-to-End Discovery
+results = platygeno.discover_genes(
+    input_path="data/sample.fastq",
+    scan_end=1000,          # Scan first 1000 reads
+    min_activation=1.0      # High sensitivity
+)
+
+# Access the discovered sequences
+print(results[['feature_id', 'feature_name', 'sequence']])
+```
+
+---
+
+## 🚀 Step-by-Step Discovery (Ph.D. Suite)
 
 PlatyGeno is now organized as a unified, Ph.D.-grade discovery workflow:
 
