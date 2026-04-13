@@ -19,7 +19,7 @@ def main():
     # 3. Discovery Logic
     parser.add_argument("--threshold", "-t", type=float, default=5.0, help="Min activation (default: 5.0)")
     parser.add_argument("--rarity-only", action="store_true", help="Enable rarity filtering to target novel dark matter")
-    parser.add_argument("--top-n", "-n", type=int, default=25, help="Number of features to target (default: 25)")
+    parser.add_argument("--top-n", "-n", type=int, default=-1, help="Number of features to target (-1 for ALL)")
     parser.add_argument("--exclude", type=str, help="Comma-separated feature IDs to ignore (e.g. 212,16509)")
     
     # 4. Assembly 

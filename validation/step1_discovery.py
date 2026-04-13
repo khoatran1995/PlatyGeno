@@ -74,7 +74,7 @@ if __name__ == "__main__":
     parser.add_argument("--input", type=str, help="Path to raw sequence file (FASTQ/FASTA)")
     parser.add_argument("--start", type=int, default=0, help="First read index to process")
     parser.add_argument("--limit", type=int, default=None, help="Number of reads to scan (default: All)")
-    parser.add_argument("--top-n", type=int, default=100, help="Number of features to return (-1 for ALL)")
+    parser.add_argument("--top-n", type=int, default=-1, help="Number of features to return (-1 for ALL)")
     parser.add_argument("--top-pct", type=float, help="Select the top X% of significant hits")
     parser.add_argument("--batch-size", type=int, default=16, help="Number of sequences per GPU batch (default: 16)")
     parser.add_argument("--rarity-only", action="store_true", help="Enable rarity filtering to target novel dark matter")
@@ -84,9 +84,9 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     
-    # Logic: Default is Panoramic (ignore_rarity=True)
+    # Logic: Panoramic takes precedence over rarity
     ignore_rarity = True
-    if args.rarity_only:
+    if args.rarity_only and not args.panoramic:
         ignore_rarity = False
     
     # Run scan

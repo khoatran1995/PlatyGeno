@@ -22,7 +22,7 @@ def discover_genes(
     engine=None,
     scan_start=0,
     scan_end=5000,
-    top_n=10,
+    top_n=-1,
     top_pct=None,
     window_size=60,
     min_overlap=20,
