@@ -79,12 +79,7 @@ def run_benchmarking_validation(input_csv="PLG_Stage1_Significance.csv", output_
     # 1. Load data
     df = pd.read_csv(input_csv)
     
-    # AI-Aware Filtering: Skip features already identified by the SAE dictionary
-    if 'feature_name' in df.columns:
-        known_mask = (df['feature_name'] != "Unknown") & (df['feature_name'] != "Novel Discovery")
-        if known_mask.any():
-            print(f"📡 AI-Aware Filter: Skipping {known_mask.sum()} features already identified as known biology.")
-            df = df[~known_mask].copy()
+    # 2. Select sequences for validation
 
     if not validate_all and 'method' in df.columns:
         valid_df = df[df['method'] == 'Consensus Assembly'].copy()

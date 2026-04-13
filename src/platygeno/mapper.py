@@ -170,6 +170,7 @@ def annotate_with_biology(df, mapping_file=None):
     # Fill missing values for unknown features
     annotated['feature_name'] = annotated['feature_name'].fillna("Unknown")
     annotated['biological_role'] = annotated['biological_role'].fillna("Unknown")
+    annotated['source'] = annotated['source'].fillna("Zero-Reference Discovery")
     
     # Logging Stats
     known_count = annotated[annotated['feature_name'] != "Unknown"]['feature_id'].nunique()

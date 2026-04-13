@@ -7,6 +7,5 @@ feature_id,feature_name,biological_role,source
 28741,Protein Alpha-Helix,Structural motif detector for alpha-helical protein folds.,bioRxiv
 22326,Protein Beta-Sheet,Structural motif detector for beta-sheet protein folds.,bioRxiv
 19746,Prophage / Viral Peak,Activates on prophage regions and viral genomic insertions.,bioRxiv
-7393,PlatyGeno Discovery Hit,Identified in initial Antarctic benchmark as a high-confidence outlier.,PlatyGeno
 16509,Transcription Logic,Potential promoter or regulatory element detector.,Arc Institute
 102,Polarity Filter,Internal model logic for sequence directionality.,SAE Research

@@ -27,6 +27,7 @@ def generate_html_report(results_df, output_path="reports/discovery_report.html"
             <td><span class="badge {'unknown' if name == 'Unknown' else 'found'}">{name if name != 'Unknown' else 'Unknown'}</span></td>
             <td>{fid}</td>
             <td class="role">{role}</td>
+            <td class="source">{row.get('source', 'Unknown')}</td>
             <td class="act">{act:.2f}</td>
             <td>{length} bp</td>
         </tr>
@@ -57,6 +58,7 @@ def generate_html_report(results_df, output_path="reports/discovery_report.html"
             .badge.unknown {{ background: rgba(163, 113, 247, 0.2); color: #d2a8ff; border: 1px solid rgba(210, 168, 255, 0.2); }}
             .act {{ color: #7ee787; font-weight: bold; font-family: monospace; font-size: 1.1rem; }}
             .role {{ color: #8b949e; font-style: italic; }}
+            .source {{ color: #58a6ff; font-size: 0.85rem; font-weight: bold; }}
         </style>
     </head>
     <body>
@@ -76,6 +78,7 @@ def generate_html_report(results_df, output_path="reports/discovery_report.html"
                         <th>Classification</th>
                         <th>Feature ID</th>
                         <th>Biological Hypothesis</th>
+                        <th>Source</th>
                         <th>Significance peak</th>
                         <th>Length</th>
                     </tr>
