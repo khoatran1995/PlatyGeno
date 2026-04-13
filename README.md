@@ -84,8 +84,11 @@ Parallelizing your scan is the fastest way to get results. Match this setting to
 pip install platygeno
 
 # 2. Run a Significance Map
-# This will show you EVERY significant landmark in the first 5000 reads by default.
-platygeno --input sample.fastq --start 0 --limit 5000
+# This will show you EVERY significant landmark in the first 5000 reads.
+platygeno --input sample.fastq --limit 5000
+
+# To Scan the entire file (Start to End):
+platygeno --input sample.fastq --limit -1
 ```
 
 ---
@@ -138,6 +141,7 @@ While PlatyGeno identifies all important genes, it is uniquely tuned for **Genom
 | `input_path` | `str` | *Req* | Path to sequence file. |
 | `min_activation` | `float` | `5.0` | Minimum signal strength. |
 | `rel_freq_max` | `float` | `1.0` | Rarity cap (1.0 = All significance). |
+| `scan_end` | `int` | `None` | Last read index (**None for end of file**). |
 | `top_n` | `int` | `-1` | Max features to return (**-1 for ALL, Default**). |
 
 ---

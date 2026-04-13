@@ -13,7 +13,7 @@ def main():
     
     # 2. Scanning Range
     parser.add_argument("--start", type=int, default=0, help="First read index (default: 0)")
-    parser.add_argument("--limit", "-l", type=int, default=5000, help="Number of reads to scan (default: 5000)")
+    parser.add_argument("--limit", "-l", type=int, default=5000, help="Number of reads to scan (default: 5000, -1 for ALL)")
     parser.add_argument("--batch-size", "-b", type=int, default=16, help="GPU batch size (default: 16)")
     
     # 3. Discovery Logic
@@ -35,14 +35,17 @@ def main():
     # Parse exclusions
     excluded = [int(x.strip()) for x in args.exclude.split(",")] if args.exclude else None
     
-    # Logic: Panoramic (1.0) is now the default.
+    # Discovery Logic: Default is Panoramic (1.0).
     rel_freq = 0.001 if args.rarity_only else 1.0
+    
+    # Range Logic: If limit is -1, scan to the end of the file
+    scan_end = None if args.limit == -1 else args.start + args.limit
 
     # MASTER PIPELINE CALL
     results = platygeno.discover_genes(
         input_path=args.input,
         scan_start=args.start,
-        scan_end=args.start + args.limit,
+        scan_end=scan_end,
         top_n=args.top_n,
         window_size=args.window,
         min_overlap=args.overlap,
