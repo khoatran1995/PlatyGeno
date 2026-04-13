@@ -59,22 +59,26 @@ PlatyGeno layers a "De-coding" layer on top of the Evo 2 foundation model:
 
 ---
 
-## 🐍 Python API Quickstart
-Researchers can use PlatyGeno directly in Python/Jupyter for custom discovery workflows:
+---
+
+## 🚀 One-Line Discovery Quickstart
+Researchers can perform complete biological landmark discovery with just a single function call:
 
 ```python
 import platygeno
 
-# End-to-End Discovery
+# Complete Discovery: Scan, Pool, Extract, and Annotate
 results = platygeno.discover_genes(
     input_path="data/sample.fastq",
-    scan_end=1000,          # Scan first 1000 reads
-    min_activation=1.0      # High sensitivity
+    scan_end=5000,          # Scan first 5000 reads
+    min_activation=5.0      # Target high-confidence landmarks
 )
 
-# Access the discovered sequences
-print(results[['feature_id', 'feature_name', 'sequence']])
+# View discovered biological features
+print(results[['feature_id', 'feature_name', 'activation', 'sequence']])
 ```
+
+---
 
 ---
 
