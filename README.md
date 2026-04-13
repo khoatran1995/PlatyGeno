@@ -108,19 +108,17 @@ Parallelizing your scan is the fastest way to get results. Match this setting to
 
 ---
 
-## 🚀 Quick Start (Landmark Scan)
+---
+
+## 🚀 One-Line Discovery (Terminal)
+If you prefer the command line, you can trigger a full biological scan with one command:
 
 ```bash
-# 1. Install PlatyGeno
-pip install platygeno
-
-# 2. Run a Significance Map
-# This will show you EVERY significant landmark in the first 5000 reads.
-platygeno --input sample.fastq --limit 5000
-
-# To Scan the entire file (Start to End):
-platygeno --input sample.fastq --limit -1
+# Scan 5000 reads and generate a landmark report
+platygeno --input sample.fastq --limit 5000 --threshold 5.0
 ```
+
+---
 
 ---
 
