@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "platygeno"
-version = "0.1.5"
+version = "1.0.0"
 description = "Unsupervised Gene Discovery via Evo 2 & SAE Interpretability"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -14,7 +14,7 @@ authors = [
 ]
 keywords = ["genomics", "interpretability", "bioinformatics", "evo2", "sae", "gene-discovery"]
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python :: 3.11",
     "License :: OSI Approved :: Apache Software License",
     "Operating System :: OS Independent",

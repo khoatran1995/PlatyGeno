@@ -1,4 +1,4 @@
-# PlatyGeno 🧬
+# PlatyGeno 🧬 (Version 1.0)
 **Unsupervised Biological Significance Mapping via Evo 2 & Sparse Autoencoders**
 
 [![PyPI version](https://img.shields.io/pypi/v/platygeno.svg)](https://pypi.org/project/platygeno/)

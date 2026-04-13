@@ -36,28 +36,16 @@ The primary Python package is **completely independent**. It does not require an
 
 ### The Validation Suite (`validation/`)  
 These are **optional research utilities** designed for Ph.D.-grade verification. They provide "one-touch" automation for BLASTing and preparing sequences for AlphaFold, but they are not required for the core engine to function. 
+---
 
-## 📦 Revision Roadmap (The "Big Picture" Plan)
+## 📦 Version 1.0 Milestone [COMPLETED]
 
-We will follow this sequence to refine and update the repository to the next version:
-
-### Phase 1: Core Package Hardening (`src/`)
-- [ ] **Standardize Batching**: Ensure `core.py` and `workflow.py` handle larger datasets without OOM.
-- [ ] **Feature Documentation**: Add internal docstrings for SAE feature IDs.
-- [ ] **Error Handling**: Add robust checks for CUDA status and model weights.
-
-### Phase 2: CLI & API Enhancements
-- [ ] **Interactive Progress**: Improve the `tqdm` or progress bars in the CLI.
-- [ ] **Export Options**: Add direct CSV/FASTA export controls to the CLI.
-- [ ] **Unified API**: Simplify `discover_genes()` for easier integration into notebooks.
-
-### Phase 3: Validation Suite Cleanup (`validation/`)
-- [ ] **Script Modernization**: Sync `step1-4` scripts with latest package changes.
-- [ ] **Sample Automation**: Create a one-touch validation command for the "Gut Sample".
-
-### Phase 4: Documentation & Reporting
-- [ ] **Dynamic Reports**: Generate HTML reports with activation peak charts.
-- [ ] **Installation Guide**: Clarify GPU requirements and `flash-attn` installation steps.
+The repository has been successfully upgraded to **Version 1.0**, featuring:
+*   **Hardened Core Engine**: Recursive OOM protection and sequence alignment stability.
+*   **Unified API**: Simplified `discover_genes()` interface for researchers and notebooks.
+*   **Automated Biology**: Integrated Annotation Engine with Found vs. Unknown labeling.
+*   **One-Touch Validation**: Ready-to-run 20k benchmark pipeline for gut metagenomes.
+*   **Premium Reporting**: Dark-mode HTML dashboards for result visualization.
 
 ---
 
