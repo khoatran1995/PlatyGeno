@@ -51,13 +51,13 @@ PlatyGeno layers a "De-coding" layer on top of the Evo 2 foundation model:
 
 ---
 
-## 🔬 Significance-First Workflow
+## 🔬 Professional Discovery Pipeline
 
-PlatyGeno is organized as a professional, Ph.D.-grade discovery pipeline:
+PlatyGeno is now organized as a unified, Ph.D.-grade discovery workflow:
 
-1. **Significance Scan**: `python validation/step1_discovery.py` — Identify all high-confidence landmarks.
-2. **Novelty Validation**: `python validation/step2_local_blast.py` — identifies `novel_sequences.csv`.
-3. **Structural Analysis**: `python validation/step3_fasta_prep.py` and `step4_alphafold_run.py`.
+1. **One-Touch Discovery**: `python validation/discovery_pipeline.py --input sample.fastq` — Performs both significance scanning and automated BLAST validation.
+2. **AI-Aware Validation**: The engine automatically labels known features (Coding Regions, Alpha Helices) and prioritizes unknown "Dark Matter" for validation.
+3. **Recursive OOM Guard**: Automatically scales batch sizes to fit your GPU VRAM, ensuring large files don't crash the discovery process.
 
 ## ⚙️ Hardware Optimization
 

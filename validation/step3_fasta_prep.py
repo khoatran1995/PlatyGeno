@@ -41,7 +41,6 @@ def find_longest_orf(dna):
     for strand in strands:
         for frame in range(3):
             translated = translate_dna(strand[frame:])
-            # Split by STOP codons and find the longest segment
             orfs = translated.split('_')
             for o in orfs:
                 if len(o) > 0:
@@ -52,10 +51,12 @@ def find_longest_orf(dna):
         
     return max(all_orfs, key=len)
 
-def prepare_fasta(input_csv, output_fasta):
+def prepare_fasta(input_csv, output_fasta, target_features=None):
     print("="*70)
-    print("STEP 3: Turbo-ORF FASTA Preparation (6-Frame Detection)")
+    print("STEP 3: Structural Validation Prep (FASTA)")
     print(f"Input: {input_csv}")
+    if target_features:
+        print(f"Filter: Only processing Feature IDs: {target_features}")
     print("="*70)
     
     if not os.path.exists(input_csv):
@@ -64,24 +65,28 @@ def prepare_fasta(input_csv, output_fasta):
 
     df = pd.read_csv(input_csv, encoding='utf-8-sig')
     
-    # Filter for high-confidence assembly if multiple exist
+    # 1. Apply Target Feature Filter (Discovery Selection)
+    if target_features:
+        df = df[df['feature_id'].isin(target_features)].copy()
+    
+    # 2. Filter for high-confidence assembly
     if 'method' in df.columns:
-        # We prefer Consensus Assembly for better AlphaFold results
         df = df[df['method'] == 'Consensus Assembly'].copy()
 
-    print(f"Loaded {len(df)} candidate features.")
+    if df.empty:
+        print("No matching sequences found for these parameters.")
+        return
 
+    print(f"Processing {len(df)} selected features...")
+    
     # Create FASTA package
     with open(output_fasta, "w") as f:
         count = 0
         for i, row in df.iterrows():
             dna = row['sequence']
             fid = row['feature_id']
-            
-            # Find the best protein encoding
             protein = find_longest_orf(dna)
             
-            # AlphaFold needs at least 20-30 amino acids for a meaningful fold
             if len(protein) < 20: 
                 print(f"   [SKIP] Feature {fid}: Protein too short ({len(protein)} aa)")
                 continue
@@ -91,17 +96,17 @@ def prepare_fasta(input_csv, output_fasta):
             count += 1
     
     if count > 0:
-        print(f"\nFASTA package created: {output_fasta}")
-        print("Ready for structural folding.")
-    else:
-        print("\nNo sequences were long enough for folding.")
-        
+        print(f"\nFASTA Created: {output_fasta}")
+        print("NEXT STEP: Feed this file to AlphaFold 2 / 3 Colab or local cluster.")
     print("="*70)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="PlatyGeno Step 3: 6-Frame FASTA Prep.")
-    parser.add_argument("--input", type=str, required=True, help="Path to novelty CSV")
-    parser.add_argument("--output", type=str, default="validation/potential_novel_sequences.fasta", help="Output FASTA path")
+    parser.add_argument("--input", type=str, default="PLG_Stage2_Validation.csv", help="Path to novelty CSV")
+    parser.add_argument("--output", type=str, default="PLG_Stage3_Structural_Prep.fasta", help="Output FASTA path")
+    parser.add_argument("--features", type=str, help="Optional: Comma-separated Feature IDs to extract (e.g. 7393,1254)")
     
     args = parser.parse_args()
-    prepare_fasta(args.input, args.output)
+    
+    target_ids = [int(x.strip()) for x in args.features.split(",")] if args.features else None
+    prepare_fasta(args.input, args.output, target_ids)

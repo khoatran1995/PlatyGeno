@@ -12,14 +12,16 @@ from .mapper import (
     find_rare_needle_signals,
     get_best_reads_for_features,
     extract_precise_gene_code,
-    assemble_feature_consensus
+    assemble_feature_consensus,
+    annotate_with_biology
 )
+from .analyzer import generate_html_report
 
 def discover_genes(
     input_path,
     engine=None,
     scan_start=0,
-    scan_end=4000,
+    scan_end=5000,
     top_n=10,
     top_pct=None,
     window_size=60,
@@ -33,8 +35,7 @@ def discover_genes(
     """
     End-to-End Significance Mapping Pipeline (Batched).
     
-    Args:
-        excluded_features (list[int]): List of SAE feature IDs to ignore.
+    This is the primary Ph.D.-grade discovery engine for sequence dark matter.
     """
     # 1. Setup Environment
     torch.serialization.add_safe_globals([_codecs.encode])
@@ -154,7 +155,13 @@ def discover_genes(
 
     results_df = pd.DataFrame(final_results)
 
-    # 5. Output
+    # 5. Annotation (Zero-Reference -> Biological Meaning)
+    results_df = annotate_with_biology(results_df)
+    
+    # 6. HTML Reporting (Premium Dashboard)
+    generate_html_report(results_df)
+
+    # 7. Output
     if output_path:
         os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
         results_df.to_csv(output_path, index=False)

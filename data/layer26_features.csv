@@ -1,0 +1,12 @@
+feature_id,feature_name,biological_role,source
+15680,Coding Region (ORF),Generalized coding sequence (open reading frame) detection.,bioRxiv
+28339,Intron Signal,Detection of non-coding internal gene segments (eukaryotic).,bioRxiv
+1050,Exon-Intron 5' Boundary,Detection of the splice site at the start of an intron.,bioRxiv
+25666,Exon-Intron 3' Boundary,Detection of the splice site at the end of an intron.,bioRxiv
+24278,Mutation Sensitivity,Activates on frameshifts or premature stop codons.,bioRxiv
+28741,Protein Alpha-Helix,Structural motif detector for alpha-helical protein folds.,bioRxiv
+22326,Protein Beta-Sheet,Structural motif detector for beta-sheet protein folds.,bioRxiv
+19746,Prophage / Viral Peak,Activates on prophage regions and viral genomic insertions.,bioRxiv
+7393,PlatyGeno Discovery Hit,Identified in initial Antarctic benchmark as a high-confidence outlier.,PlatyGeno
+16509,Transcription Logic,Potential promoter or regulatory element detector.,Arc Institute
+102,Polarity Filter,Internal model logic for sequence directionality.,SAE Research

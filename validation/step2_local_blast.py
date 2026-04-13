@@ -53,18 +53,17 @@ def process_feature_blast(row):
         'e_value': e_value
     }
 
-def run_benchmarking_validation(input_csv="discovery_hits.csv", output_prefix=None, max_workers=5, validate_all=False):
+def run_benchmarking_validation(input_csv="PLG_Stage1_Significance.csv", output_prefix=None, max_workers=5, validate_all=False):
     """Phase 2: Turbo-BLAST Validation (Multi-threaded)"""
     
-    # Generate output names
-    if output_prefix is None:
-        base_name = os.path.splitext(os.path.basename(input_csv))[0]
-        suffix = base_name.replace('discovery_hits_', '')
-        output_csv = f"blast_results_{suffix}.csv"
-        novel_csv = f"novel_sequences_{suffix}.csv"
-    else:
-        output_csv = f"blast_results_{output_prefix}.csv"
-        novel_csv = f"novel_sequences_{output_prefix}.csv"
+    # Standardized Naming (Overwrite mode)
+    output_csv = "PLG_Stage2_Validation.csv"
+    novel_csv = "PLG_Stage2_Novel_Sequences.csv"
+
+    # Ensure output directory exists
+    out_dir = os.path.dirname(output_csv)
+    if out_dir and not os.path.exists(out_dir):
+        os.makedirs(out_dir, exist_ok=True)
 
     print("="*70)
     print(f"PHASE 2: Turbo-BLAST Validation (Threads: {max_workers})")
@@ -74,11 +73,19 @@ def run_benchmarking_validation(input_csv="discovery_hits.csv", output_prefix=No
     print("="*70)
 
     if not os.path.exists(input_csv):
-        print(f"❌ Error: {input_csv} not found.")
+        print(f"[X] Error: {input_csv} not found.")
         return
 
     # 1. Load data
     df = pd.read_csv(input_csv)
+    
+    # AI-Aware Filtering: Skip features already identified by the SAE dictionary
+    if 'feature_name' in df.columns:
+        known_mask = (df['feature_name'] != "Unknown") & (df['feature_name'] != "Novel Discovery")
+        if known_mask.any():
+            print(f"📡 AI-Aware Filter: Skipping {known_mask.sum()} features already identified as known biology.")
+            df = df[~known_mask].copy()
+
     if not validate_all and 'method' in df.columns:
         valid_df = df[df['method'] == 'Consensus Assembly'].copy()
     else:
@@ -110,7 +117,7 @@ def run_benchmarking_validation(input_csv="discovery_hits.csv", output_prefix=No
 
     # 3. Final reporting
     if not results_list:
-        print("❌ All BLAST searches failed.")
+        print("[X] All BLAST searches failed.")
         return
 
     final_df = pd.DataFrame(results_list)

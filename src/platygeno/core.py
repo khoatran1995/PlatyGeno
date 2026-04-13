@@ -64,38 +64,52 @@ class PlatyGenoEngine:
 
     def get_features(self, dna_strings):
         """
-        Batched Feature Extraction: Processes a list of DNA sequences in one GPU pass.
-        Args:
-            dna_strings (list[str]): List of DNA sequences to analyze.
-        Returns:
-            torch.Tensor: Shape [Batch, d_hidden] containing the SAE features.
+        Batched Feature Extraction with Recursive OOM Protection.
+        If a batch fails due to VRAM, it splits and retries.
         """
         if not isinstance(dna_strings, (list, tuple)):
             dna_strings = [dna_strings]
 
+        if not dna_strings:
+            return None
+
         # 1. Batched Tokenization
-        # Standardize and tokenize all strings
-        token_list = [torch.tensor(self.evo.tokenizer.tokenize(s), dtype=torch.long) for s in dna_strings]
-        
-        # 2. Padding (Evo 2 traditionally uses 0 or specific pad token)
-        # We pad to the longest sequence in the batch
-        input_ids = torch.nn.utils.rnn.pad_sequence(token_list, batch_first=True, padding_value=0).to(self.device)
-        
-        # 3. Forward pass to trigger hook
-        with torch.no_grad():
-            self.extracted_data = None # Reset hook data
-            _ = self.evo.model(input_ids)
+        try:
+            token_list = [torch.tensor(self.evo.tokenizer.tokenize(s), dtype=torch.long) for s in dna_strings]
+            input_ids = torch.nn.utils.rnn.pad_sequence(token_list, batch_first=True, padding_value=0).to(self.device)
             
-            # 4. Batch Pooling and Encoding
-            if self.extracted_data is not None:
-                # extracted_data shape: [Batch, Seq_Len, d_model]
-                # Mean pool across sequence length (Dimension 1)
-                mean_emb = torch.mean(self.extracted_data, dim=1)
+            # 2. Forward pass to trigger hook
+            with torch.no_grad():
+                self.extracted_data = None 
+                _ = self.evo.model(input_ids)
                 
-                # Encode the whole batch in one call
-                # Shape: [Batch, d_hidden]
-                features = self.sae.encode(mean_emb, k=64)
-                return features
+                if self.extracted_data is not None:
+                    mean_emb = torch.mean(self.extracted_data, dim=1)
+                    features = self.sae.encode(mean_emb, k=64)
+                    return features
+                    
+        except torch.cuda.OutOfMemoryError:
+            torch.cuda.empty_cache()
+            batch_size = len(dna_strings)
+            
+            # If we OOM with a single sequence, skip it and notify the user
+            if batch_size <= 1:
+                seq_len = len(dna_strings[0]) if dna_strings else "Unknown"
+                print(f"⚠️ SKIPPING: Sequence too long (Length: {seq_len}) for current GPU VRAM.")
+                # Return a zero-tensor of the correct hidden dimension (32768) to maintain alignment
+                return torch.zeros((1, 32768), device=self.device)
+            
+            # Otherwise, split the batch and try again
+            mid = batch_size // 2
+            print(f"⚠️ GPU OOM: Splitting batch ({batch_size} -> {mid}) and retrying...")
+            
+            part1 = self.get_features(dna_strings[:mid])
+            part2 = self.get_features(dna_strings[mid:])
+            
+            # Since skipped single sequences now return zeros instead of None, 
+            # we can safely concatenate the results back together.
+            return torch.cat([part1, part2], dim=0)
+
         return None
 
     def get_token_features_deep(self, dna_string):

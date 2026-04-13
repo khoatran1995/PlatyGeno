@@ -26,7 +26,10 @@ def run_significance_scan(input_path=None, top_pct=None, top_n=None, start=0, li
         print(f"Error: {input_path} not found.")
         return
     # 2. Logic for labels
-    scan_desc = f"{start} to {start + limit}" if limit else f"{start} to End-of-File"
+    if limit is None:
+        limit = 20000
+        
+    scan_desc = f"{start} to {start + limit}"
     mode_label = "panoramic" if ignore_rarity else "novelty"
     
     # Default top_n if not specified
@@ -36,24 +39,18 @@ def run_significance_scan(input_path=None, top_pct=None, top_n=None, start=0, li
     print(f"MODE: {mode_label.capitalize()} Mode (Batch Size: {batch_size})")
     target_desc = "ALL significant" if top_n == -1 else f"Top {top_n}"
     print(f"THRESHOLD: {min_activation} Significance | TARGET: {target_desc} features")
-    if excluded_features:
-        print(f"EXCLUDING: {len(excluded_features)} features ({excluded_features[:5]}{'...' if len(excluded_features)>5 else ''})")
     print(f"📡 Scanning for biological landmarks: {scan_desc}...")
     print("="*70)
 
-    # Discovery parameters
-    rel_freq_max = 1.0 if ignore_rarity else 0.001
-
     # 3. Bio-Beacon Discovery
-    output_label = f"{start}_{limit if limit else 'all'}_{mode_label}"
-    output_csv = f"discovery_hits_{output_label}.csv"
+    output_csv = "PLG_Stage1_Significance.csv"
 
     results = platygeno.discover_genes(
         input_path=input_path,
         scan_start=start,
-        scan_end=start + (limit if limit else 0) if limit else None, 
+        scan_end=start + limit, 
         min_activation=min_activation, 
-        rel_freq_max=rel_freq_max, 
+        rel_freq_max=1.0 if ignore_rarity else 0.001, 
         top_n=top_n, 
         top_pct=top_pct,
         batch_size=batch_size,

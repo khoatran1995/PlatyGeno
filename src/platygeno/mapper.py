@@ -146,17 +146,34 @@ def assemble_feature_consensus(sequences, min_overlap=20):
     return contig
 
 def annotate_with_biology(df, mapping_file=None):
-    """Cross-references discovery hits with biological labels (e.g., 'Promoter')."""
+    """
+    Cross-references discovery hits with biological labels.
+    Provides summary mapping statistics to the console.
+    """
+    if df.empty:
+        return df
+
     if mapping_file is None:
         # Default to the data directory in the project root
         base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         mapping_file = os.path.join(base_dir, "data", "layer26_features.csv")
         
     if not os.path.exists(mapping_file):
-        print(f"⚠️ Warning: Mapping file {mapping_file} not found.")
+        print(f"⚠️ Warning: Mapping file {mapping_file} not found. Skipping annotation.")
+        df['feature_name'] = "Unknown"
         return df
         
     labels_df = pd.read_csv(mapping_file)
     # Merge discovery hits with labels using the feature_id as the key
     annotated = pd.merge(df, labels_df, on='feature_id', how='left')
+    
+    # Fill missing values for unknown features
+    annotated['feature_name'] = annotated['feature_name'].fillna("Unknown")
+    annotated['biological_role'] = annotated['biological_role'].fillna("Unknown")
+    
+    # Logging Stats
+    known_count = annotated[annotated['feature_name'] != "Unknown"]['feature_id'].nunique()
+    total_count = annotated['feature_id'].nunique()
+    print(f"🧬 Annotation Engine: Found {known_count}/{total_count} unique features.")
+    
     return annotated

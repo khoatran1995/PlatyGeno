@@ -7,21 +7,24 @@ import platygeno
 def main():
     parser = argparse.ArgumentParser(description="PlatyGeno: Unsupervised Gene Discovery via Evo 2 & SAE")
     
-    # Simple Arguments
-    parser.add_argument("--input", "-i", type=str, required=True,
-                        help="Input FASTQ/FASTA file")
-    parser.add_argument("--output", "-o", type=str, default="gene_discovery_results.csv",
-                        help="Output results CSV (default: gene_discovery_results.csv)")
+    # 1. Input/Output
+    parser.add_argument("--input", "-i", type=str, required=True, help="Input FASTQ/FASTA file")
+    parser.add_argument("--output", "-o", type=str, default="discovery_results.csv", help="Output results CSV")
     
-    # Range & Filtering Arguments
-    parser.add_argument("--start", type=int, default=0, help="First read index to scan (default: 0)")
-    parser.add_argument("--end", type=int, default=4000, help="Last read index to scan (default: 4000)")
-    parser.add_argument("--threshold", "-t", type=float, default=5.0, help="Min activation score (default: 5.0)")
+    # 2. Scanning Range
+    parser.add_argument("--start", type=int, default=0, help="First read index (default: 0)")
+    parser.add_argument("--limit", "-l", type=int, default=5000, help="Number of reads to scan (default: 5000)")
+    parser.add_argument("--batch-size", "-b", type=int, default=16, help="GPU batch size (default: 16)")
     
-    # Extraction & Assembly Arguments
-    parser.add_argument("--top-n", type=int, default=10, help="Number of rare features to target (default: 10)")
-    parser.add_argument("--window", "-w", type=int, default=60, help="Snippet window size (bp) (default: 60)")
-    parser.add_argument("--min-overlap", type=int, default=20, help="Min assembly overlap (bp) (default: 20)")
+    # 3. Discovery Logic
+    parser.add_argument("--threshold", "-t", type=float, default=5.0, help="Min activation (default: 5.0)")
+    parser.add_argument("--panoramic", action="store_true", help="Disable rarity filter to see all architecture")
+    parser.add_argument("--top-n", "-n", type=int, default=25, help="Number of features to target (default: 25)")
+    parser.add_argument("--exclude", type=str, help="Comma-separated feature IDs to ignore (e.g. 212,16509)")
+    
+    # 4. Assembly 
+    parser.add_argument("--window", "-w", type=int, default=60, help="Snippet window size (bp)")
+    parser.add_argument("--overlap", type=int, default=20, help="Min assembly overlap (bp)")
     
     if len(sys.argv) == 1:
         parser.print_help()
@@ -29,24 +32,34 @@ def main():
         
     args = parser.parse_args()
 
+    # Parse exclusions
+    excluded = [int(x.strip()) for x in args.exclude.split(",")] if args.exclude else None
+    rel_freq = 1.0 if args.panoramic else 0.001
+
     # MASTER PIPELINE CALL
     results = platygeno.discover_genes(
         input_path=args.input,
         scan_start=args.start,
-        scan_end=args.end,
+        scan_end=args.start + args.limit,
         top_n=args.top_n,
         window_size=args.window,
-        min_overlap=args.min_overlap,
+        min_overlap=args.overlap,
         min_activation=args.threshold,
+        rel_freq_max=rel_freq,
+        batch_size=args.batch_size,
+        excluded_features=excluded,
         output_path=args.output
     )
 
     if not results.empty:
         print("\n🧬 DISCOVERY RESULTS SUMMARY")
-        print("="*60)
-        summary = results[['method', 'feature_id', 'activation', 'length']]
-        print(summary.to_string(index=False))
-        print("="*60)
+        print("="*100)
+        # Select key columns for the summary table
+        cols = ['discovery_type', 'feature_id', 'feature_name', 'activation', 'rarity_pct', 'length']
+        # Filter columns to only those that exist
+        available_cols = [c for c in cols if c in results.columns]
+        print(results[available_cols].to_string(index=False))
+        print("="*100)
         print(f"✅ Success! Full report saved to {args.output}")
     else:
         print("\n⚠️ No genes discovered with the current parameters.")

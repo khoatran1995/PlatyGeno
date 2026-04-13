@@ -41,46 +41,53 @@ def read_evo_features(file_path, engine, start=0, stop=4000, batch_size=16):
     This is the high-speed engine for Significance Mapping.
     """
     file_format = get_format(file_path)
-    opener = gzip.open if file_path.endswith('.gz') else open
 
     print(f"Detected format: {file_format.upper()} | Data: {os.path.basename(file_path)}")
     print(f"EvoReader: Analyzing reads {start} to {stop if stop is not None else 'End'} (Batch Size: {batch_size})")
 
-    discovery_results = []
-    scanned_count = 0
+    # 1. Initialize data tracking
+    all_data = []
+    total_processed = 0
     
-    with opener(file_path, 'rt') as f:
-        # 1. Slice the file to the desired range
+    with open(file_path, "r") as f:
+        # Filter for the requested range
         records = islice(SeqIO.parse(f, file_format), start, stop)
         
         # 2. Process in chunks for high-speed GPU throughput
-        for batch in tqdm(chunked_iterable(records, batch_size), desc="Batch Scanning", unit="batch"):
-            batch_seqs = [str(r.seq) for r in batch]
-            batch_ids = [r.id.replace("/","_").replace("|","_").replace(":","_") for r in batch]
+        file_name = os.path.basename(file_path)
+        pbar = tqdm(chunked_iterable(records, batch_size), desc=f"📡 Scanning {file_name}", unit="batch")
+        
+        for batch in pbar:
+            # Filter out sequences that are too short to be biologically significant (or crash SAE)
+            valid_batch = [r for r in batch if len(str(r.seq)) >= 32]
+            if not valid_batch: continue
             
-            # Extract features (Evo 2 + SAE) in one GPU call
-            # batch_features shape: [Batch_Size, d_hidden]
-            batch_features = engine.get_features(batch_seqs)
+            dna_strings = [str(r.seq) for r in valid_batch]
+            read_ids = [r.id.replace("/","_").replace("|","_").replace(":","_") for r in valid_batch]
             
-            if batch_features is not None:
-                # 3. Process the results for each sequence in the batch
-                for i, features in enumerate(batch_features):
-                    scanned_count += 1
-                    # Find which features 'fired' (activation > 0)
-                    active_indices = torch.where(features > 0)[0]
-                    active_values = features[active_indices]
-                    
-                    for idx, val in zip(active_indices, active_values):
-                        discovery_results.append({
-                            "read_id": batch_ids[i],
-                            "feature_id": int(idx.item()),
-                            "activation": float(val.item())
-                        })
-            else:
-                scanned_count += len(batch)
-
-    # Convert to DataFrame
-    return pd.DataFrame(discovery_results), scanned_count
-
-    # Convert to DataFrame
-    return pd.DataFrame(discovery_results), scanned_count
+            # Forward pass through Evo 2 + SAE
+            features = engine.get_features(dna_strings)
+            
+            if features is not None:
+                total_processed += len(valid_batch)
+                
+                # Convert to sparse representation (only keep active neurons)
+                # features shape: [batch, 32768]
+                vals, inds = torch.topk(features, k=8, dim=-1) # Focus on top 8 signals per read
+                
+                # Batch processing results for speed
+                v_cpu = vals.cpu().numpy()
+                i_cpu = inds.cpu().numpy()
+                
+                for b_idx in range(len(valid_batch)):
+                    for f_idx in range(8):
+                        act = v_cpu[b_idx, f_idx]
+                        if act > 0:
+                            all_data.append({
+                                "read_id": read_ids[b_idx],
+                                "feature_id": int(i_cpu[b_idx, f_idx]),
+                                "activation": float(act)
+                            })
+                            
+    # Return both the report and the precise population count for rarity math
+    return pd.DataFrame(all_data), total_processed

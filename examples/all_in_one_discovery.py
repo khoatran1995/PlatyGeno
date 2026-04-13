@@ -21,21 +21,21 @@ def main():
     
     # Range & Filtering Arguments
     parser.add_argument("--start", type=int, default=0, help="First read index to scan")
-    parser.add_argument("--end", type=int, default=4000, help="Last read index to scan")
+    parser.add_argument("--limit", type=int, default=5000, help="Number of reads to scan")
     parser.add_argument("--threshold", type=float, default=5.0, help="Min activation score")
     
     # Extraction & Assembly Arguments
-    parser.add_argument("--top_n", type=int, default=10, help="Number of rare features to target")
+    parser.add_argument("--top_n", type=int, default=25, help="Number of rare features to target")
     parser.add_argument("--window", type=int, default=60, help="Snippet window size (bp)")
     parser.add_argument("--min_overlap", type=int, default=20, help="Min assembly overlap (bp)")
     
     args = parser.parse_args()
 
-    # MASTER PIPELINE CALL
+    # MASTER PIPELINE CALL (Unified API)
     results = platygeno.discover_genes(
         input_path=args.input,
         scan_start=args.start,
-        scan_end=args.end,
+        scan_end=args.start + args.limit,
         top_n=args.top_n,
         window_size=args.window,
         min_overlap=args.min_overlap,
@@ -45,10 +45,11 @@ def main():
 
     if not results.empty:
         print("\n🧬 DISCOVERY RESULTS SUMMARY")
-        print("="*60)
-        summary = results[['method', 'feature_id', 'activation', 'length']]
+        print("="*100)
+        # We now include the 'feature_name' (e.g. Found: Coding Region vs Unknown)
+        summary = results[['discovery_type', 'feature_id', 'feature_name', 'activation', 'length']]
         print(summary.to_string(index=False))
-        print("="*60)
+        print("="*100)
         print(f"✅ Success! Full report saved to {args.output}")
 
 if __name__ == "__main__":
