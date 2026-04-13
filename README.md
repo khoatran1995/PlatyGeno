@@ -138,7 +138,7 @@ While PlatyGeno identifies all important genes, it is uniquely tuned for **Genom
 | `input_path` | `str` | *Req* | Path to sequence file. |
 | `min_activation` | `float` | `5.0` | Minimum signal strength. |
 | `rel_freq_max` | `float` | `1.0` | Rarity cap (1.0 = All significance). |
-| `top_n` | `int` | `-1` | Max features to return (**-1 for ALL significant hits**). |
+| `top_n` | `int` | `-1` | Max features to return (**-1 for ALL, Default**). |
 
 ---
 
