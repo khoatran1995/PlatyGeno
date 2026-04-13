@@ -35,7 +35,7 @@ PlatyGeno is built with a strictly decoupled architecture to ensure maximum flex
 The primary Python package is **completely independent**. It does not require any files from the `validation/` folder to run. You can install it via `pip install -e .` and use `platygeno.discover_genes()` in any script or Jupyter notebook.
 
 ### The Validation Suite (`validation/`)  
-These are **optional research utilities** designed for Ph.D.-grade verification. They provide "one-touch" automation for BLASTing and preparing sequences for AlphaFold, but they are not required for the core engine to function. 
+These are **optional research utilities** designed for Ph.D.-grade verification. They provide "one-touch" automation for BLASTing (via **`step2_blast.py`**) and preparing sequences for AlphaFold, but they are not required for the core engine to function. 
 ---
 
 ## 📦 Version 1.0 Milestone [COMPLETED]

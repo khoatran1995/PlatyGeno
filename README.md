@@ -55,7 +55,7 @@ PlatyGeno layers a "De-coding" layer on top of the Evo 2 foundation model:
 
 PlatyGeno is now organized as a unified, Ph.D.-grade discovery workflow:
 
-1. **One-Touch Discovery**: `python validation/discovery_pipeline.py --input sample.fastq` — Performs both significance scanning and automated BLAST validation.
+1. **One-Touch Discovery**: `python validation/discovery_pipeline.py --input sample.fastq` — Performs both significance scanning and automated BLAST validation (via `validation/step2_blast.py`).
 2. **AI-Aware Validation**: The engine automatically labels known features (Coding Regions, Alpha Helices) and prioritizes unknown "Dark Matter" for validation.
 3. **Recursive OOM Guard**: Automatically scales batch sizes to fit your GPU VRAM, ensuring large files don't crash the discovery process.
 

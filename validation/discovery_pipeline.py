@@ -33,7 +33,7 @@ def run_suite(input_path, limit=20000, batch_size=32, threads=5, panoramic=True)
 
     # 2. Step 2: Turbo-BLAST Validation
     blast_cmd = [
-        sys.executable, "validation/step2_local_blast.py",
+        sys.executable, "validation/step2_blast.py",
         "--input", csv_name,
         "--threads", str(threads)
     ]
