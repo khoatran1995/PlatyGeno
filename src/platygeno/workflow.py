@@ -1,5 +1,6 @@
 # Copyright 2026 Khoa Tu Tran
 import os
+import math
 import torch
 import _codecs
 import pandas as pd
@@ -88,6 +89,17 @@ def discover_genes(
     seq_map = {rec.id.replace("/","_").replace("|","_").replace(":","_"): str(rec.seq) 
                for rec in SeqIO.parse(input_path, fmt) if rec.id.replace("/","_").replace("|","_").replace(":","_") in winning_ids}
 
+    def calculate_metrics(seq):
+        seq = seq.upper()
+        if not seq: return 0, 0
+        # 1. GC Content
+        gc = (seq.count('G') + seq.count('C')) / len(seq)
+        # 2. Shannon Entropy (Complexity)
+        counts = {base: seq.count(base) for base in 'ATCG'}
+        probs = [c/len(seq) for c in counts.values() if c > 0]
+        entropy = -sum(p * math.log2(p) for p in probs) / 2.0 # Normalized 0-1 for DNA
+        return round(gc * 100, 2), round(entropy, 4)
+
     final_results = []
     total_landmarks = len(landmarks)
 
@@ -104,6 +116,7 @@ def discover_genes(
         dna = seq_map.get(rid)
         if dna:
             snippet, act, pos = extract_precise_gene_code(engine, dna, fid, window_size=window_size)
+            gc, complexity = calculate_metrics(snippet)
             final_results.append({
                 "discovery_type": "Significance-Point",
                 "method": "Precision Snippet",
@@ -112,6 +125,8 @@ def discover_genes(
                 "activation": round(act, 4),
                 "occurrence_count": int(count_map.get(fid, 0)),
                 "rarity_pct": round(rarity_map.get(fid, 0), 6),
+                "gc_content": gc,
+                "complexity": complexity,
                 "length": len(snippet),
                 "sequence": snippet
             })
@@ -122,6 +137,7 @@ def discover_genes(
         
         if len(pool) > 1:
             contig = assemble_feature_consensus(pool, min_overlap=min_overlap)
+            gc, complexity = calculate_metrics(contig)
             final_results.append({
                 "discovery_type": "Landmark-Assembly",
                 "method": "Consensus Assembly",
@@ -130,6 +146,8 @@ def discover_genes(
                 "activation": round(best_row['activation'], 4),
                 "occurrence_count": int(count_map.get(fid, 0)),
                 "rarity_pct": round(rarity_map.get(fid, 0), 6),
+                "gc_content": gc,
+                "complexity": complexity,
                 "length": len(contig),
                 "sequence": contig
             })

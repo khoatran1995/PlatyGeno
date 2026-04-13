@@ -51,6 +51,9 @@ def find_significant_landmarks(df, rel_freq_max=1.0, top_n=10, top_pct=None, min
     # Add Rarity Percentage to metadata
     candidates['rarity_pct'] = (candidates['occurrence_count'] / total_processed) * 100
     
+    if winning_count == -1:
+        return candidates.sort_values(by='max_score', ascending=False)
+    
     return candidates.sort_values(by='max_score', ascending=False).head(winning_count)
 
 def get_best_reads_for_features(df, winning_feature_ids):
