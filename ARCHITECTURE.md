@@ -18,8 +18,9 @@ This document serves as the high-level roadmap for the PlatyGeno (EVO2) reposito
 
 ### 3. The Discovery Engine (Significance Mapping)
 *   **Component**: `src/platygeno/mapper.py` & `src/platygeno/evo_reader.py`.
-*   **Function**: Batched scanning and peak detection.
-*   **Science**: Filters by `activation` strength and `rarity`.
+*   **Mechanism**: **Max-Activation Pooling** (Peak detection over read tokens).
+*   **Diversity**: **K=16 Feature Extraction** (16 biological signals per read).
+*   **Science**: Filters by `activation` strength (Default: 1.0) and `rarity`.
 
 ### 4. The Assembly Layer (Boundary Detection)
 *   **Component**: `src/platygeno/workflow.py` & `src/platygeno/mapper.py`.

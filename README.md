@@ -109,8 +109,12 @@ PlatyGeno uses the AI's "Excitement" as the primary scientific dial:
 *   **On (`--rarity-only`)**: Novelty mode. Automatically subtracts common housekeeping genes to find "Dark Matter."
 
 ### 3. Discovery Breadth (`--top-n`)
-*   **Default (`25`)**: Ideal for pinpoint novelty hunting.
-*   **Survey Mode (`100` – `1000`)**: Performs a "Wide Survey." Recommended for your first scan of a new sample to build a biological inventory.
+*   **Default (`-1`)**: Ph.D. Survey Mode. Returns **every significant landmark** found in the sample (Unlimited).
+*   **Targeted (`10-25`)**: Precision Mode. Focuses only on the strongest outliers.
+
+### 🧬 Technical Performance Highlights (v1.0)
+*   **Max-Activation Pooling**: PlatyGeno uses token-level max-pooling instead of read averages. This captures peak biological signals anywhere in the DNA, even if they are very short.
+*   **K=16 Feature Diversity**: Every read is scanned for its top 16 biological concepts, ensuring subtle regulatory motifs aren't overshadowed by larger coding regions.
 
 ### 4. Strategic Subtraction (`--exclude`)
 *   **Usage**: `--exclude 212,16509`
