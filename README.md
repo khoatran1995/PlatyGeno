@@ -35,10 +35,21 @@ pip install platygeno
 pip install ninja # for faster installation of flash-attn
 pip install flash-attn --no-build-isolation
 
-# 3. Development/Editable Install
+---
+
+## 🚀 Quick Start for GitHub Clones
+If you are cloning the repository for research or development, follow these three steps to run your first discovery:
+
+```bash
+# 1. Clone & Enter
 git clone https://github.com/khoatran1995/PlatyGeno.git
 cd PlatyGeno
+
+# 2. Install in Editable Mode
 pip install -e .
+
+# 3. Trigger Discovery (on the benchmark sample)
+platygeno --input data/sample.fastq --limit 5000
 ```
 
 ---
