@@ -80,7 +80,7 @@ if __name__ == "__main__":
     parser.add_argument("--rarity-only", action="store_true", help="Enable rarity filtering to target novel dark matter")
     parser.add_argument("--panoramic", action="store_true", help="Disable rarity filtering to show all biological landmarks")
     parser.add_argument("--exclude", type=str, help="Comma-separated feature IDs to suppress (e.g. 212,32214)")
-    parser.add_argument("--min-activation", type=float, default=3.0, help="Significance threshold (default: 3.0)")
+    parser.add_argument("--min-activation", type=float, default=1.0, help="Significance threshold (default: 1.0)")
     
     args = parser.parse_args()
     

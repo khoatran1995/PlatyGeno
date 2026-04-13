@@ -36,7 +36,7 @@ def find_significant_landmarks(df, rel_freq_max=1.0, top_n=10, top_pct=None, min
 
     # 3. Filter for candidates
     candidates = feature_stats[
-        (feature_stats['occurrence_count'] >= 2) & 
+        (feature_stats['occurrence_count'] >= 1) & 
         (feature_stats['occurrence_count'] <= dynamic_freq_max) &
         (feature_stats['max_score'] >= min_activation)
     ].copy()
