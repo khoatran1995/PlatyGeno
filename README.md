@@ -115,7 +115,7 @@ PlatyGeno uses the AI's "Excitement" as the primary scientific dial:
 
 ### 🧬 Technical Performance Highlights (v1.0)
 *   **Max-Activation Pooling**: PlatyGeno uses token-level max-pooling instead of read averages. This captures peak biological signals anywhere in the DNA, even if they are very short.
-*   **K=16 Feature Diversity**: Every read is scanned for its top 16 biological concepts, ensuring subtle regulatory motifs aren't overshadowed by larger coding regions.
+*   **K=128 Feature Diversity**: Every read is scanned for its top 128 biological concepts (up from 8), ensuring rare regulatory motifs and novel genes aren't overshadowed by common genomic grammar.
 
 ### 4. Strategic Subtraction (`--exclude`)
 *   **Usage**: `--exclude 212,16509`
