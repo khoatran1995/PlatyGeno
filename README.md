@@ -1,9 +1,9 @@
-<p align="left">
-  <img src="icon/PlatyGeno%20-%20small.png" width="200" align="left" style="margin-right: 20px;">
-  <br>
-  <h2>Unsupervised Biological Significance Mapping via <br> Evo 2 & Sparse Autoencoders</h2>
-</p>
-<br clear="left"/>
+<table width="100%">
+  <tr>
+    <td width="200"><img src="icon/PlatyGeno%20-%20small.png" width="200" alt="PlatyGeno Icon"></td>
+    <td align="left"><h1>Unsupervised Biological Significance Mapping via <br> Evo 2 & Sparse Autoencoders</h1></td>
+  </tr>
+</table>
 
 [![PyPI version](https://img.shields.io/pypi/v/platygeno.svg)](https://pypi.org/project/platygeno/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
