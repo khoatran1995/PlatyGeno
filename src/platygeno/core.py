@@ -83,6 +83,7 @@ class PlatyGenoEngine:
                         all_features.append(torch.zeros((1, 32768), device=self.device))
             except torch.cuda.OutOfMemoryError:
                 torch.cuda.empty_cache()
+                print(f"⚠️  SKIPPED: Sequence too long for VRAM (Length: {len(dna)} bp)")
                 all_features.append(torch.zeros((1, 32768), device=self.device))
                 
         if not all_features:
