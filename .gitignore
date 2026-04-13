@@ -202,10 +202,10 @@ cython_debug/
 .cursorindexingignore
 
 # MetaGenomic Data Exclusion
-data/*.fastq
-data/*.fastq.gz
-data/*.zip
-data/*.fasta
+data/**/*.fastq
+data/**/*.fastq.gz
+data/**/*.zip
+data/**/*.fasta
 
 # Discovery Results (Local Only)
 validation/discovery_hits.csv

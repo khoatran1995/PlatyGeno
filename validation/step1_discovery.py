@@ -15,7 +15,12 @@ def run_significance_scan(input_path=None, top_pct=None, top_n=None, start=0, li
     # 1. Configuration
     if input_path is None:
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        input_path = os.path.join(base_dir, "data", "SRR23196177_subset.fastq")
+        # Priority 1: Vostok subset we just created
+        vostok_path = os.path.join(base_dir, "data", "SRR5462529", "vostok_200k.fastq")
+        # Priority 2: Original benchmark subset
+        original_path = os.path.join(base_dir, "data", "SRR23196177_subset.fastq")
+        
+        input_path = vostok_path if os.path.exists(vostok_path) else original_path
     
     if not os.path.exists(input_path):
         print(f"Error: {input_path} not found.")

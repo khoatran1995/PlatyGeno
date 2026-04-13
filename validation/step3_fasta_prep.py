@@ -1,5 +1,10 @@
 import os
+import argparse
 import pandas as pd
+
+def reverse_complement(dna):
+    complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A', 'N': 'N'}
+    return "".join(complement.get(base, base) for base in reversed(dna))
 
 def translate_dna(dna):
     """Simple DNA to Protein translation."""
@@ -27,41 +32,76 @@ def translate_dna(dna):
         protein += table.get(codon, 'X')
     return protein
 
-def prepare_fasta():
-    print("="*70)
-    print("🧬 STEP 3: Potential Novel Sequence FASTA Preparation")
-    print("="*70)
+def find_longest_orf(dna):
+    """Searches all 6 frames for the longest sequence without a stop codon."""
+    dna = dna.upper()
+    strands = [dna, reverse_complement(dna)]
+    all_orfs = []
     
-    # Path to the novel hits generated in Step 2
-    base_dir = os.path.dirname(__file__)
-    input_csv = os.path.join(base_dir, "potential_novel_sequences.csv")
-    output_fasta = os.path.join(base_dir, "potential_novel_sequences.fasta")
+    for strand in strands:
+        for frame in range(3):
+            translated = translate_dna(strand[frame:])
+            # Split by STOP codons and find the longest segment
+            orfs = translated.split('_')
+            for o in orfs:
+                if len(o) > 0:
+                    all_orfs.append(o)
+    
+    if not all_orfs:
+        return ""
+        
+    return max(all_orfs, key=len)
+
+def prepare_fasta(input_csv, output_fasta):
+    print("="*70)
+    print("STEP 3: Turbo-ORF FASTA Preparation (6-Frame Detection)")
+    print(f"Input: {input_csv}")
+    print("="*70)
     
     if not os.path.exists(input_csv):
-        print(f"❌ Error: {input_csv} not found. Please run Step 2 first.")
+        print(f"Error: {input_csv} not found.")
         return
 
     df = pd.read_csv(input_csv, encoding='utf-8-sig')
-    print(f"✅ Loaded {len(df)} potential novel features.")
+    
+    # Filter for high-confidence assembly if multiple exist
+    if 'method' in df.columns:
+        # We prefer Consensus Assembly for better AlphaFold results
+        df = df[df['method'] == 'Consensus Assembly'].copy()
+
+    print(f"Loaded {len(df)} candidate features.")
 
     # Create FASTA package
     with open(output_fasta, "w") as f:
+        count = 0
         for i, row in df.iterrows():
             dna = row['sequence']
             fid = row['feature_id']
-            protein = translate_dna(dna)
             
-            # Skip short sequences or stop-codon interrupted sequences for folding
-            if len(protein) < 5 or "_" in protein:
+            # Find the best protein encoding
+            protein = find_longest_orf(dna)
+            
+            # AlphaFold needs at least 20-30 amino acids for a meaningful fold
+            if len(protein) < 20: 
+                print(f"   [SKIP] Feature {fid}: Protein too short ({len(protein)} aa)")
                 continue
                 
             f.write(f">feature_{fid}\n{protein}\n")
+            print(f"   [READY] Feature {fid}: {len(protein)} amino acids")
+            count += 1
     
-    print(f"✅ Standardized FASTA package created: {output_fasta}")
-    print("\n🏆 STEP 3 COMPLETE")
-    print("="*70)
-    print("🚀 NEXT STEP: Run 'python validation/step4_alphafold_run.py'")
+    if count > 0:
+        print(f"\nFASTA package created: {output_fasta}")
+        print("Ready for structural folding.")
+    else:
+        print("\nNo sequences were long enough for folding.")
+        
     print("="*70)
 
 if __name__ == "__main__":
-    prepare_fasta()
+    parser = argparse.ArgumentParser(description="PlatyGeno Step 3: 6-Frame FASTA Prep.")
+    parser.add_argument("--input", type=str, required=True, help="Path to novelty CSV")
+    parser.add_argument("--output", type=str, default="validation/potential_novel_sequences.fasta", help="Output FASTA path")
+    
+    args = parser.parse_args()
+    prepare_fasta(args.input, args.output)
