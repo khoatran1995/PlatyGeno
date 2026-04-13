@@ -78,14 +78,19 @@ class PlatyGenoEngine:
             token_list = [torch.tensor(self.evo.tokenizer.tokenize(s), dtype=torch.long) for s in dna_strings]
             input_ids = torch.nn.utils.rnn.pad_sequence(token_list, batch_first=True, padding_value=0).to(self.device)
             
-            # 2. Forward pass to trigger hook
+            # 2. Token-level SAE Encoding with Max-Pooling
             with torch.no_grad():
                 self.extracted_data = None 
                 _ = self.evo.model(input_ids)
                 
                 if self.extracted_data is not None:
-                    mean_emb = torch.mean(self.extracted_data, dim=1)
-                    features = self.sae.encode(mean_emb, k=64)
+                    # self.extracted_data shape: [Batch, SeqLen, 4096]
+                    # Apply SAE to every single token in the batch
+                    token_features = self.sae.encode(self.extracted_data, k=64)
+                    
+                    # Max-Pool across the sequence dimension to find the "loudest" concepts in the read
+                    # Final shape: [Batch, 32768]
+                    features = torch.max(token_features, dim=1).values
                     return features
                     
         except torch.cuda.OutOfMemoryError:

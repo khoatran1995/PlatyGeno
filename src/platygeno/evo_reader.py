@@ -73,14 +73,14 @@ def read_evo_features(file_path, engine, start=0, stop=4000, batch_size=16):
                 
                 # Convert to sparse representation (only keep active neurons)
                 # features shape: [batch, 32768]
-                vals, inds = torch.topk(features, k=8, dim=-1) # Focus on top 8 signals per read
+                vals, inds = torch.topk(features, k=16, dim=-1) # Focus on top 16 signals per read
                 
                 # Batch processing results for speed
                 v_cpu = vals.cpu().numpy()
                 i_cpu = inds.cpu().numpy()
                 
                 for b_idx in range(len(valid_batch)):
-                    for f_idx in range(8):
+                    for f_idx in range(16):
                         act = v_cpu[b_idx, f_idx]
                         if act > 0:
                             all_data.append({
