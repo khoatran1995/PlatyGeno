@@ -1,7 +1,7 @@
 <table width="100%">
   <tr>
     <td width="180" align="center">
-      <img src="icon/PlatyGeno%20-%20small.png" width="180" alt="PlatyGeno Icon">
+      <img src="icon/PlatyGeno%20-%20small.png" width="200" alt="PlatyGeno Icon">
     </td>
     <td align="left">
       <h2>Unsupervised Biological Significance Mapping via <br> Evo 2 & Sparse Autoencoders</h2>
