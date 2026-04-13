@@ -24,7 +24,7 @@ def discover_genes(
     top_pct=None,
     window_size=60,
     min_overlap=20,
-    min_activation=5.0,
+    min_activation=1.0,
     rel_freq_max=0.001,
     batch_size=16,
     excluded_features=None,
