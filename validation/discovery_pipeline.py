@@ -9,13 +9,11 @@ def run_suite(input_path, limit=20000, batch_size=32, threads=5, panoramic=True)
     print("="*80)
     
     # 1. Step 1: Significance Discovery
-    mode_flag = "--panoramic" if panoramic else "--rarity-only"
     discovery_cmd = [
         sys.executable, "validation/step1_discovery.py",
         "--input", input_path,
         "--limit", str(limit),
-        "--batch-size", str(batch_size),
-        mode_flag
+        "--batch-size", str(batch_size)
     ]
     
     print(f"\n🚀 STEP 1: Running significance scan on {limit} reads...")
@@ -32,10 +30,12 @@ def run_suite(input_path, limit=20000, batch_size=32, threads=5, panoramic=True)
         return
 
     # 2. Step 2: Turbo-BLAST Validation
+    # In benchmark mode, we validate BOTH (Consensus + Snippets) per your request.
     blast_cmd = [
         sys.executable, "validation/step2_blast.py",
         "--input", csv_name,
-        "--threads", str(threads)
+        "--threads", str(threads),
+        "--all"
     ]
     
     print(f"\n📡 STEP 2: Validating novel candidates via Turbo-BLAST...")

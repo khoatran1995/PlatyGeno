@@ -83,9 +83,9 @@ Parallelizing your scan is the fastest way to get results. Match this setting to
 # 1. Install PlatyGeno
 pip install platygeno
 
-# 2. Run a Panoramic Significance Map
-# This disables rarity filters to show you EVERY important landmark in the first 5000 reads.
-platygeno --input sample.fastq --start 0 --limit 5000 --panoramic
+# 2. Run a Significance Map
+# This will show you EVERY significant landmark in the first 5000 reads by default.
+platygeno --input sample.fastq --start 0 --limit 5000
 ```
 
 ---
@@ -98,9 +98,9 @@ PlatyGeno uses the AI's "Excitement" as the primary scientific dial:
 *   **3.0 – 5.0**: "Significance Scouting." Ideal for mapping the general landscape of a sample.
 *   **8.0 – 12.0**: "Landmark Identification." Targets high-confidence biological machinery.
 
-### 2. Novelty Filter (`rel_freq_max`) - Optional
-*   **Off (`1.0`)**: Standard mode. Shows all important genes (Known and Unknown).
-*   **On (`0.001`)**: Novelty mode. Automatically subtracts common housekeeping genes to find "Dark Matter."
+### 2. Novelty Filter (`--rarity-only`) - Optional
+*   **Default (Off)**: Standard mode (Panoramic). Shows all important genes (Known and Unknown).
+*   **On (`--rarity-only`)**: Novelty mode. Automatically subtracts common housekeeping genes to find "Dark Matter."
 
 ### 3. Discovery Breadth (`--top-n`)
 *   **Default (`25`)**: Ideal for pinpoint novelty hunting.

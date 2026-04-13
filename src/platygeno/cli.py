@@ -18,7 +18,7 @@ def main():
     
     # 3. Discovery Logic
     parser.add_argument("--threshold", "-t", type=float, default=5.0, help="Min activation (default: 5.0)")
-    parser.add_argument("--panoramic", action="store_true", help="Disable rarity filter to see all architecture")
+    parser.add_argument("--rarity-only", action="store_true", help="Enable rarity filtering to target novel dark matter")
     parser.add_argument("--top-n", "-n", type=int, default=25, help="Number of features to target (default: 25)")
     parser.add_argument("--exclude", type=str, help="Comma-separated feature IDs to ignore (e.g. 212,16509)")
     
@@ -34,7 +34,9 @@ def main():
 
     # Parse exclusions
     excluded = [int(x.strip()) for x in args.exclude.split(",")] if args.exclude else None
-    rel_freq = 1.0 if args.panoramic else 0.001
+    
+    # Logic: Panoramic (1.0) is now the default.
+    rel_freq = 0.001 if args.rarity_only else 1.0
 
     # MASTER PIPELINE CALL
     results = platygeno.discover_genes(
@@ -55,7 +57,7 @@ def main():
         print("\n🧬 DISCOVERY RESULTS SUMMARY")
         print("="*100)
         # Select key columns for the summary table
-        cols = ['discovery_type', 'feature_id', 'feature_name', 'activation', 'rarity_pct', 'length']
+        cols = ['feature_id', 'feature_name', 'activation', 'rarity_pct', 'length']
         # Filter columns to only those that exist
         available_cols = [c for c in cols if c in results.columns]
         print(results[available_cols].to_string(index=False))

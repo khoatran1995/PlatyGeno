@@ -84,9 +84,9 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     
-    # Logic: Panoramic takes precedence over rarity
+    # Logic: Default is Panoramic (ignore_rarity=True)
     ignore_rarity = True
-    if args.rarity_only and not args.panoramic:
+    if args.rarity_only:
         ignore_rarity = False
     
     # Run scan
