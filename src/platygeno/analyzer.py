@@ -1,10 +1,13 @@
 import os
 import pandas as pd
 
-def generate_html_report(results_df, output_path="reports/discovery_report.html"):
+def generate_html_report(results_df, output_path=None):
     """
     Generates a premium, dark-mode HTML dashboard for genomic discovery results.
     """
+    if output_path is None:
+        output_path = "reports/discovery_report.html"
+        
     os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
     
     # 1. Prepare Summary Stats

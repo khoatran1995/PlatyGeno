@@ -56,9 +56,13 @@ def process_feature_blast(row):
 def run_benchmarking_validation(input_csv="PLG_Stage1_Significance.csv", output_prefix=None, max_workers=5, validate_all=False):
     """Phase 2: Turbo-BLAST Validation (Multi-threaded)"""
     
-    # Standardized Naming (Overwrite mode)
-    output_csv = "PLG_Stage2_Validation.csv"
-    novel_csv = "PLG_Stage2_Novel_Sequences.csv"
+    # Dynamic Naming: Derives sample name from the input Significance CSV
+    # e.g., PLG_sample_Significance.csv -> base = 'sample'
+    filename = os.path.basename(input_csv)
+    sample_name = filename.replace("PLG_", "").replace("_Significance.csv", "")
+    
+    output_csv = os.path.join("results", f"PLG_{sample_name}_Validation.csv")
+    novel_csv = os.path.join("results", f"PLG_{sample_name}_Novel_Sequences.csv")
 
     # Ensure output directory exists
     out_dir = os.path.dirname(output_csv)

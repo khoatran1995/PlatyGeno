@@ -42,8 +42,9 @@ def run_significance_scan(input_path=None, top_pct=None, top_n=None, start=0, li
     print(f"📡 Scanning for biological landmarks: {scan_desc}...")
     print("="*70)
 
-    # 3. Bio-Beacon Discovery
-    output_csv = "PLG_Stage1_Significance.csv"
+    # 3. Bio-Beacon Discovery: Dynamic Naming
+    base_name = os.path.splitext(os.path.basename(input_path))[0]
+    output_csv = os.path.join("results", f"PLG_{base_name}_Significance.csv")
 
     results = platygeno.discover_genes(
         input_path=input_path,

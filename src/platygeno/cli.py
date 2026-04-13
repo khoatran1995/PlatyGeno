@@ -9,7 +9,7 @@ def main():
     
     # 1. Input/Output
     parser.add_argument("--input", "-i", type=str, required=True, help="Input FASTQ/FASTA file")
-    parser.add_argument("--output", "-o", type=str, default="discovery_results.csv", help="Output results CSV")
+    parser.add_argument("--output", "-o", type=str, default=None, help="Output results CSV (Default: Input-aware)")
     
     # 2. Scanning Range
     parser.add_argument("--start", type=int, default=0, help="First read index (default: 0)")

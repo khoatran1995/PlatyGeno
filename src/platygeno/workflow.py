@@ -47,6 +47,16 @@ def discover_genes(
     if not os.path.exists(input_path):
         raise FileNotFoundError(f"Input file not found: {input_path}")
 
+    # 1.1 Dynamic Naming Logic
+    # e.g., data/sample.fastq -> base_name = 'sample'
+    base_name = os.path.splitext(os.path.basename(input_path))[0]
+    
+    # 1.2 Setup Output Paths
+    if output_path is None:
+        output_path = os.path.join("results", f"{base_name}_Significance.csv")
+    
+    report_html = os.path.join("reports", f"{base_name}_Dashboard.html")
+
     # 2. Phase 1: Significance Scanning (Batched)
     print(f"📡 Mapping biological landmarks in sequence range {scan_start} to {scan_end if scan_end is not None else 'End'}...")
     report, total_scanned = read_evo_features(input_path, engine, start=scan_start, stop=scan_end, batch_size=batch_size)
@@ -157,12 +167,14 @@ def discover_genes(
     results_df = annotate_with_biology(results_df)
     
     # 6. HTML Reporting (Premium Dashboard)
-    generate_html_report(results_df)
+    generate_html_report(results_df, output_path=report_html)
 
     # 7. Output
     if output_path:
-        os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
-        results_df.to_csv(output_path, index=False)
+        # Resolve path to ensure absolute management
+        abs_output = os.path.abspath(output_path)
+        os.makedirs(os.path.dirname(abs_output), exist_ok=True)
+        results_df.to_csv(abs_output, index=False)
         print(f"💾 Results saved to {output_path}")
 
     return results_df

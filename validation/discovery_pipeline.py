@@ -8,7 +8,11 @@ def run_suite(input_path, limit=20000, batch_size=32, threads=5, panoramic=True)
     print("      PLATYGENO DISCOVERY SUITE: 20K BENCHMARK PIPELINE")
     print("="*80)
     
-    # 1. Step 1: Significance Discovery
+    # 1.1 Dynamic Naming Prep
+    base_name = os.path.splitext(os.path.basename(input_path))[0]
+    csv_name = os.path.join("results", f"PLG_{base_name}_Significance.csv")
+
+    # 1.2 Step 1: Significance Discovery
     discovery_cmd = [
         sys.executable, "validation/step1_discovery.py",
         "--input", input_path,
@@ -22,8 +26,6 @@ def run_suite(input_path, limit=20000, batch_size=32, threads=5, panoramic=True)
     if result.returncode != 0:
         print("❌ Step 1 failed. Aborting.")
         return
-
-    csv_name = "PLG_Stage1_Significance.csv"
     
     if not os.path.exists(csv_name):
         print(f"❌ Error: {csv_name} was not generated.")
@@ -43,12 +45,12 @@ def run_suite(input_path, limit=20000, batch_size=32, threads=5, panoramic=True)
 
     print("\n" + "="*80)
     print("✅ 20K BENCHMARK COMPLETE")
-    print(f"Discovery Map:   PLG_Stage1_Significance.csv")
-    print(f"Validation Map:  PLG_Stage2_Validation.csv")
-    print(f"Dashboard:       reports/discovery_report.html")
+    print(f"Discovery Map:   {csv_name}")
+    print(f"Validation Map:  results/PLG_{base_name}_Validation.csv")
+    print(f"Dashboard:       reports/{base_name}_Dashboard.html")
     print("-" * 80)
     print("📈 NEXT STEPS:")
-    print("AI Scan Complete. You can now review 'reports/discovery_report.html'.")
+    print(f"AI Scan Complete. You can now review 'reports/{base_name}_Dashboard.html'.")
     print("To verify your 'Unknown' discoveries, we suggest manually extracting the")
     print("sequences and running them through structural tools like AlphaFold 2.")
     print("="*80)

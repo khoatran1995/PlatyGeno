@@ -126,6 +126,8 @@ If you prefer the command line, you can trigger a full biological scan with one 
 
 ```bash
 # Scan 5000 reads and generate a landmark report
+# Automatically saves to: results/sample_Significance.csv
+# Automatically generates: reports/sample_Dashboard.html
 platygeno --input sample.fastq --limit 5000 --threshold 5.0
 ```
 
@@ -174,6 +176,14 @@ The "Golden Configuration" (Batched Mean-Pooling) achieves its stable **98-landm
 ### 4. Strategic Subtraction (`--exclude`)
 *   **Usage**: `--exclude 212,16509`
 *   **Purpose**: "Mutes" features you have already identified as known biology. This forces the engine to look deeper and surface the next layer of genomic candidates.
+
+---
+
+### 📂 Unified Directory Structure
+PlatyGeno automatically manages your experiment audit trails:
+*   **`results/`**: Sample-aware Significance and Validation CSVs.
+*   **`reports/`**: High-fidelity HTML dashboards (Prefixed by sample name).
+*   **`data/`**: Your raw FASTQ/FASTA input files.
 
 ## 🧪 Benchmark Dataset: Gut Metagenome (IBD-MDB)
 PlatyGeno includes a high-density clinical benchmark for testing novelty discovery in complex human samples:
