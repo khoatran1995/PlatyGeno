@@ -77,7 +77,7 @@ def main():
     print(f"✅ Success! Results saved to {args.output}")
     print("\nFINAL SUMMARY:")
     print("="*100)
-    cols = ['discovery_type', 'feature_id', 'feature_name', 'activation', 'length']
+    cols = ['feature_id', 'feature_name', 'activation', 'length']
     available = [c for c in cols if c in results_df.columns]
     print(results_df[available].to_string(index=False))
     print("="*100)

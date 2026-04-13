@@ -119,7 +119,6 @@ def discover_genes(
             snippet, act, pos = extract_precise_gene_code(engine, dna, fid, window_size=window_size)
             gc, complexity = calculate_metrics(snippet)
             final_results.append({
-                "discovery_type": "Significance-Point",
                 "method": "Precision Snippet",
                 "feature_id": fid,
                 "read_id": rid,
@@ -140,7 +139,6 @@ def discover_genes(
             contig = assemble_feature_consensus(pool, min_overlap=min_overlap)
             gc, complexity = calculate_metrics(contig)
             final_results.append({
-                "discovery_type": "Landmark-Assembly",
                 "method": "Consensus Assembly",
                 "feature_id": fid,
                 "read_id": f"Consensus (N={len(pool)})",

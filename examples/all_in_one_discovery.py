@@ -47,7 +47,7 @@ def main():
         print("\n🧬 DISCOVERY RESULTS SUMMARY")
         print("="*100)
         # We now include the 'feature_name' (e.g. Found: Coding Region vs Unknown)
-        summary = results[['discovery_type', 'feature_id', 'feature_name', 'activation', 'length']]
+        summary = results[['feature_id', 'feature_name', 'activation', 'length']]
         print(summary.to_string(index=False))
         print("="*100)
         print(f"✅ Success! Full report saved to {args.output}")
