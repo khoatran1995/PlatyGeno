@@ -57,8 +57,8 @@ class PlatyGenoEngine:
 
     def get_features(self, dna_strings):
         """
-        Standard Feature Extraction (Mean-Pooling).
-        Restored to hit the target 98-feature discovery balance.
+        High-Fidelity Feature Extraction.
+        Processes sequences individually to avoid padding artifacts and maximize sensitivity.
         """
         if isinstance(dna_strings, str):
             dna_strings = [dna_strings]
@@ -74,15 +74,16 @@ class PlatyGenoEngine:
                     _ = self.evo.model(input_ids)
                     
                     if self.extracted_data is not None:
-                        # Mean-Pool the hidden states BEFORE SAE encoding
-                        mean_emb = torch.mean(self.extracted_data, dim=1)
-                        # Identify features for the averaged sequence
-                        features = self.sae.encode(mean_emb, k=64)
-                        all_features.append(features)
+                        # Process token-level activations
+                        token_features = self.sae.encode(self.extracted_data, k=64)
+                        # Use Max-Pooling across the sequence to capture peak significance
+                        read_features = torch.max(token_features, dim=1).values
+                        all_features.append(read_features)
                     else:
                         all_features.append(torch.zeros((1, 32768), device=self.device))
             except torch.cuda.OutOfMemoryError:
                 torch.cuda.empty_cache()
+                print(f"⚠️  SKIPPED: Sequence too long for VRAM (Length: {len(dna)} bp)")
                 all_features.append(torch.zeros((1, 32768), device=self.device))
                 
         if not all_features:

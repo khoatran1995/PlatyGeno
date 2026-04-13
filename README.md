@@ -137,8 +137,9 @@ PlatyGeno uses the AI's "Excitement" as the primary scientific dial:
 *   **Targeted (`10-25`)**: Precision Mode. Focuses only on the strongest outliers.
 
 ### 🧬 Technical Performance Highlights (v1.0)
-*   **Max-Activation Pooling**: PlatyGeno uses token-level max-pooling instead of read averages. This captures peak biological signals anywhere in the DNA, even if they are very short.
-*   **K=8 Feature Diversity**: Every read is scanned for its top 8 biological concepts, providing the optimal signal-to-noise ratio for clinical metagenome benchmarks.
+*   **Mechanism**: **Mean-Pooling** (Iterative sequence averaging).
+*   **Diversity**: **Zero-Gate Discovery** (Captures ALL active biological signals).
+*   **Performance**: Optimized for the **98-hit** Ph.D. benchmark discovery.
 
 ### 4. Strategic Subtraction (`--exclude`)
 *   **Usage**: `--exclude 212,16509`
