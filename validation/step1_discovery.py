@@ -78,13 +78,16 @@ if __name__ == "__main__":
     parser.add_argument("--top-pct", type=float, help="Select the top X% of significant hits")
     parser.add_argument("--batch-size", type=int, default=16, help="Number of sequences per GPU batch (default: 16)")
     parser.add_argument("--rarity-only", action="store_true", help="Enable rarity filtering to target novel dark matter")
+    parser.add_argument("--panoramic", action="store_true", help="Disable rarity filtering to show all biological landmarks")
     parser.add_argument("--exclude", type=str, help="Comma-separated feature IDs to suppress (e.g. 212,32214)")
     parser.add_argument("--min-activation", type=float, default=3.0, help="Significance threshold (default: 3.0)")
     
     args = parser.parse_args()
     
-    # Parse exclusion list
-    excluded = [int(x.strip()) for x in args.exclude.split(",")] if args.exclude else None
+    # Logic: Panoramic takes precedence over rarity
+    ignore_rarity = True
+    if args.rarity_only and not args.panoramic:
+        ignore_rarity = False
     
     # Run scan
     run_significance_scan(
@@ -93,8 +96,8 @@ if __name__ == "__main__":
         top_pct=args.top_pct,
         start=args.start,
         limit=args.limit,
-        ignore_rarity=not args.rarity_only,
+        ignore_rarity=ignore_rarity,
         batch_size=args.batch_size,
-        excluded_features=excluded,
+        excluded_features=[int(x.strip()) for x in args.exclude.split(",")] if args.exclude else None,
         min_activation=args.min_activation
     )
