@@ -136,15 +136,15 @@ PlatyGeno uses the AI's "Excitement" as the primary scientific dial:
 *   **Default (`-1`)**: Ph.D. Survey Mode. Returns **every significant landmark** found in the sample (Unlimited).
 *   **Targeted (`10-25`)**: Precision Mode. Focuses only on the strongest outliers.
 
-## 🧪 Core Methodology
+## 🧪 Core Methodology (The "Easy" Version)
 
-PlatyGeno’s "Golden Configuration" is built on two primary scientific pillars:
+PlatyGeno’s "Golden Configuration" is built on two simple rules:
 
-### 1. Mean-Pooling (Global Semantic Averaging)
-Instead of scanning token-by-token (which can be noisy), PlatyGeno averages the entire sequence embedding into a single global summary before SAE encoding. This "denoises" the data and allows the model to identify the overall biological identity of the read with high stability.
+### 1. Mean-Pooling (The "Big Picture")
+Instead of getting distracted by every tiny detail in a DNA sequence, the AI looks at the **whole read at once**. It summarizes the sequence so it can find the main biological theme without getting lost in the noise.
 
-### 2. Zero-Gate Discovery (Unrestricted Semantic Census)
-Most feature-extraction pipelines use a "Top-K" gate to only record the strongest signals. PlatyGeno's **Zero-Gate** mode removes this bottleneck. It records **every single biological concept** that shows activation (up to 64 per read), ensuring that rare regulatory motifs or subtle protein domains are never overshadowed by common genomic grammar.
+### 2. Zero-Gate Discovery (The "No-Filter" Mode)
+Most tools only show you the "Top 10" most interesting things they find. **Zero-Gate** means we don't filter anything out—if the AI sees it, you see it. This ensures that even the rarest, hidden genes find their way into your report.
 
 ---
 
