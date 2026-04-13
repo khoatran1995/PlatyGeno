@@ -12,9 +12,6 @@ PlatyGeno is a professional Python package for identifying **genomic landmarks**
 
 ---
 
-![PlatyGeno Banner](file:///C:/Users/Admin/.gemini/antigravity/brain/4f3e50e2-8a73-40d5-900c-be13c257ea2e/platygeno_banner_1775984542734.png)
-
----
 
 ## 🔭 Scientific Philosophy: Zero-Reference Significance
 
@@ -121,15 +118,12 @@ PlatyGeno uses the AI's "Excitement" as the primary scientific dial:
 *   **Usage**: `--exclude 212,16509`
 *   **Purpose**: "Mutes" features you have already identified as known biology. This forces the engine to look deeper and surface the next layer of genomic candidates.
 
-## 🧬 Benchmark Dataset: SRR23196177
+## 🧪 Benchmark Dataset: Gut Metagenome (IBD-MDB)
+PlatyGeno includes a high-density clinical benchmark for testing novelty discovery in complex human samples:
 
-PlatyGeno includes a high-density "Viral Deep-Mine" benchmark for testing novelty discovery:
-
-*   **Accession**: [SRR23196177](https://www.ncbi.nlm.nih.gov/sra/?term=SRR23196177)
-*   **Origin**: Viral Community of Hypersaline Lakes (Deep Lake, Antarctica).
-*   **BioProject**: [PRJNA916840](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA916840)
-*   **Role**: Used for testing **Wide Survey** discovery in extreme environments. Because viruses in hypersaline lakes are highly divergent, this sample is used to validate the engine's ability to find "Deep Novelty" that is often missing from standard genomic databases.
-*   **Local Subset**: The default `data/SRR23196177_subset.fastq` contains **100,000 reads** extracted to provide a high-resolution window into this viral dark matter.
+*   **Origin**: Chronic Inflammatory Bowel Disease (IBD) Metagenomic Database.
+*   **Role**: Validating the engine's ability to identify autonomous biological landmarks in high-complexity clinical metagenomes.
+*   **Local Data**: Benchmark reads are provided in the `data/` directory for Ph.D. reproducibility.
 
 ---
 
