@@ -12,7 +12,6 @@ class SparseAutoencoder(nn.Module):
         self.b_dec = nn.Parameter(torch.zeros(d_model))
         
     def encode(self, x, k=64):
-        # Your winning math from the notebook
         pre_act = (x - self.b_dec) @ self.W_enc + self.b_enc
         topk = torch.topk(torch.relu(pre_act), k, dim=-1)
         sparse_features = torch.zeros_like(pre_act)
@@ -24,23 +23,18 @@ class PlatyGenoEngine:
         self.device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
         print(f"🚀 Loading {model_name} into VRAM...")
         
-        # Load Evo 2 (Using the wrapper class)
-        # Optimized for 24GB VRAM (3090/4090)
         self.evo = Evo2(model_name)
         if self.device.startswith('cuda'):
-            self.evo.model.half() # Move to half-precision to save 50% VRAM
+            self.evo.model.half()
         self.evo.model.eval() 
         
-        # Setup Hook for Layer 26 (Index 25)
         self.extracted_data = None
         self.evo.model.blocks[25].register_forward_hook(self._hook_fn)
         
-        # Load SAE
         self.sae = self._setup_sae()
         print("✅ PlatyGeno Engine Ready.")
 
     def _hook_fn(self, module, input, output):
-        # Logic from your notebook to capture hidden states
         data = output[0] if isinstance(output, tuple) else output
         self.extracted_data = data.detach()
 
@@ -53,7 +47,6 @@ class PlatyGenoEngine:
         sae = SparseAutoencoder().to(self.device)
         state_dict = torch.load(path, map_location=self.device, weights_only=False)
         
-        # The "Ghost Key" mapping from your notebook
         mapped_state = {
             'W_enc': state_dict['_orig_mod.W'],
             'b_enc': state_dict['_orig_mod.b_enc'],
@@ -64,74 +57,45 @@ class PlatyGenoEngine:
 
     def get_features(self, dna_strings):
         """
-        Batched Feature Extraction with Recursive OOM Protection.
-        If a batch fails due to VRAM, it splits and retries.
+        High-Fidelity Feature Extraction.
+        Processes sequences individually to avoid padding artifacts and maximize sensitivity.
         """
-        if not isinstance(dna_strings, (list, tuple)):
+        if isinstance(dna_strings, str):
             dna_strings = [dna_strings]
-
-        if not dna_strings:
-            return None
-
-        # 1. Batched Tokenization
-        try:
-            token_list = [torch.tensor(self.evo.tokenizer.tokenize(s), dtype=torch.long) for s in dna_strings]
-            input_ids = torch.nn.utils.rnn.pad_sequence(token_list, batch_first=True, padding_value=0).to(self.device)
             
-            # 2. Token-level SAE Encoding with Max-Pooling
-            with torch.no_grad():
-                self.extracted_data = None 
-                _ = self.evo.model(input_ids)
+        all_features = []
+        for dna in dna_strings:
+            try:
+                tokens = self.evo.tokenizer.tokenize(dna)
+                input_ids = torch.tensor([tokens], dtype=torch.long).to(self.device)
                 
-                if self.extracted_data is not None:
-                    # self.extracted_data shape: [Batch, SeqLen, 4096]
-                    # Apply SAE to every single token in the batch
-                    token_features = self.sae.encode(self.extracted_data, k=64)
+                with torch.no_grad():
+                    self.extracted_data = None 
+                    _ = self.evo.model(input_ids)
                     
-                    # Max-Pool across the sequence dimension to find the "loudest" concepts in the read
-                    # Final shape: [Batch, 32768]
-                    features = torch.max(token_features, dim=1).values
-                    return features
-                    
-        except torch.cuda.OutOfMemoryError:
-            torch.cuda.empty_cache()
-            batch_size = len(dna_strings)
+                    if self.extracted_data is not None:
+                        # Process token-level activations
+                        token_features = self.sae.encode(self.extracted_data, k=64)
+                        # Use Max-Pooling across the sequence to capture peak significance
+                        read_features = torch.max(token_features, dim=1).values
+                        all_features.append(read_features)
+                    else:
+                        all_features.append(torch.zeros((1, 32768), device=self.device))
+            except torch.cuda.OutOfMemoryError:
+                torch.cuda.empty_cache()
+                all_features.append(torch.zeros((1, 32768), device=self.device))
+                
+        if not all_features:
+            return None
             
-            # If we OOM with a single sequence, skip it and notify the user
-            if batch_size <= 1:
-                seq_len = len(dna_strings[0]) if dna_strings else "Unknown"
-                print(f"⚠️ SKIPPING: Sequence too long (Length: {seq_len}) for current GPU VRAM.")
-                # Return a zero-tensor of the correct hidden dimension (32768) to maintain alignment
-                return torch.zeros((1, 32768), device=self.device)
-            
-            # Otherwise, split the batch and try again
-            mid = batch_size // 2
-            print(f"⚠️ GPU OOM: Splitting batch ({batch_size} -> {mid}) and retrying...")
-            
-            part1 = self.get_features(dna_strings[:mid])
-            part2 = self.get_features(dna_strings[mid:])
-            
-            # Since skipped single sequences now return zeros instead of None, 
-            # we can safely concatenate the results back together.
-            return torch.cat([part1, part2], dim=0)
-
-        return None
+        return torch.cat(all_features, dim=0)
 
     def get_token_features_deep(self, dna_string):
-        """
-        Phase 3: Deep Token-Aware Scan.
-        Returns SAE features for EVERY base pair (token) in the sequence.
-        Used only on 'Winner' reads to find the precise gene boundaries.
-        Returns shape: [Seq_Len, d_hidden]
-        """
         tokens = self.evo.tokenizer.tokenize(dna_string)
         input_ids = torch.tensor([tokens], dtype=torch.long).to(self.device)
-
         with torch.no_grad():
             _ = self.evo.model(input_ids)
             if self.extracted_data is not None:
-                # Squeeze to get [Seq_Len, Hidden_Dim]
                 token_embeddings = self.extracted_data.squeeze(0)
-                # Apply SAE to every single base token
                 return self.sae.encode(token_embeddings, k=64)
         return None
