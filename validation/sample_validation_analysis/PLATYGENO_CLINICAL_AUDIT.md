@@ -34,7 +34,7 @@ A Mann-Whitney U test proves that Consensus Assembly provides **statistically si
 | **Identity (Mean ± SD)** | 93.61% ± 4.2% | **93.61% ± 4.1%** | 0.9999 |
 | **Length (Avg ± SD)** | 60.00 ± 0.0 bp | **100.27 ± 5.2 bp** | <0.001 |
 | **Max Length Found** | 60 bp | **105 bp** | N/A |
-| **E-value (Median)** | 8.40e-14 | **8.75e-14** | 0.0003 |
+| **E-value (Median)** | $8.40 \times 10^{-14}$ | **$8.75 \times 10^{-14}$** | 0.0003 |
 
 > **Observation**: While "Identity" remains similar for conserved regions, the **E-value significance** is massively improved by the 67% increase in sequence length, providing "Truer" biological assignments.
 
@@ -55,8 +55,8 @@ To prove that Consensus Assembly isn't just "better" but is sometimes **essentia
 
 | Feature ID | Snippet E-value (60bp) | Assembly E-value (101bp) | Gain in Certainty |
 |:---|:---:|:---:|:---|
-| **Feature 26953** | 10.0 (No Hit) | **2.39e-38** | ~10^38 times |
-| **Feature 30446** | 10.0 (No Hit) | **2.39e-38** | ~10^38 times |
+| **Feature 26953** | 10.0 (No Hit) | **$2.39 \times 10^{-38}$** | ~$10^{38}$ times |
+| **Feature 30446** | 10.0 (No Hit) | **$2.39 \times 10^{-38}$** | ~$10^{38}$ times |
 
 **Inference**: Isolated high-activation snippets can occasionally fall below the threshold for BLAST identification. Reconstructing the full sequence context via **Consensus Assembly** enables high-confidence identification of features that traditional "window-based" scanning would miss entirely.
 
@@ -122,5 +122,3 @@ Using **AlphaFold2**, we modeled the 101bp Consensus Landmark. The results provi
 ## 5. Conclusion
 The PlatyGeno discovery pipeline demonstrates exceptional precision in clinical samples. By utilizing Consensus Assembly, researchers gain **statistically superior** biological significance and cleaner taxonomic resolution, culminating in the successful autonomous discovery of novel genomic landmarks like **Feature 7393**.
 
----
-*Report generated automatically by PlatyGeno Analysis Suite.*
