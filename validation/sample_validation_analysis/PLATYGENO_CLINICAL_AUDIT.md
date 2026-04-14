@@ -50,7 +50,7 @@ To address potential length bias, we analyzed the **Pearson Correlation ($r$)** 
 | **80 - 100** | 22.0 |
 | **100 - 110 (Assemblies)** | **40.1** |
 
-### 2.2 Identifying the "Unfindable": Case Studies in Coverage
+### 2.2 Comparative Advantage of Consensus Assembly: Resolving Biological Context
 To prove that Consensus Assembly isn't just "better" but is sometimes **essential** for discovery, we analyzed features that were unidentifiable as isolated snippets.
 
 | Feature ID | Snippet E-value (60bp) | Assembly E-value (101bp) | Gain in Certainty |
@@ -61,7 +61,7 @@ To prove that Consensus Assembly isn't just "better" but is sometimes **essentia
 **Inference**: Isolated high-activation snippets can occasionally fall below the threshold for BLAST identification. Reconstructing the full sequence context via **Consensus Assembly** enables high-confidence identification of features that traditional "window-based" scanning would miss entirely.
 
 #### 🏛️ Global Census of Taxonomic Refinement
-Across the 110 discovery units, we identified **10 core features** where the Consensus Assembly provided a critical refinement or shift in biological identity. 
+We identified **4 features** where the Consensus Assembly provided a critical refinement or shift in biological identity.
 
 | Feature ID | Snippet Hit (E-value) | Assembly Hit (E-value) | Resolution |
 |:---|:---|:---|:---|
@@ -72,8 +72,7 @@ Across the 110 discovery units, we identified **10 core features** where the Con
 
 **Conclusion**: The additional context provided by **Consensus Assembly** doesn't just increase statistical confidence—it provides the resolution necessary to **correct taxonomic misassignments** and resolve generic scaffolds into high-confidence species hits.
 
-> [!TIP]
-> **Validation of Assembly Fidelity**: Global auditing confirms that these consensus sequences are high-fidelity and non-chimeric across all 110 units. This validates the PlatyGeno assembly methodology as a robust engine for reference-free discovery in clinical datasets.
+> **Validation of Assembly Fidelity**: These result confirm that these consensus sequences are high-fidelity and non-chimeric. This validates the PlatyGeno assembly methodology as a robust engine for reference-free discovery in clinical datasets.
 
 ---
 
