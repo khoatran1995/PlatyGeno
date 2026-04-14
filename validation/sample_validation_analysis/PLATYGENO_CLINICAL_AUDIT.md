@@ -1,4 +1,4 @@
-# Technical Report: PlatyGeno Validation with Clinical Metagenome Dataset
+# PlatyGeno v1.0.2 Technical Audit: Autonomous Genomic Discovery in Clinical Metagenomics
 
 **Date**: April 15, 2026  
 
@@ -24,7 +24,7 @@ The pipeline scanned 20,000 clinical reads to isolate high-activation biological
 ---
 
 ## 2. Statistical Validation of Assembly Techniques
-Here, We evaluated two distinct modalities for capturing biological signals. **Precision Snippets** serve as focused "zoom-ins" on the single most significant part of an individual read. **Consensus Assembly** takes those narrow clips and merges them together—layering overlapping reads like pieces of a puzzle to reconstruct a fuller, more complete genomic landmark. By comparing these methods, we prove that reconstructing the full sequence significantly increases our confidence in the biological results.
+Here, we evaluated two distinct modalities for capturing biological signals. **Precision Snippets** serve as focused "zoom-ins" on the single most significant part of an individual read. **Consensus Assembly** takes those narrow clips and merges them together—layering overlapping reads like pieces of a puzzle to reconstruct a fuller, more complete genomic landmark. By comparing these methods, we prove that reconstructing the full sequence significantly increases our confidence in the biological results.
 
 ### 2.1 Performance Significance
 A Mann-Whitney U test proves that Consensus Assembly provides **statistically significant (p < 0.05)** gains in match confidence (E-value).
@@ -71,7 +71,7 @@ We identified **4 features** where the Consensus Assembly provided a critical re
 
 **Conclusion**: The additional context provided by **Consensus Assembly** doesn't just increase statistical confidence—it provides the resolution necessary to **correct taxonomic misassignments** and resolve generic scaffolds into high-confidence species hits.
 
-> **Validation of Assembly Fidelity**: These result confirm that these consensus sequences are high-fidelity and non-chimeric. This validates the PlatyGeno assembly methodology as a robust engine for reference-free discovery in clinical datasets.
+> **Validation of Assembly Fidelity**: These results confirm that these consensus sequences are high-fidelity and non-chimeric. This validates the PlatyGeno assembly methodology as a robust engine for reference-free discovery in clinical datasets.
 
 ---
 
