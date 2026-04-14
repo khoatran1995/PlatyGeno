@@ -1,9 +1,11 @@
-cff-version: 1.1.0
+cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 authors:
-- family-names: "Tran"
-  given-names: "Khoa Tu"
+  - family-names: "Tran"
+    given-names: "Khoa Tu"
 title: "PlatyGeno: Unsupervised Gene Discovery via Evo 2 & Sparse Autoencoders"
 version: "1.0.1"
-date-released: 2026-04-14
-url: "https://github.com/khoatran1995/PlatyGeno"
+date-released: "2026-04-14"
+repository-code: "https://github.com/khoatran1995/PlatyGeno"
+license: "Apache-2.0"
+abstract: "PlatyGeno is a high-performance suite for unsupervised gene discovery using Evo 2 and Sparse Autoencoders."
