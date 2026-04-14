@@ -78,12 +78,8 @@ PlatyGeno layers a "De-coding" layer on top of the Evo 2 foundation model:
 *   **[Technical Documentation](docs/DOCUMENTATION.md)**: Deep dive into Evo 2, Sparse Autoencoders, and technical API Reference.
 *   **[Validation Methodology](docs/VALIDATION_METHODOLOGY.md)**: Detailed audit trail for clinical gene discovery.
 
----
-
----
-
 ## 🚀 Advanced Python Discovery
-For deeper research integration, researchers can use the Python API to customize the engine (e.g., increasing `batch_size` for speed or tuning `min_activation` for sensitivity):
+Researchers can integrate the engine into custom discovery pipelines using the Python API:
 
 ```python
 import platygeno
@@ -100,6 +96,16 @@ results = platygeno.discover_genes(
 # View discovered biological features
 print(results[['feature_id', 'feature_name', 'activation', 'sequence']])
 ```
+
+### `platygeno.discover_genes()` Reference
+| Parameter | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `input_path` | `str` | *Req* | Path to sequence file. |
+| `min_activation` | `float` | `5.0` | Minimum signal strength. |
+| `rel_freq_max` | `float` | `1.0` | Rarity cap (1.0 = All significance). |
+| `scan_end` | `int` | `None` | Last read index (**None for end of file**). |
+| `top_n` | `int` | `-1` | Max features to return (**-1 for ALL, Default**). |
+
 ---
 
 ## 🚀 Complete Validation Suite (Case Study)
@@ -125,7 +131,7 @@ Researchers can choose to manually run the full discovery-to-validation pipeline
 
 ## ⚙️ Hardware Optimization
 
-PlatyGeno is optimized for high-performance discovery. To resolve the "12-hour bottleneck" on large datasets, utilize the **Batched Inference** engine.
+PlatyGeno is optimized for high-performance discovery, utilize the **Batched Inference** engine.
 
 ### Batch Size Guide (`--batch-size`)
 Parallelizing your scan is the fastest way to get results. Match this setting to your GPU VRAM:
@@ -162,8 +168,8 @@ PlatyGeno combines **Mean-Pooling** (Global Semantic Averaging) to denoise seque
 We utilize **Batched Mean-Pooling** (The Padding Filter) to achieve high-precision discovery. By processing sequences in batches, the engine uses sequence padding to dilate weaker semantic noise, ensuring only high-confidence biological signals survive the pooling phase.
 
 
-## 🧪 Clinical Validation (IBD-MDB)
-PlatyGeno includes a clinical validation set (`data/sample.fastq`) from the **IBD Metagenomic Database**. This enables researchers to verify the engine's ability to identify autonomous biological landmarks in high-complexity clinical samples with zero-reference databases.
+## 🧪 Validation data (IBD-MDB)
+PlatyGeno includes a clinical validation set (`data/sample.fastq`) from the **[IBD Metagenomic Database](https://ibdmdb.org/)**. This enables researchers to verify the engine's ability to identify autonomous biological landmarks in high-complexity clinical samples with zero-reference databases.
 
 ---
 
