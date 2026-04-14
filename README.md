@@ -130,4 +130,4 @@ PlatyGeno includes a clinical validation set (`data/sample.fastq`) from the **[I
   year = {2026}
 }
 ```
-*Grateful to Together AI (Evo 2) and Goodfire AI (SAE interpretability).*
+*Thanks to Together AI (Evo 2) and Goodfire AI (SAE interpretability) and the IBD Metagenomic Database (IBD-MDB). Please cite the relevant references when using PlatyGeno.*
