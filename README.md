@@ -157,26 +157,13 @@ The following benchmarks reflect the **Standard 20k Read Survey** (Clinical Gut 
 PlatyGeno uses internal activation states as the primary scientific dials, offering a flexible discovery scale that ranges from an exhaustive **Panoramic Survey Mode** (Default: -1) for identifying every landmark within the scan range, to a **Precision Mode** (10–50) that isolates only the strongest statistical outliers in the dataset.
 
 ## 🧪 Core Methodology
-PlatyGeno’s **"Golden Configuration"** combines **Mean-Pooling** (Global Semantic Averaging) to denoise sequence embeddings into stable biological summaries, and **Zero-Gate Discovery** (Unrestricted Semantic Census), which eliminates Top-K bottlenecks to capture every active biological concept—ensuring that rare regulatory motifs and functional domains are mapped without the noise and limitations of traditional pipelines.
+PlatyGeno combines **Mean-Pooling** (Global Semantic Averaging) to denoise sequence embeddings into stable biological summaries and **Zero-Gate Discovery** (Unrestricted Semantic Census), which eliminates Top-K bottlenecks to capture every active biological concept—ensuring that rare regulatory motifs and functional domains are mapped without the noise and limitations of traditional pipelines.
 
 ---
 
 ### 📈 Validation Stability: The Padding Filter
 We utilize **Batched Mean-Pooling** (The Padding Filter) to achieve high-precision discovery. By processing sequences in batches, the engine uses sequence padding to subtly dilute weaker semantic noise, ensuring that only the most powerful, high-confidence biological signals survive the pooling phase—resulting in a stable, noise-free discovery report.
 
----
-
-### 🧬 Technical Performance Highlights (v1.0)
-*   **Mechanism**: **Mean-Pooling** (Iterative sequence averaging).
-*   **Diversity**: **Zero-Gate Discovery** (Captures ALL active biological signals).
-*   **Performance**: Optimized for the **98-hit** high-fidelity validation discovery.
-
----
-
-### 📂 Unified Directory Structure
-PlatyGeno automatically manages your experiment audit trails:
-*   **`results/`**: Sample-aware Significance and Validation CSVs.
-*   **`data/`**: Your raw FASTQ/FASTA input files.
 
 ## 🧪 Validation Dataset: Gut Metagenome (IBD-MDB)
 PlatyGeno includes a high-density clinical validation set for testing novelty discovery in complex human samples:
