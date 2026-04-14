@@ -148,11 +148,11 @@ Parallelizing your scan is the fastest way to get results. Match this setting to
 
 ## ⚡ Performance Benchmarks
 
-The following benchmarks reflect the **Standard 20k Read Survey** (Clinical Gut Metagenome) using the optimized PlatyGeno v1.0.1 engine.
+The following benchmarks reflect the **Standard 20k Read Survey** (Clinical Gut Metagenome) using the optimized PlatyGeno v1.0.2 engine.
 
 | Mode | Engine Implementation | Runtime (20k Reads) | Discovery Speed |
 | :--- | :--- | :--- | :--- |
-| **v1.0.1 (Current)** | **Batched Mean-Pooling** | **~4.8 Minutes** | **🚀 100% (High Speed)** |
+| **v1.0.2 (Current)** | **Batched Mean-Pooling** | **~4.8 Minutes** | **🚀 100% (High Speed)** |
 | **Legacy / Experimental** | Sequential / Padded Only | ~142.5 Minutes | 🐌 3% (30x Slower) |
 
 *Benchmarks conducted on an NVIDIA RTX 4090 (24GB VRAM). Performance scales linearly with GPU memory and batch size.*
