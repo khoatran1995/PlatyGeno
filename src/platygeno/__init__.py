@@ -1,4 +1,4 @@
-__version__ = "1.0.3"
+__version__ = "1.0.4"
 from .core import PlatyGenoEngine
 from .evo_reader import read_evo_features
 from .workflow import discover_genes

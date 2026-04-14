@@ -1,12 +1,12 @@
 # PlatyGeno Technical Audit: Autonomous Genomic Discovery in Clinical Metagenomics
 
 **Date**: April 15, 2026 
-**PlatyGeno v1.0.3**
+**PlatyGeno v1.0.4**
 
 ---
 
 ## Objective
-This report evaluates the performance of the PlatyGeno v1.0.3 discovery engine on a complex gut metagenome dataset. We verify that nearly all high-activation features are cross-validated by BLAST with high statistical confidence, demonstrating a precise taxonomic correlation with the known biological context of the gut metagenomic sample. Moreover, we demonstrate that while high-activation "Precision Snippets" identify core genomic landmarks, subsequent "Consensus Assembly" significantly enhances biological significance (BLAST E-values) and taxonomic resolution. Most notably, we confirm the novel status of **Feature 7393**, a 101bp element with zero high-confidence matches in current public databases, highlighting PlatyGeno's utility in expanding the known genomic landscape.
+This report evaluates the performance of the PlatyGeno v1.0.4 discovery engine on a complex gut metagenome dataset. We verify that nearly all high-activation features are cross-validated by BLAST with high statistical confidence, demonstrating a precise taxonomic correlation with the known biological context of the gut metagenomic sample. Moreover, we demonstrate that while high-activation "Precision Snippets" identify core genomic landmarks, subsequent "Consensus Assembly" significantly enhances biological significance (BLAST E-values) and taxonomic resolution. Most notably, we confirm the novel status of **Feature 7393**, a 101bp element with zero high-confidence matches in current public databases, highlighting PlatyGeno's utility in expanding the known genomic landscape.
 
 ---
 
@@ -37,9 +37,9 @@ A Mann-Whitney U test proves that Consensus Assembly provides **statistically si
 | **Max Length Found** | 60 bp | **180 bp** | N/A |
 | **E-value (Median)** | 8.40 &times; 10<sup>-14</sup> | **8.75 &times; 10<sup>-14</sup>** | 0.0003 |
 
-> **Observation**: While "Identity" remains similar for conserved regions, the **E-value significance** is significantly improved by the addition of biological context. As shown below, once a landmark exceeds **100bp**, the statistical certainty grows exponentially.
+> **Observation**: While "Identity" remains similar for conserved regions, the **E-value significance** is significantly improved by the addition of biological context. As shown below, once a landmark exceeds **100bp**, the statistical certainty (E) grows exponentially.
 
-To address potential length bias, we analyzed the **Pearson Correlation ($r$)** between Sequence Length and Match Significance (-log<sub>10</sub>(E)) across all discovery units.
+To address potential length bias, we analyzed the **Pearson Correlation (<i>r</i>)** between Sequence Length and Match Significance (-log<sub>10</sub>(E)) across all discovery units.
 
 *   **Correlation Coefficient (<i>r</i>)**: **0.8356** (Extremely Strong Linear Relationship; Paired N=196 observations).
 *   **Statistical Note**: A Pearson correlation of 0.84 proves that the E-value gain is a predictable, direct product of increased biological context. As shown below, once a landmark exceeds **100bp**, the statistical certainty (E) grows exponentially.
@@ -119,4 +119,3 @@ Using **AlphaFold2**, we modeled the 101bp Consensus Landmark. The results provi
 
 ## 5. Conclusion
 The PlatyGeno discovery pipeline demonstrates exceptional precision in clinical samples. By utilizing Consensus Assembly, researchers gain **statistically superior** biological significance and cleaner taxonomic resolution, culminating in the successful autonomous discovery of novel genomic landmarks like **Feature 7393**.
-
