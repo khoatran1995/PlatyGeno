@@ -41,7 +41,7 @@ A Mann-Whitney U test proves that Consensus Assembly provides **statistically si
 
 To address potential length bias, we analyzed the **Pearson Correlation ($r$)** between Sequence Length and Match Significance (-log<sub>10</sub>(E)) across all discovery units.
 
-*   **Correlation Coefficient ($r$)**: **0.8356** (Extremely Strong Linear Relationship; Paired N=196 observations).
+*   **Correlation Coefficient (<i>r</i>)**: **0.8356** (Extremely Strong Linear Relationship; Paired N=196 observations).
 *   **Statistical Note**: A Pearson correlation of 0.84 proves that the E-value gain is a predictable, direct product of increased biological context. As shown below, once a landmark exceeds **100bp**, the statistical certainty (E) grows exponentially.
 
 | Length Bin (bp) | Avg Significance (-log<sub>10</sub>(E)) |
@@ -84,7 +84,7 @@ To ensure the scientific relevance of the discovery, hits were categorized into 
  
 > **Note on Resolution**: The 50% reduction in "Unclassified" features (from 4 down to 2) is directly attributed to the detection of features like **26953** and **30446**, which were unidentifiable as fragments but successfully resolved via Consensus Assembly.
 
-![Taxonomic Breakdown](validation/sample_validation_analysis/fig_taxonomy.png)
+![Taxonomic Breakdown](assets/fig_taxonomy.png)
 
 **Relevance Check**: The high concentration of **Gut Microbiota** (72% of hits) confirms that the AI is accurately profiling the sample context.
 
@@ -103,14 +103,14 @@ While multiple candidates achieved 'Novel' status (E-value = 10.0), **AlphaFold-
 Using **AlphaFold2**, we modeled the 101bp Consensus Landmark. The results provide definitive proof of biological organization:
 
 <p align="center">
-  <img src="validation/sample_validation_analysis/feature7393_Alphafold2_coverage.png" width="450">
-  <img src="validation/sample_validation_analysis/feature7393_Alphafold2_plddt.png" width="450">
+  <img src="assets/feature7393_Alphafold2_coverage.png" width="450">
+  <img src="assets/feature7393_Alphafold2_plddt.png" width="450">
 </p>
 <p align="center">
-  <img src="validation/sample_validation_analysis/feature7393_Alphafold2_best_structure.png" width="500">
+  <img src="assets/feature7393_Alphafold2_best_structure.png" width="500">
 </p>
 <p align="center">
-  <img src="validation/sample_validation_analysis/feature7393_Alphafold2_pae.png" width="800">
+  <img src="assets/feature7393_Alphafold2_pae.png" width="800">
 </p>
 
 **Auditing Conclusion**: Feature 7393 demonstrates a structured fold with distinct, high-confidence pLDDT regions, suggesting a functional biological architecture. The presence of off-diagonal islands in the PAE matrix confirms a rigid structural core. The total absence of matches in public databases, combined with this evidence, identifies Feature 7393 as a **high-confidence candidate for a novel genomic landmark** discovered autonomously by PlatyGeno.

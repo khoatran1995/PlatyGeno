@@ -15,14 +15,14 @@ PlatyGeno identifies **genomic landmarks** directly from raw sequence data. By l
 PlatyGeno v1.0.3 has been validated using the clinical **[IBD Metagenomic Database](https://ibdmdb.org/)** dataset. For complete statistical data and methodology, see the [**PlatyGeno Technical Audit**](./PlatyGeno%20Technical%20Audit.md) and the [**PlatyGeno Technical Supplemental**](./PlatyGeno%20Technical%20Supplemental.md).
 
 ### Summary of Results:
-*   **Novel Genomic Landmarks**: Identified **Feature 7393**, a 101bp sequence with no prior database matches and a high-confidence structural model (AlphaFold2 best prediction; $pLDDT \sim 80$).
+*   **Novel Genomic Landmarks**: Identified **Feature 7393**, a 101bp sequence with no prior database matches and a high-confidence structural model (AlphaFold2 best prediction; <i>pLDDT</i> &approx; 80).
 
     <p align="center">
-      <img src="validation/sample_validation_analysis/feature7393_Alphafold2_best_structure.png" width="450" alt="Feature 7393 Structure">
+      <img src="assets/feature7393_Alphafold2_best_structure.png" width="450" alt="Feature 7393 Structure">
       <br><i>Representative best structural prediction (AlphaFold2) of the novel Feature 7393 discovered autonomously by PlatyGeno.</i>
     </p>
-*   **Statistical Correlation**: Verified a Pearson correlation of **$r=0.84$** ($p < 10^{-50}$) between sequence length and match significance.
-*   **Resolution Gain**: Consensus assembly provided a **$10^{38}$ increase** in E-value confidence over isolated 60bp fragments.
+*   **Statistical Correlation**: Verified a Pearson correlation of <b><i>r</i> = 0.84</b> (<i>p</i> < 10<sup>-50</sup>) between sequence length and match significance.
+*   **Resolution Gain**: Consensus assembly provided a **10<sup>38</sup> increase** in E-value confidence over isolated 60bp fragments.
 *   **Taxonomic Profile**: 72% of high-activation discoveries successfully cross-validated with target gut microbiota.
 
 ---
