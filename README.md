@@ -187,10 +187,6 @@ The "Golden Configuration" (Batched Mean-Pooling) achieves its stable **98-landm
 *   **Diversity**: **Zero-Gate Discovery** (Captures ALL active biological signals).
 *   **Performance**: Optimized for the **98-hit** high-fidelity validation discovery.
 
-### 4. Strategic Subtraction (`--exclude`)
-*   **Usage**: `--exclude 212,16509`
-*   **Purpose**: "Mutes" features you have already identified as known biology. This forces the engine to look deeper and surface the next layer of genomic candidates.
-
 ---
 
 ### 📂 Unified Directory Structure
@@ -239,6 +235,18 @@ While PlatyGeno identifies all important genes, it is uniquely tuned for **Genom
   year = {2026}
 }
 ```
+
+---
+
+---
+
+## ⚠️ Technical Limitations & Scope
+
+As an AI-native discovery tool, PlatyGeno’s insights are subject to several technical boundaries:
+
+*   **Pre-training Bias**: PlatyGeno relies on the **Evo 2** foundation model. If specific genomic structures or rare taxa were significantly under-represented or excluded in the model’s pre-training corpus, the engine may demonstrate lower sensitivity for those regions.
+*   **SAE Bottleneck**: While Sparse Autoencoders provide human-interpretable "concepts," they represent a discrete compression of the 7B parameter model. Extremely subtle motifs or novel biological nuances may occasionally fall below the SAE activation threshold.
+*   **Validation Requirement**: A high significance score is a "Biological Beacon," but it is not a final proof of function. All discovery candidates should be cross-verified using structural tools (AlphaFold/ESMFold) or experimental assays.
 
 ---
 
