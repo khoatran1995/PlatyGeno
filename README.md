@@ -62,8 +62,6 @@ platygeno --input data/sample.fastq --limit 5000
 
 ---
 
----
-
 ## 🏗️ Simplified Architecture
 
 PlatyGeno layers a "De-coding" layer on top of the Evo 2 foundation model:
@@ -77,6 +75,8 @@ PlatyGeno layers a "De-coding" layer on top of the Evo 2 foundation model:
 ## 📚 Documentation & Reference
 *   **[Technical Documentation](docs/DOCUMENTATION.md)**: Deep dive into Evo 2, Sparse Autoencoders, and technical API Reference.
 *   **[Validation Methodology](docs/VALIDATION_METHODOLOGY.md)**: Detailed audit trail for clinical gene discovery.
+
+---
 
 ## 🚀 Advanced Python Discovery
 Researchers can integrate the engine into custom discovery pipelines using the Python API:
@@ -131,7 +131,7 @@ Researchers can choose to manually run the full discovery-to-validation pipeline
 
 ## ⚙️ Hardware Optimization
 
-PlatyGeno is optimized for high-performance discovery, utilize the **Batched Inference** engine.
+PlatyGeno is optimized for high-performance discovery through its dedicated **Batched Inference** engine.
 
 ### Batch Size Guide (`--batch-size`)
 Parallelizing your scan is the fastest way to get results. Match this setting to your GPU VRAM:
@@ -180,16 +180,7 @@ PlatyGeno includes a clinical validation set (`data/sample.fastq`) from the **[I
 
 ---
 
-## 📚 API Reference
-
-### `platygeno.discover_genes()`
-| Parameter | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `input_path` | `str` | *Req* | Path to sequence file. |
-| `min_activation` | `float` | `5.0` | Minimum signal strength. |
-| `rel_freq_max` | `float` | `1.0` | Rarity cap (1.0 = All significance). |
-| `scan_end` | `int` | `None` | Last read index (**None for end of file**). |
-| `top_n` | `int` | `-1` | Max features to return (**-1 for ALL, Default**). |
+---
 
 ---
 
