@@ -1,6 +1,6 @@
 <table width="100%">
   <tr>
-    <td width="200"><img src="icon/PlatyGeno%20-%20small.png" width="200" alt="PlatyGeno Icon"></td>
+    <td width="200"><img src="https://raw.githubusercontent.com/khoatran1995/PlatyGeno/main/icon/PlatyGeno%20-%20small.png" width="200" alt="PlatyGeno Icon"></td>
     <td align="left"><h1>Unsupervised Biological Significance Mapping via <br> Evo 2 & Sparse Autoencoders</h1></td>
   </tr>
 </table>
@@ -8,7 +8,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/platygeno.svg)](https://pypi.org/project/platygeno/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-PlatyGeno is a professional Python package for identifying **genomic landmarks** directly from raw sequence data. By leveraging the **Evo 2 foundation model**, it identifies biologically significant DNA structures (promoters, coding sequences, precise motifs) based purely on AI confidence—**without requiring labels, databases, or BLAST.**
+PlatyGeno is a professional Python package for identifying **genomic landmarks** directly from raw sequence data. By leveraging the **Evo 2 foundation model**, it identifies biologically significant DNA structures (promoters, coding sequences, precise motifs,...) based purely on AI confidence—**without requiring labels, databases, or BLAST.**
 
 ---
 
@@ -45,10 +45,14 @@ If you are cloning the repository for research or development, follow these thre
 git clone https://github.com/khoatran1995/PlatyGeno.git
 cd PlatyGeno
 
-# 2. Install in Editable Mode
+# 2. Install high-performance GPU kernels (Mandatory for speed)
+pip install ninja # for faster installation of flash-attn
+pip install flash-attn --no-build-isolation
+
+# 3. Install in Editable Mode
 pip install -e .
 
-# 3. Trigger Discovery (on the benchmark sample)
+# 4. Trigger Discovery (on the validation sample)
 platygeno --input data/sample.fastq --limit 5000
 ```
 
@@ -58,15 +62,15 @@ platygeno --input data/sample.fastq --limit 5000
 
 PlatyGeno layers a "De-coding" layer on top of the Evo 2 foundation model:
 
-1.  **Evo 2 (The Brain)**: A 7B parameter model that understands the grammar of all sequenced DNA on Earth.
-2.  **Sparse Autoencoders (The Interpreter)**: 32,768 discrete concept nodes that translate internal AI math into human-interpretable biological signals.
-3.  **Landmark Scouter**: Scans raw FASTQ data to find the precise coordinates where these concept nodes fire with the highest intensity.
+1.  **Evo 2 (The Brain)**: A 7B parameter foundation model by **Together AI** that understands the genomic grammar of all sequenced life.
+2.  **Sparse Autoencoders (The Interpreter)**: We utilize **Goodfire's** Sparse Autoencoders (specifically the `Layer-26-Mixed` expansion) to translate dense AI math into 32,768 discrete, human-interpretable biological concepts.
+3.  **Landmark Scouter**: Scans raw data to find the precise coordinates where these concept nodes fire with the highest intensity.
 
 ---
 
 ## 📚 Documentation & Reference
-*   **[Technical API Reference](REFERENCE.md)**: Detailed documentation for every function in the `platygeno` core.
-*   **[Architecture Guide](ARCHITECTURE.md)**: Deep dive into Evo 2, Sparse Autoencoders, and Max-Pooling theory.
+*   **[Technical Documentation](docs/DOCUMENTATION.md)**: Deep dive into Evo 2, Sparse Autoencoders, and technical API Reference.
+*   **[Validation Methodology](docs/VALIDATION_METHODOLOGY.md)**: Detailed audit trail for clinical gene discovery.
 
 ---
 
@@ -78,11 +82,12 @@ Researchers can perform complete biological landmark discovery with just a singl
 ```python
 import platygeno
 
-# Complete Discovery: Scan, Pool, Extract, and Annotate
+# Complete Discovery: San, Pool, Extract, and Annotate
 results = platygeno.discover_genes(
     input_path="data/sample.fastq",
-    scan_end=5000,          # Scan first 5000 reads
-    min_activation=5.0      # Target high-confidence landmarks
+    scan_start=0,
+    scan_end=5000,
+    min_activation=5.0
 )
 
 # View discovered biological features
@@ -127,7 +132,6 @@ If you prefer the command line, you can trigger a full biological scan with one 
 ```bash
 # Scan 5000 reads and generate a landmark report
 # Automatically saves to: results/sample_Significance.csv
-# Automatically generates: reports/sample_Dashboard.html
 platygeno --input sample.fastq --limit 5000 --threshold 5.0
 ```
 
@@ -163,15 +167,15 @@ Most feature-extraction pipelines use a "Top-K" gate to only record the stronges
 
 ---
 
-### 📈 Benchmark Stability: The Padding Filter
-The "Golden Configuration" (Batched Mean-Pooling) achieves its stable **98-landmark benchmark** by utilizing a natural "Padding Filter." By processing sequences in batches, the engine uses sequence padding to subtly dilute weaker semantic noise. This ensures that only the most powerful, high-confidence biological signals survive the pooling phase, resulting in a high-precision, noise-free discovery report.
+### 📈 Validation Stability: The Padding Filter
+The "Golden Configuration" (Batched Mean-Pooling) achieves its stable **98-landmark validation** by utilizing a natural "Padding Filter." By processing sequences in batches, the engine uses sequence padding to subtly dilute weaker semantic noise. This ensures that only the most powerful, high-confidence biological signals survive the pooling phase, resulting in a high-precision, noise-free discovery report.
 
 ---
 
 ### 🧬 Technical Performance Highlights (v1.0)
 *   **Mechanism**: **Mean-Pooling** (Iterative sequence averaging).
 *   **Diversity**: **Zero-Gate Discovery** (Captures ALL active biological signals).
-*   **Performance**: Optimized for the **98-hit** Ph.D. benchmark discovery.
+*   **Performance**: Optimized for the **98-hit** Ph.D. validation discovery.
 
 ### 4. Strategic Subtraction (`--exclude`)
 *   **Usage**: `--exclude 212,16509`
@@ -182,15 +186,14 @@ The "Golden Configuration" (Batched Mean-Pooling) achieves its stable **98-landm
 ### 📂 Unified Directory Structure
 PlatyGeno automatically manages your experiment audit trails:
 *   **`results/`**: Sample-aware Significance and Validation CSVs.
-*   **`reports/`**: High-fidelity HTML dashboards (Prefixed by sample name).
 *   **`data/`**: Your raw FASTQ/FASTA input files.
 
-## 🧪 Benchmark Dataset: Gut Metagenome (IBD-MDB)
-PlatyGeno includes a high-density clinical benchmark for testing novelty discovery in complex human samples:
+## 🧪 Validation Dataset: Gut Metagenome (IBD-MDB)
+PlatyGeno includes a high-density clinical validation set for testing novelty discovery in complex human samples:
 
 *   **Origin**: Chronic Inflammatory Bowel Disease (IBD) Metagenomic Database.
 *   **Role**: Validating the engine's ability to identify autonomous biological landmarks in high-complexity clinical metagenomes.
-*   **Local Data**: Benchmark reads are provided in the `data/` directory for Ph.D. reproducibility.
+*   **Local Data**: Validation reads are provided in the `data/sample.fastq` file for Ph.D. reproducibility.
 
 ---
 
@@ -227,4 +230,65 @@ While PlatyGeno identifies all important genes, it is uniquely tuned for **Genom
 }
 ```
 
+---
+
+## 📜 Citations & Acknowledgements
+
+If you use PlatyGeno in your research, please cite this repository and the underlying foundation models:
+
+```bibtex
+@software{tran2026platygeno,
+  author = {Tran, Khoa Tu},
+  title = {PlatyGeno: Unsupervised Gene Discovery via Evo 2 and Sparse Autoencoders},
+  year = {2026},
+  url = {https://github.com/khoatran1995/PlatyGeno}
+}
+
+@article{togetherai2024evo2,
+  title={Evo 2: A 7B DNA Foundation Model},
+  author={Together AI},
+  year={2024},
+  url={https://github.com/togethercomputer/evo2}
+}
+
+@software{goodfire2024sae,
+  author = {Goodfire AI},
+  title = {Sparse Autoencoders for Genomic Interpretability (Layer 26 Mixed)},
+  year = {2024},
+  url = {https://goodfire.ai}
+}
+```
+
+PlatyGeno was developed as part of a Ph.D. research effort focused on reference-free metagenomic discovery. Special thanks to the **Goodfire AI** team for their pioneering work on SAE-based interpretability for Evo 2.
 **2. Evo 2 Model:** Arc Institute. (2026). *Genome modeling and design across all domains of life with Evo 2*. *Nature*.
+
+---
+
+## 📜 Citations & Acknowledgements
+
+If you use PlatyGeno in your research, please cite this repository and the underlying foundation models:
+
+```bibtex
+@software{tran2026platygeno,
+  author = {Tran, Khoa Tu},
+  title = {PlatyGeno: Unsupervised Gene Discovery via Evo 2 and Sparse Autoencoders},
+  year = {2026},
+  url = {https://github.com/khoatran1995/PlatyGeno}
+}
+
+@article{togetherai2024evo2,
+  title={Evo 2: A 7B DNA Foundation Model},
+  author={Together AI},
+  year={2024},
+  url={https://github.com/togethercomputer/evo2}
+}
+
+@software{goodfire2024sae,
+  author = {Goodfire AI},
+  title = {Sparse Autoencoders for Genomic Interpretability (Layer 26 Mixed)},
+  year = {2024},
+  url = {https://goodfire.ai}
+}
+```
+
+PlatyGeno was developed as part of a Ph.D. research effort focused on reference-free metagenomic discovery. Special thanks to the **Together AI** team for the Evo 2 foundation model and the **Goodfire AI** team for their pioneering work on SAE-based interpretability.

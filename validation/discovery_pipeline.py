@@ -5,8 +5,13 @@ import subprocess
 
 def run_suite(input_path, limit=20000, batch_size=32, threads=5, panoramic=True):
     print("="*80)
-    print("      PLATYGENO DISCOVERY SUITE: 20K BENCHMARK PIPELINE")
+    print("      PLATYGENO DISCOVERY SUITE: 20K VALIDATION PIPELINE")
     print("="*80)
+    
+    # 1.0 Clean up legacy artifacts to ensure a fresh v1.0.1 run
+    if os.path.exists("reports"):
+        import shutil
+        shutil.rmtree("reports")
     
     # 1.1 Dynamic Naming Prep
     base_name = os.path.splitext(os.path.basename(input_path))[0]
@@ -32,7 +37,7 @@ def run_suite(input_path, limit=20000, batch_size=32, threads=5, panoramic=True)
         return
 
     # 2. Step 2: Turbo-BLAST Validation
-    # In benchmark mode, we validate BOTH (Consensus + Snippets) per your request.
+    # In validation mode, we validate BOTH (Consensus + Snippets) per your request.
     blast_cmd = [
         sys.executable, "validation/step2_blast.py",
         "--input", csv_name,
@@ -44,13 +49,12 @@ def run_suite(input_path, limit=20000, batch_size=32, threads=5, panoramic=True)
     subprocess.run(blast_cmd)
 
     print("\n" + "="*80)
-    print("✅ 20K BENCHMARK COMPLETE")
+    print("✅ 20K VALIDATION COMPLETE")
     print(f"Discovery Map:   {csv_name}")
     print(f"Validation Map:  results/PLG_{base_name}_Validation.csv")
-    print(f"Dashboard:       reports/{base_name}_Dashboard.html")
     print("-" * 80)
     print("📈 NEXT STEPS:")
-    print(f"AI Scan Complete. You can now review 'reports/{base_name}_Dashboard.html'.")
+    print(f"AI Scan Complete. Results saved to {csv_name}.")
     print("To verify your 'Unknown' discoveries, we suggest manually extracting the")
     print("sequences and running them through structural tools like AlphaFold 2.")
     print("="*80)

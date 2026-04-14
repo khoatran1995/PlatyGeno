@@ -1,22 +1,23 @@
-# Scientific Philosophy: Zero-Reference Significance Mapping
+# Scientific Foundation: High-Confidence Feature Detection
 
-## 1. The Challenge: Homology Bias
-Traditional bioinformatics relies on **Homology Search** (e.g., BLAST). This method identifies genes by comparing them to sequences already stored in databases. While effective for known organisms, Homology Search is inherently biased: it cannot identify functional DNA that lacks a known reference.
+## 1. The Bottleneck: The "Needle in a Haystack" Problem
+Metagenomic datasets contain millions of reads, most of which are fragmented or biologically inert. Traditional search-first approaches (e.g., BLAST) require researchers to hypothesize what they are looking for, often leading to labor-intensive manual searches that miss novel or divergent biological signals hidden in the noise.
 
-## 2. The Solution: Deep Genomic Interpretability
-PlatyGeno utilizes **Evo 2**, a foundation model trained on objective genomic patterns across all domains of life. Instead of matching DNA to a list, PlatyGeno identifies **Intrinsically Significant** features.
+## 2. The Solution: Significance-First Scanning
+PlatyGeno filters genomic noise by interpreting the latent output of the **Evo 2** foundation model through **Sparse Autoencoders (SAEs)**. Instead of matching sequences against a database, PlatyGeno scans the entire dataset to identify discrete biological features with high mathematical confidence. Moreover, it can even identify possible novel, never-before-seen discoveries.
 
-### The Significance Signal
-When Evo 2 "reads" a sequence, its internal neurons (Sparse Autoencoders) fire in response to biological concepts. 
-- **Activation Strength** is our primary metric. 
-- A high activation score indicates that the AI has detected a high-confidence biological feature (e.g., a viral polymerase or a metabolic promoter), regardless of whether that sequence exists in NCBI.
+### Mechanism: SAE-Driven Interpretation
+The tool evaluates sequences based on their intrinsic biological signal rather than their presence in a reference library.
+- **Automated Scanning**: Utilizing optimized SAEs (e.g., K=26), the system analyzes the whole file to detect patterns associated with functional proteins, metabolic promoters, and viral structural motifs.
+- **High-Confidence Candidates**: Only sequences exhibiting a strong AI activation signal are surfaced. This delivers a curated set of "high-interest" DNA, drastically reducing the search space for the researcher.
 
-## 3. Reference-Free Discovery Workflow
-Under the PlatyGeno "Significance-First" model, the discovery process is inverted:
+## 3. Workflow: From Signal to Validation
+PlatyGeno streamlines the path from raw data to discovery:
 
-1.  **Landscape Mapping**: Identifying all significant DNA landmarks in a raw dataset based on AI confidence.
-2.  **Structural Validation**: Using AlphaFold to predict the 3D structure of these landmarks. If the DNA matches nothing in the database, but the 3D structure shows a clear fold, a **Novel Discovery** has been made.
-3.  **Digital Subtraction**: Optionally filtering for **Rarity** to isolate signals that are non-standard or exclusive to a specific clinical sample.
+1.  **Autonomous Scanning**: The tool parses the raw sequence file, identifying all internally significant landmarks based on AI confidence.
+2.  **Confidence Extraction**: The researcher receives a manageable list of high-confidence DNA sequences.
+3.  **Secondary Validation**: These sequences are then ready for validation: **BLAST** to identify known matches, or **AlphaFold** to verify their structure (could be novel DNA sequences).
 
 ## 4. Conclusion
-PlatyGeno moves bioinformatics away from "List Matching" and toward "Concept Detection." It empowers researchers to find the most important parts of a metagenome purely by observing the "Fluorescence" of biological signals on the AI interpretability manifold.
+PlatyGeno is built to eliminate the discovery bottleneck. By leveraging the interpretability of genomic foundation models, it allows researchers to bypass the trial-and-error of manual searching and proceed directly to validating high-confidence biological features.
+

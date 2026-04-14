@@ -53,7 +53,7 @@ def process_feature_blast(row):
         'e_value': e_value
     }
 
-def run_benchmarking_validation(input_csv="PLG_Stage1_Significance.csv", output_prefix=None, max_workers=5, validate_all=False):
+def run_discovery_validation(input_csv="PLG_Stage1_Significance.csv", output_prefix=None, max_workers=5, validate_all=False):
     """Phase 2: Turbo-BLAST Validation (Multi-threaded)"""
     
     # Dynamic Naming: Derives sample name from the input Significance CSV
@@ -72,7 +72,7 @@ def run_benchmarking_validation(input_csv="PLG_Stage1_Significance.csv", output_
     print("="*70)
     print(f"PHASE 2: Turbo-BLAST Validation (Threads: {max_workers})")
     print(f"Input:  {input_csv}")
-    print(f"Mode:   {'Validate ALL (38+)' if validate_all else 'Consensus-Only (13)'}")
+    print(f"Mode:   {'Validate ALL' if validate_all else 'Consensus-Only'}")
     print(f"Audit:  {output_csv}")
     print("="*70)
 
@@ -141,7 +141,7 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     
-    run_benchmarking_validation(
+    run_discovery_validation(
         input_csv=args.input, 
         output_prefix=args.output_prefix, 
         max_workers=args.threads,

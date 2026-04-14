@@ -15,7 +15,6 @@ from .mapper import (
     assemble_feature_consensus,
     annotate_with_biology
 )
-from .analyzer import generate_html_report
 
 def discover_genes(
     input_path,
@@ -55,8 +54,6 @@ def discover_genes(
     if output_path is None:
         output_path = os.path.join("results", f"{base_name}_Significance.csv")
     
-    report_html = os.path.join("reports", f"{base_name}_Dashboard.html")
-
     # 2. Phase 1: Significance Scanning (Batched)
     print(f"📡 Mapping biological landmarks in sequence range {scan_start} to {scan_end if scan_end is not None else 'End'}...")
     report, total_scanned = read_evo_features(input_path, engine, start=scan_start, stop=scan_end, batch_size=batch_size)
@@ -166,9 +163,6 @@ def discover_genes(
     # 5. Annotation (Zero-Reference -> Biological Meaning)
     results_df = annotate_with_biology(results_df)
     
-    # 6. HTML Reporting (Premium Dashboard)
-    generate_html_report(results_df, output_path=report_html)
-
     # 7. Output
     if output_path:
         # Resolve path to ensure absolute management

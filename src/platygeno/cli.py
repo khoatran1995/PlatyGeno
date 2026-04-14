@@ -65,7 +65,7 @@ def main():
         available_cols = [c for c in cols if c in results.columns]
         print(results[available_cols].to_string(index=False))
         print("="*100)
-        print(f"✅ Success! Full report saved to {args.output}")
+        print(f"✅ Success! Discovery results saved to {args.output}")
     else:
         print("\n⚠️ No genes discovered with the current parameters.")
 

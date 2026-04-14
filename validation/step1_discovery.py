@@ -17,7 +17,7 @@ def run_significance_scan(input_path=None, top_pct=None, top_n=None, start=0, li
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         # Priority 1: Vostok subset we just created
         vostok_path = os.path.join(base_dir, "data", "SRR5462529", "vostok_200k.fastq")
-        # Priority 2: Original benchmark subset
+        # Priority 2: Original validation subset
         original_path = os.path.join(base_dir, "data", "SRR23196177_subset.fastq")
         
         input_path = vostok_path if os.path.exists(vostok_path) else original_path
@@ -66,7 +66,7 @@ def run_significance_scan(input_path=None, top_pct=None, top_n=None, start=0, li
     print(f"\nSIGNIFICANCE MAPPING COMPLETE")
     print("="*70)
     print(f"Landmark Report: {output_csv}")
-    print(f"Mapped {len(results)//2} significant biological features.")
+    print(f"Mapped {len(results['feature_id'].unique())} significant biological features.")
     print(f"NEXT STEP: Run 'python validation/step2_local_blast.py --input {output_csv}'")
     print("="*70)
 
