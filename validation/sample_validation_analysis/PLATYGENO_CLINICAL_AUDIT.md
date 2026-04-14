@@ -74,19 +74,7 @@ We identified cases where the isolated snippet and full assembly **disagreed** o
 
 ---
 
-## 3. Metrics of Biological Significance
-To assess the "quality" of the discoveries beyond simple counts, we analyzed the intrinsic properties of the identified landmarks.
-
-| Metric | Scientific Significance | Observed Value |
-|:---|:---|:---|
-| **Genomic Complexity** | Proof of non-random, functional DNA signal | **0.9687** (High) |
-| **GC Content** | Indicates genomic stability (Gut Metagenome baseline) | **50.39%** |
-| **Length Improvement** | Gain in structural coverage via Consensus Assembly | **26.2%** |
-| **Maximum Novelty** | Rarity of the most infrequent validated feature | **0.005%** |
-
----
-
-## 4. Taxonomic Relevance & Context
+## 3. Taxonomic Relevance & Context
 To ensure the scientific relevance of the discovery, hits were categorized into known biological origins.
 
 | method | Gut Microbiota (Target) | Host DNA (Human) | Other Biological Hit | Unclassified / Novel |
@@ -100,7 +88,7 @@ To ensure the scientific relevance of the discovery, hits were categorized into 
 
 ---
 
-## 5. Novel Discovery Spotlight: Feature 7393
+## 4. Novel Discovery Spotlight: Feature 7393
 Feature 7393 was highlighted as a high-activation candidate. Validation confirms its status as a high-potential discovery.
 
 | Feature ID | Assembly Method | Length (bp) | BLAST E-value |
@@ -113,7 +101,7 @@ Feature 7393 was highlighted as a high-activation candidate. Validation confirms
 
 ---
 
-## 6. Conclusion
+## 5. Conclusion
 The PlatyGeno discovery pipeline demonstrates exceptional precision in clinical samples. By utilizing Consensus Assembly, researchers gain **statistically superior** biological significance and cleaner taxonomic resolution, culminating in the successful autonomous discovery of novel genomic landmarks like **Feature 7393**.
 
 ---
