@@ -180,11 +180,15 @@ PlatyGeno includes a clinical validation set (`data/sample.fastq`) from the **[I
 
 ---
 
----
+## ⚠️ Technical Limitations & Scope
+As an AI-native discovery tool, PlatyGeno’s insights are subject to several technical boundaries:
+*   **Pre-training Bias**: PlatyGeno relies on the **Evo 2** foundation model. If specific genomic structures or rare taxa were significantly under-represented or excluded in the model’s pre-training corpus, the engine may demonstrate lower sensitivity for those regions.
+*   **SAE Bottleneck**: While Sparse Autoencoders provide human-interpretable "concepts," they represent a discrete compression of the 7B parameter model. Extremely subtle motifs or novel biological nuances may occasionally fall below the SAE activation threshold.
+*   **Validation Requirement**: A high significance score is a "Biological Beacon," but it is not a final proof of function. All discovery candidates should be cross-verified using structural tools (AlphaFold/ESMFold) and/or experimental assays.
 
 ---
 
-## 📜 Primary References
+## 📜 References
 
 **1. PlatyGeno (This Package):**
 ```bibtex
@@ -196,16 +200,4 @@ PlatyGeno includes a clinical validation set (`data/sample.fastq`) from the **[I
 }
 ```
 
----
-
-## ⚠️ Technical Limitations & Scope
-
-As an AI-native discovery tool, PlatyGeno’s insights are subject to several technical boundaries:
-
-*   **Pre-training Bias**: PlatyGeno relies on the **Evo 2** foundation model. If specific genomic structures or rare taxa were significantly under-represented or excluded in the model’s pre-training corpus, the engine may demonstrate lower sensitivity for those regions.
-*   **SAE Bottleneck**: While Sparse Autoencoders provide human-interpretable "concepts," they represent a discrete compression of the 7B parameter model. Extremely subtle motifs or novel biological nuances may occasionally fall below the SAE activation threshold.
-*   **Validation Requirement**: A high significance score is a "Biological Beacon," but it is not a final proof of function. All discovery candidates should be cross-verified using structural tools (AlphaFold/ESMFold) or experimental assays.
-
----
-
-PlatyGeno was developed as part of a research effort focused on reference-free metagenomic discovery. Special thanks to the **Together AI** team for the Evo 2 foundation model and the **Goodfire AI** team for their pioneering work on SAE-based interpretability.
+PlatyGeno was developed as part of a research effort focused on reference-free metagenomic discovery. Special thanks to the **Together AI** team for the Evo 2 foundation model and the **Goodfire AI** team for their pioneering work on SAE-based interpretability. Please cite them if relevant.
