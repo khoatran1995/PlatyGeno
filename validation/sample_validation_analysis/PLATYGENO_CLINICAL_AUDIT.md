@@ -61,14 +61,13 @@ To prove that Consensus Assembly isn't just "better" but is sometimes **essentia
 **Inference**: Isolated high-activation snippets can occasionally fall below the threshold for BLAST identification. Reconstructing the full sequence context via **Consensus Assembly** enables high-confidence identification of features that traditional "window-based" scanning would miss entirely.
 
 #### 🏛️ Global Census of Taxonomic Refinement
-We identified **4 features** where the Consensus Assembly provided a critical refinement or shift in biological identity.
+We identified **3 features** where the Consensus Assembly provided a critical refinement or shift in biological identity.
 
 | Feature ID | Snippet Hit (E-value) | Assembly Hit (E-value) | Resolution |
 |:---|:---|:---|:---|
 | **15861** | MAG: Cand. Karel (10<sup>-20</sup>) | **Bacteroides hominis (10<sup>-42</sup>)** | **Taxonomic Shift** |
 | **12829** | MAG: Cand. Karel (10<sup>-20</sup>) | **Bacteroides hominis (10<sup>-42</sup>)** | **Taxonomic Shift** |
-| **17392** | Generic Fragment (10<sup>-20</sup>) | **Bacteroides uniformis (10<sup>-38</sup>)** | **Specific ID** |
-| **26886** | Generic Fragment (10<sup>-20</sup>) | **Phocaeicola vulgatus (10<sup>-42</sup>)** | **Specific ID** |
+| **26953** | MAG: Cand. Karel (10<sup>-20</sup>) | **Bacteroides hominis (10<sup>-42</sup>)** | **Taxonomic Shift** |
 
 **Conclusion**: The additional context provided by **Consensus Assembly** doesn't just increase statistical confidence—it provides the resolution necessary to **correct taxonomic misassignments** and resolve generic scaffolds into high-confidence species hits.
 
