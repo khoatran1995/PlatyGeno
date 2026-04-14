@@ -1,6 +1,7 @@
 # PlatyGeno Technical Audit: Autonomous Genomic Discovery in Clinical Metagenomics
 
-**Date**: April 15, 2026  
+**Date**: April 15, 2026 
+**PlatyGeno v1.0.2**
 
 ---
 
@@ -31,8 +32,8 @@ A Mann-Whitney U test proves that Consensus Assembly provides **statistically si
 
 | Metric | Precision Snippet | Consensus Assembly | p-value |
 |:---|:---: |:---:|:---|
-| **Identity (Mean ± SD)** | 91.62% ± 5.4% | **92.96% ± 4.1%** | 0.9999 |
-| **Length (Avg ± SD)** | 57.84 ± 5.4 bp | **72.97 ± 20.6 bp** | <0.001 |
+| **Identity (Mean ± SD)** | 91.22% ± 5.4% | **92.96% ± 4.1%** | 0.9999 |
+| **Length (Avg ± SD)** | 58.76 ± 5.4 bp | **72.97 ± 20.6 bp** | <0.001 |
 | **Max Length Found** | 60 bp | **180 bp** | N/A |
 | **E-value (Median)** | 8.40 &times; 10<sup>-14</sup> | **8.75 &times; 10<sup>-14</sup>** | 0.0003 |
 
@@ -40,14 +41,14 @@ A Mann-Whitney U test proves that Consensus Assembly provides **statistically si
 
 To address potential length bias, we analyzed the **Pearson Correlation ($r$)** between Sequence Length and Match Significance (-log<sub>10</sub>(E)) across all discovery units.
 
-*   **Correlation Coefficient ($r$)**: **0.8369** (Extremely Strong Linear Relationship; N=203).
+*   **Correlation Coefficient ($r$)**: **0.8356** (Extremely Strong Linear Relationship; Paired N=196 observations).
 *   **Statistical Note**: A Pearson correlation of 0.84 proves that the E-value gain is a predictable, direct product of increased biological context. As shown below, once a landmark exceeds **100bp**, the statistical certainty (E) grows exponentially.
 
 | Length Bin (bp) | Avg Significance (-log<sub>10</sub>(E)) |
 |:---|:---: |
-| **60 (Snippets)** | 12.9 |
-| **80 - 100** | 13.2 |
-| **100 - 180 (Assemblies)** | **36.8** |
+| **60 (Snippet Range)** | 13.1 |
+| **80 - 100** | 16.4 |
+| **100 - 180 (Assemblies)** | **38.0** |
 
 ### 2.2 Comparative Advantage of Consensus Assembly: Resolving Biological Context
 To prove that Consensus Assembly isn't just "better" but is sometimes **essential** for discovery, we analyzed features that were unidentifiable as isolated snippets.
