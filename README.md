@@ -98,7 +98,7 @@ print(results[['feature_id', 'feature_name', 'activation', 'sequence']])
 
 ---
 
-## 🚀 Step-by-Step Discovery (Research Suite)
+## 🚀 Step-by-Step Discovery
 
 PlatyGeno is now organized as a unified, research-grade discovery workflow:
 
