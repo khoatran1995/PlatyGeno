@@ -6,7 +6,7 @@
 ---
 
 ## Objective
-This report evaluates the performance of the PlatyGeno v1.0.2 discovery engine on a complex gut metagenome dataset. We verify that nearly all high-activation features are cross-validated by BLAST with high statistical confidence, demonstrating a precise taxonomic correlation with the known biological context of the gut metagenomic sample. Moreover, we demonstrate that while high-activation "Precision Snippets" identify core genomic landmarks, subsequent "Consensus Assembly" significantly enhances biological significance (BLAST E-values) and taxonomic resolution. Most notably, we confirm the novel status of **Feature 7393**, a 101bp element with zero high-confidence matches in current public databases, highlighting PlatyGeno's utility in expanding the known genomic landscape.
+This report evaluates the performance of the PlatyGeno v1.0.3 discovery engine on a complex gut metagenome dataset. We verify that nearly all high-activation features are cross-validated by BLAST with high statistical confidence, demonstrating a precise taxonomic correlation with the known biological context of the gut metagenomic sample. Moreover, we demonstrate that while high-activation "Precision Snippets" identify core genomic landmarks, subsequent "Consensus Assembly" significantly enhances biological significance (BLAST E-values) and taxonomic resolution. Most notably, we confirm the novel status of **Feature 7393**, a 101bp element with zero high-confidence matches in current public databases, highlighting PlatyGeno's utility in expanding the known genomic landscape.
 
 ---
 

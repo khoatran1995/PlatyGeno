@@ -9,7 +9,7 @@ stage2_path = os.path.join(BASE_DIR, "PLG_Stage2_Validation.csv")
 
 def thorough_audit():
     print("="*80)
-    print("PLATYGENO v1.0.2: DEEP DATA AUDIT & COHESION CHECK")
+    print("PLATYGENO v1.0.3: DEEP DATA AUDIT & COHESION CHECK")
     print("="*80)
 
     if not os.path.exists(stage2_path):

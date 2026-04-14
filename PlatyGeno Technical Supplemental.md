@@ -1,6 +1,6 @@
 # Supplemental Methodology: Taxonomic Classification & Data Audit
 
-This document outlines the methodological framework used to categorize the 203 biological features identified by PlatyGeno v1.0.2 in the clinical gut metagenomic dataset.
+This document outlines the methodological framework used to categorize the 203 biological features identified by PlatyGeno v1.0.3 in the clinical gut metagenomic dataset.
 
 ## 1. Classification Methodology
 
