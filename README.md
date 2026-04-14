@@ -9,7 +9,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19568630.svg)](https://doi.org/10.5281/zenodo.19568630)
 
-PlatyGeno is a professional Python package for identifying **genomic landmarks** directly from raw sequence data. By leveraging the **Evo 2 foundation model**, it identifies biologically significant DNA structures (promoters, coding sequences, precise motifs,...) based purely on AI confidence—**without requiring labels, databases, or BLAST.**
+PlatyGeno is a Python package for identifying **genomic landmarks** directly from raw sequence data. By leveraging the **Evo 2 foundation model**, it identifies biologically significant DNA structures (promoters, coding sequences, precise motifs,...) based purely on AI confidence—**without requiring labels, databases, or BLAST.**
 
 ---
 
@@ -73,6 +73,7 @@ platygeno --input data/sample.fastq --limit 5000
 
 ### 📚 Documentation & Reference
 *   **[Technical Documentation](docs/DOCUMENTATION.md)**: Deep dive into Evo 2, Sparse Autoencoders, and technical API Reference.
+*   **[Technical Architecture](docs/ARCHITECTURE.md)**: Details on Mean-Pooling, Zero-Gate Discovery, and the Padding Filter.
 *   **[Validation Methodology](docs/VALIDATION_METHODOLOGY.md)**: Detailed audit trail for clinical gene discovery.
 
 ---
@@ -124,9 +125,7 @@ Parallelizing your scan is the fastest way to get results. Match this setting to
 
 ---
 
-## ⚡ Performance & Methodology
-
-### ⚡ Performance Benchmarks
+## ⚡ Performance
 
 The following benchmarks reflect the **Standard 20k Read Survey** (Clinical Gut Metagenome) using the optimized PlatyGeno v1.0.2 engine.
 
@@ -135,12 +134,6 @@ The following benchmarks reflect the **Standard 20k Read Survey** (Clinical Gut 
 | **v1.0.2 (Current)** | **Batched Mean-Pooling** | **~4.8 Minutes** | **🚀 100% (High Speed)** |
 
 *Benchmarks conducted on an NVIDIA RTX 4090 (24GB VRAM). Performance scales linearly with GPU memory and batch size.*
-
-### 🧪 Methodology & Tuning
-PlatyGeno combines **Mean-Pooling** (Global Semantic Averaging) to denoise sequence embeddings and **Zero-Gate Discovery** (Unrestricted Semantic Census) to map every active biological concept. Use the internal activation dials to scale discovery from an exhaustive **Panoramic Survey** (Default: -1) to a Precision Mode (**Top 10–50**) that isolates the strongest statistical outliers.
-
-#### 📈 Stability: The Padding Filter
-We utilize **Batched Mean-Pooling** (The Padding Filter) to achieve high-precision discovery. By processing sequences in batches, the engine uses sequence padding to dilate weaker semantic noise, ensuring only high-confidence biological signals survive the pooling phase.
 
 ---
 
