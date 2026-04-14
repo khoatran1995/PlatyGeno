@@ -82,38 +82,45 @@ PlatyGeno layers a "De-coding" layer on top of the Evo 2 foundation model:
 
 ---
 
-## 🚀 One-Line Discovery Quickstart
-Researchers can perform complete biological landmark discovery with just a single function call:
+## 🚀 Advanced Python Discovery
+For deeper research integration, researchers can use the Python API to customize the engine (e.g., increasing `batch_size` for speed or tuning `min_activation` for sensitivity):
 
 ```python
 import platygeno
 
-# Complete Discovery: Scan, Pool, Extract, and Annotate
+# Advanced Discovery: Tuning parameters for a custom GPU environment
 results = platygeno.discover_genes(
     input_path="data/sample.fastq",
     scan_start=0,
     scan_end=5000,
-    min_activation=5.0
+    min_activation=8.0,      # High-confidence threshold
+    batch_size=32            # High-performance batching
 )
 
 # View discovered biological features
 print(results[['feature_id', 'feature_name', 'activation', 'sequence']])
+```
 ---
 
-## 🚀 Validate the Discovery
+## 🚀 Complete Validation Suite (Case Study)
 
-This repository contains a unified, research-grade discovery workflow:
+Researchers can choose to manually run the full discovery-to-validation pipeline for detailed clinical audits:
 
-**One-Line Discovery**: `python validation/discovery_pipeline.py --input sample.fastq` — Performs both significance scanning and automated BLAST validation.
+**One-Line Discovery Pipeline**: `python validation/discovery_pipeline.py --input data/sample.fastq`
 
-**Step 1 (Discovery)**: `python validation/step1_discovery.py --input data/sample.fastq --limit 5000`
-*Generates: `results/PLG_sample_Significance.csv`*
+**Manual Step-by-Step Walkthrough:**
+1. **Discovery**: `python validation/step1_discovery.py --input data/sample.fastq --limit 5000 --threshold 8.0`
+   *(Parameters: Change `--limit` or `--threshold` to explore different sensitivity levels)*
 
-**Step 2 (Validation)**: `python validation/step2_blast.py --input results/PLG_sample_Significance.csv`
-*Performs Turbo-BLAST to identify novel candidates.*
+2. **Significance Audit**: Result saved to `results/PLG_sample_Significance.csv`.
 
-**Step 3 (Structural Check)**: Verify potential novel genes using **AlphaFold 2** (via ColabFold):
-👉 [AlphaFold 2 (ColabFold) Online](https://colab.research.google.com/github/sokrypton/ColabFold/blob/main/AlphaFold2.ipynb)
+3. **Viral/Gene Validation**: `python validation/step2_blast.py --input results/PLG_sample_Significance.csv --threads 10`
+   *(Parameters: Increase `--threads` for faster NCBI validation)*
+
+4. **Structural Check**: Push novel sequences to **AlphaFold 2** for 3D modeling:
+   👉 [AlphaFold 2 (ColabFold) Online](https://colab.research.google.com/github/sokrypton/ColabFold/blob/main/AlphaFold2.ipynb)
+
+> 💡 For more command-line arguments, refer to the **[Technical Documentation](docs/DOCUMENTATION.md)** or run `platygeno --help`.
 
 
 ## ⚙️ Hardware Optimization
