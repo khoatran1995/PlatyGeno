@@ -34,7 +34,7 @@ def discover_genes(
     """
     End-to-End Significance Mapping Pipeline (Batched).
     
-    This is the primary Ph.D.-grade discovery engine for sequence dark matter.
+    This is the primary research-grade discovery engine for sequence dark matter.
     """
     # 1. Setup Environment
     torch.serialization.add_safe_globals([_codecs.encode])
