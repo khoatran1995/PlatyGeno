@@ -109,8 +109,10 @@ Using **AlphaFold2**, we modeled the 101bp Consensus Landmark. The results provi
   <img src="feature7393_Alphafold2_plddt.png" width="450">
 </p>
 <p align="center">
-  <img src="feature7393_Alphafold2_best_structure.png" width="450">
-  <img src="feature7393_Alphafold2_pae.png" width="450">
+  <img src="feature7393_Alphafold2_best_structure.png" width="500">
+</p>
+<p align="center">
+  <img src="feature7393_Alphafold2_pae.png" width="800">
 </p>
 
 **Auditing Conclusion**: Feature 7393 demonstrates a structured fold with distinct, high-confidence pLDDT regions, suggesting a functional biological architecture. The presence of off-diagonal islands in the PAE matrix confirms a rigid structural core. The total absence of matches in public databases, combined with this evidence, identifies Feature 7393 as a **high-confidence candidate for a novel genomic landmark** discovered autonomously by PlatyGeno.
