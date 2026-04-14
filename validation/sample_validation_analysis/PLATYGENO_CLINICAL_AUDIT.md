@@ -83,6 +83,8 @@ To ensure the scientific relevance of the discovery, hits were categorized into 
 |:---|---:|---:|---:|---:|
 | Consensus Assembly | 74 | 17 | 5 | 2 |
 | Precision Snippet | 74 | 19 | 8 | 4 |
+ 
+> **Note on Resolution**: The 50% reduction in "Unclassified" features (from 4 down to 2) is directly attributed to the detection of features like **26953** and **30446**, which were unidentifiable as fragments but successfully resolved via Consensus Assembly.
 
 ![Taxonomic Breakdown](file:///c:/Users/Admin/Desktop/Khoa/Antigravity/EVO2/validation/sample_validation_analysis/fig_taxonomy.png)
 
