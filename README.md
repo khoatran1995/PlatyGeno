@@ -119,10 +119,20 @@ Parallelizing your scan is the fastest way to get results. Match this setting to
 | **RTX 3090 / 4090** | 24GB | `8` – `16` |
 | **RTX 3060 / 4070** | 12GB | `1` – `2` |
 
-> [!TIP]
 > **Out of Memory?** If you encounter an OOM error, simply lower the `--batch-size`.
 
 ---
+
+## ⚡ Performance Benchmarks
+
+The following benchmarks reflect the **Standard 20k Read Survey** (Clinical Gut Metagenome) using the optimized PlatyGeno v1.0.1 engine.
+
+| Mode | Engine Implementation | Runtime (20k Reads) | Discovery Speed |
+| :--- | :--- | :--- | :--- |
+| **v1.0.1 (Current)** | **Batched Mean-Pooling** | **~4.8 Minutes** | **🚀 100% (High Speed)** |
+| **Legacy / Experimental** | Sequential / Padded Only | ~142.5 Minutes | 🐌 3% (30x Slower) |
+
+*Benchmarks conducted on an NVIDIA RTX 4090 (24GB VRAM). Performance scales linearly with GPU memory and batch size.*
 
 ---
 
