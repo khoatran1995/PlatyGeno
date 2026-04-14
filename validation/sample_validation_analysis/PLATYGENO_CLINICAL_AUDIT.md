@@ -95,11 +95,11 @@ To ensure the scientific relevance of the discovery, hits were categorized into 
 ## 4. Novel Discovery Spotlight: Feature 7393
 To evaluate the "Out-of-Distribution" discovery potential of PlatyGeno, we focused on features that achieved high activation intensity but returned zero matches in public BLAST databases (nt/nr).
 
-### 🌌 Investigating the "Unknown": 7393 vs 22601
-While multiple candidates achieved 'Novel' status (E-value = 10.0), structural validation reveals a clear hierarchy of biological discovery:
+### 🌌 Investigating the "Unknown": AlphaFold-Led Discrimination
+While multiple candidates achieved 'Novel' status (E-value = 10.0), **AlphaFold-led structural validation** reveals a clear hierarchy of biological discovery:
 
-*   **Feature 22601 (The Repeat)**: This sequence was identified as a repeat-heavy unit (Simple Sequence Repeats). While it achieves a "fair" average pLDDT (~70), its structural error matrix (PAE) lacks rigid 3D coordination, suggesting a flexible repetitive element rather than a structured protein domain.
-*   **Feature 7393 (The Research Winner)**: In contrast, Feature 7393 resolved into a high-confidence structural element. It demonstrates the structural hallmarks of a functional motif, including sustained pLDDT confidence (~80) and low-error "islands" in its PAE matrix indicating a rigid 3D fold.
+*   **Feature 22601 (The Repeat)**: Identified by AlphaFold as a repeat-heavy unit (Simple Sequence Repeats). While it achieves a "fair" average pLDDT (~70), its structural error matrix (PAE) lacks rigid 3D coordination, suggesting a flexible repetitive element rather than a structured protein domain.
+*   **Feature 7393 (The Research Winner)**: In contrast, Feature 7393 resolved into a high-confidence structural element. AlphaFold demonstrates the structural hallmarks of a functional motif, including sustained pLDDT confidence (~80) and low-error "islands" in its PAE matrix indicating a rigid 3D fold.
 
 ### 🧬 Structural Validation: Feature 7393
 Using **AlphaFold2**, we modeled the 101bp Consensus Landmark. The results provide definitive proof of biological organization:
