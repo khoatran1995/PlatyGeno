@@ -93,7 +93,7 @@ Researchers can perform complete biological landmark discovery with just a singl
 ```python
 import platygeno
 
-# Complete Discovery: San, Pool, Extract, and Annotate
+# Complete Discovery: Scan, Pool, Extract, and Annotate
 results = platygeno.discover_genes(
     input_path="data/sample.fastq",
     scan_start=0,
@@ -103,10 +103,6 @@ results = platygeno.discover_genes(
 
 # View discovered biological features
 print(results[['feature_id', 'feature_name', 'activation', 'sequence']])
-```
-
----
-
 ---
 
 ## 🚀 Validate the Discovery
@@ -152,19 +148,6 @@ The following benchmarks reflect the **Standard 20k Read Survey** (Clinical Gut 
 | **Legacy / Experimental** | Sequential / Padded Only | ~142.5 Minutes | 🐌 3% (30x Slower) |
 
 *Benchmarks conducted on an NVIDIA RTX 4090 (24GB VRAM). Performance scales linearly with GPU memory and batch size.*
-
----
-
-## 🚀 One-Line Discovery (Terminal)
-If you prefer the command line, you can trigger a full biological scan with one command:
-
-```bash
-# Scan 5000 reads and generate a landmark report
-# Automatically saves to: results/sample_Significance.csv
-platygeno --input sample.fastq --limit 5000 --threshold 5.0
-```
-
----
 
 ---
 
@@ -254,8 +237,6 @@ While PlatyGeno identifies all important genes, it is uniquely tuned for **Genom
   year = {2026}
 }
 ```
-
----
 
 ---
 
