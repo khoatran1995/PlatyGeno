@@ -98,13 +98,21 @@ print(results[['feature_id', 'feature_name', 'activation', 'sequence']])
 
 ---
 
-## 🚀 Step-by-Step Discovery
+## 🚀 Validate the Discovery
 
-PlatyGeno is now organized as a unified, research-grade discovery workflow:
+This repository contains a unified, research-grade discovery workflow:
 
-1. **One-Touch Discovery**: `python validation/discovery_pipeline.py --input sample.fastq` — Performs both significance scanning and automated BLAST validation (via `validation/step2_blast.py`).
-2. **AI-Aware Validation**: The engine automatically labels known features (Coding Regions, Alpha Helices) and prioritizes unknown "Dark Matter" for validation.
-3. **Recursive OOM Guard**: Automatically scales batch sizes to fit your GPU VRAM, ensuring large files don't crash the discovery process.
+**One-Line Discovery**: `python validation/discovery_pipeline.py --input sample.fastq` — Performs both significance scanning and automated BLAST validation.
+
+**Step 1 (Discovery)**: `python validation/step1_discovery.py --input data/sample.fastq --limit 5000`
+*Generates: `results/PLG_sample_Significance.csv`*
+
+**Step 2 (Validation)**: `python validation/step2_blast.py --input results/PLG_sample_Significance.csv`
+*Performs Turbo-BLAST to identify novel candidates.*
+
+**Step 3 (Structural Check)**: Verify potential novel genes using **AlphaFold 2** (via ColabFold):
+👉 [AlphaFold 2 (ColabFold) Online](https://colab.research.google.com/github/sokrypton/ColabFold/blob/main/AlphaFold2.ipynb)
+
 
 ## ⚙️ Hardware Optimization
 
