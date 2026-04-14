@@ -11,6 +11,15 @@
 
 PlatyGeno identifies **genomic landmarks** directly from raw sequence data. By leveraging the **Evo 2 foundation model**, it isolates biologically significant DNA structures (promoters, coding sequences, precise motifs) based purely on AI confidence—**without requiring labels, databases, or BLAST.**
 
+## 🧪 Technical Validation (IBD-MDB)
+PlatyGeno v1.0.2 has been validated using the clinical **[IBD Metagenomic Database](https://ibdmdb.org/)** dataset. For complete statistical data and methodology, see the [**PlatyGeno Technical Audit**](./PlatyGeno%20Technical%20Audit.md) and the [**Technical Methodology Supplemental**](./TECHNICAL_SUPPLEMENTAL.md).
+
+### Summary of Results:
+*   **Novel Genomic Landmarks**: Identified **Feature 7393**, a 101bp sequence with no prior database matches and a high-confidence structural fold predicted by AlphaFold2 ($pLDDT \sim 80$).
+*   **Statistical Correlation**: Verified a Pearson correlation of **$r=0.84$** ($p < 10^{-50}$) between sequence length and match significance.
+*   **Resolution Gain**: Consensus assembly provided a **$10^{38}$ increase** in E-value confidence over isolated 60bp fragments.
+*   **Taxonomic Profile**: 72% of high-activation discoveries successfully cross-validated with target gut microbiota.
+
 ---
 
 ## 🏗️ Technical Foundation
@@ -104,16 +113,9 @@ print(results[['feature_id', 'feature_name', 'activation', 'sequence']])
 
 ---
 
-## 🧪 Technical Validation & Benchmarking (IBD-MDB)
-PlatyGeno v1.0.2 has been benchmarked using the clinical **[IBD Metagenomic Database](https://ibdmdb.org/)** dataset. For complete statistical data, see the [**PlatyGeno Technical Audit**](./PlatyGeno%20Technical%20Audit.md) and the [**Technical Methodology Supplemental**](./TECHNICAL_SUPPLEMENTAL.md).
-
-### Summary of Results:
-*   **Novel Genomic Landmarks**: Identified **Feature 7393**, a 101bp sequence with no prior database matches and a high-confidence structural fold ($pLDDT \sim 80$).
-*   **Statistical Correlation**: Verified a Pearson correlation of **$r=0.84$** ($p < 10^{-50}$) between sequence length and match significance.
-*   **Resolution Gain**: Consensus assembly provided a **$10^{38}$ increase** in E-value confidence over isolated 60bp fragments.
-*   **Taxonomic Profile**: 72% of high-activation discoveries cross-validated as target gut microbiota.
-
 ---
+
+## 📜 References
 
 ## ⚠️ Technical Limitations
 *   **Pre-training Bias**: Sensitivity depends on the **Evo 2** pre-training corpus.
