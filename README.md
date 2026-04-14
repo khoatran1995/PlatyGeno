@@ -15,11 +15,11 @@ PlatyGeno is a professional Python package for identifying **genomic landmarks**
 
 ## 🔭 Scientific Philosophy: Zero-Reference Significance
 
-Most bioinformatics tools are designed to find "matches" to known lists. PlatyGeno is a **Reference-Free Microscope** that detects the "Signal" of life itself:
+PlatyGeno is a **Reference-Free Microscope** that detects the "Signal" of life directly from raw DNA, bypassing the need for sequence libraries or databases:
 
-*   **Signals over Samples**: Traditional tools (like BLAST) find genes by comparing them to a library. PlatyGeno "reads" the DNA grammar and detects significance peaks directly. If a sequence is important, the AI will find it—even if it's never been sequenced before.
-*   **Significance First**: We prioritize **Activation Strength** (the intensity of the AI's internal response). A high activation score is a "Biological Beacon" that points to a functional region.
-*   **Optional Novelty Mining**: Once significant landmarks are identified, researchers can optionally filter for **Rarity** to isolate "Genomic Dark Matter" (novel viruses, exotic enzymes, or extremophiles).
+*   **Signals over Samples**: Detects functional peaks in DNA grammar directly. If a sequence is biologically significant, the AI finds it—even if it has never been cataloged.
+*   **Significance First**: Prioritizes **Activation Strength** (AI "excitation") as a primary beacon for functional mapping.
+*   **Optional Novelty Mining**: Isolate "Genomic Dark Matter" (novel viruses or enzymes) by optionally filtering for rare landmarks.
 
 ---
 
