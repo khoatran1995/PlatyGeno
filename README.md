@@ -200,4 +200,4 @@ As an AI-native discovery tool, PlatyGeno’s insights are subject to several te
 }
 ```
 
-PlatyGeno was developed as part of a research effort focused on reference-free metagenomic discovery. Special thanks to the **Together AI** team for the Evo 2 foundation model and the **Goodfire AI** team for their pioneering work on SAE-based interpretability. Please cite them if relevant.
+PlatyGeno is a product of ongoing research into AI-guided, reference-free metagenomic discovery. We extend our professional gratitude to **Together AI** for the Evo 2 foundation model and to **Goodfire AI** for their groundbreaking work on SAE-based interpretability. If your research utilizing this suite yields significant findings, we request that you also cite these foundational contributions as appropriate.
