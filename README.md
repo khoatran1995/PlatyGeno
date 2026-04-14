@@ -171,13 +171,7 @@ PlatyGeno uses the AI's "Excitement" as the primary scientific dial:
 
 ## 🧪 Core Methodology
 
-PlatyGeno’s "Golden Configuration" is built on two primary scientific pillars:
-
-### 1. Mean-Pooling (Global Semantic Averaging)
-Instead of scanning token-by-token (which can be noisy), PlatyGeno averages the entire sequence embedding into a single global summary before SAE encoding. This "denoises" the data and allows the model to identify the overall biological identity of the read with high stability.
-
-### 2. Zero-Gate Discovery (Unrestricted Semantic Census)
-Most feature-extraction pipelines use a "Top-K" gate to only record the strongest signals. PlatyGeno's **Zero-Gate** mode removes this bottleneck. It records **every single biological concept** that shows activation (up to 64 per read), ensuring that rare regulatory motifs or subtle protein domains are never overshadowed by common genomic grammar.
+PlatyGeno’s **"Golden Configuration"** combines **Mean-Pooling** (Global Semantic Averaging) to denoise sequence embeddings into stable biological summaries, and **Zero-Gate Discovery** (Unrestricted Semantic Census), which eliminates Top-K bottlenecks to capture every active biological concept—ensuring that rare regulatory motifs and subtle functional domains are never overshadowed by common genomic grammar.
 
 ---
 
