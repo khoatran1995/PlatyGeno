@@ -4,7 +4,7 @@ authors:
 - family-names: "Tran"
   given-names: "Khoa Tu"
 title: "PlatyGeno: Unsupervised Gene Discovery via Evo 2 & Sparse Autoencoders"
-version: "v1.0.2"
+version: "v1.0.1"
 date-released: "2026-04-14"
 license: "Apache-2.0"
 abstract: "A high-performance suite for unsupervised gene discovery using Evo 2 and Sparse Autoencoders."
