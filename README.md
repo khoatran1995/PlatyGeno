@@ -13,8 +13,9 @@ PlatyGeno is a professional Python package for identifying **genomic landmarks**
 
 ---
 
+## 🏗️ Technical Foundation
 
-## 🔭 Scientific Philosophy: Zero-Reference Significance
+### 🔭 Scientific Philosophy: Zero-Reference Significance
 
 PlatyGeno is a **Reference-Free Microscope** that detects the "Signal" of life directly from raw DNA, bypassing the need for sequence libraries or databases:
 
@@ -22,9 +23,19 @@ PlatyGeno is a **Reference-Free Microscope** that detects the "Signal" of life d
 *   **Significance First**: Prioritizes **Activation Strength** (AI "excitation") as a primary beacon for functional mapping.
 *   **Optional Novelty Mining**: Isolate "Genomic Dark Matter" (novel viruses or enzymes) by optionally filtering for rare landmarks.
 
+### 🏗️ Simplified Architecture
+
+PlatyGeno layers a "De-coding" layer on top of the Evo 2 foundation model:
+
+1.  **Evo 2 (The Brain)**: A 7B parameter foundation model by **Together AI** that understands the genomic grammar of all sequenced life.
+2.  **Sparse Autoencoders (The Interpreter)**: We utilize **Goodfire's** Sparse Autoencoders (specifically the `Layer-26-Mixed` expansion) to translate dense AI math into 32,768 discrete, human-interpretable biological concepts.
+3.  **Landmark Scouter**: Scans raw data to find the precise coordinates where these concept nodes fire with the highest intensity.
+
 ---
 
-## ⚙️ Installation & Quick Start
+## ⚙️ Setup & Installation
+
+### ⚙️ Installation & Quick Start
 
 PlatyGeno requires a CUDA-enabled GPU (RTX 3090, 4090, A100, or H100).
 
@@ -40,9 +51,8 @@ pip install flash-attn --no-build-isolation
 # Automatically saves to: results/sample_Significance.csv
 platygeno --input data/sample.fastq --limit 5000 --threshold 5.0
 ```
----
 
-## 🚀 Quick Start for GitHub Clones
+### 🚀 Quick Start for GitHub Clones
 If you are cloning the repository for research or development, follow these three steps to run your first discovery:
 
 ```bash
@@ -61,25 +71,15 @@ pip install -e .
 platygeno --input data/sample.fastq --limit 5000
 ```
 
----
-
-## 🏗️ Simplified Architecture
-
-PlatyGeno layers a "De-coding" layer on top of the Evo 2 foundation model:
-
-1.  **Evo 2 (The Brain)**: A 7B parameter foundation model by **Together AI** that understands the genomic grammar of all sequenced life.
-2.  **Sparse Autoencoders (The Interpreter)**: We utilize **Goodfire's** Sparse Autoencoders (specifically the `Layer-26-Mixed` expansion) to translate dense AI math into 32,768 discrete, human-interpretable biological concepts.
-3.  **Landmark Scouter**: Scans raw data to find the precise coordinates where these concept nodes fire with the highest intensity.
-
----
-
-## 📚 Documentation & Reference
+### 📚 Documentation & Reference
 *   **[Technical Documentation](docs/DOCUMENTATION.md)**: Deep dive into Evo 2, Sparse Autoencoders, and technical API Reference.
 *   **[Validation Methodology](docs/VALIDATION_METHODOLOGY.md)**: Detailed audit trail for clinical gene discovery.
 
 ---
 
-## 🚀 Advanced Python Discovery
+## 🚀 Usage & API Reference
+
+### 🚀 Advanced Python Discovery
 Researchers can integrate the engine into custom discovery pipelines using the Python API:
 
 ```python
@@ -107,10 +107,47 @@ print(results[['feature_id', 'feature_name', 'activation', 'sequence']])
 | `scan_end` | `int` | `None` | Last read index (**None for end of file**). |
 | `top_n` | `int` | `-1` | Max features to return (**-1 for ALL, Default**). |
 
+### ⚙️ Hardware Optimization
+
+PlatyGeno is optimized for high-performance discovery through its dedicated **Batched Inference** engine.
+
+#### Batch Size Guide (`--batch-size`)
+Parallelizing your scan is the fastest way to get results. Match this setting to your GPU VRAM:
+
+| Hardware | VRAM | Recommended Batch Size |
+| :--- | :--- | :--- |
+| **A100 / H100** | 80GB | `32` – `64` |
+| **RTX 3090 / 4090** | 24GB | `8` – `16` |
+| **RTX 3060 / 4070** | 12GB | `1` – `2` |
+
+> **Out of Memory?** If you encounter an OOM error, simply lower the `--batch-size`.
+
 ---
 
-## 🚀 Complete Validation Suite (Case Study)
+## ⚡ Performance & Methodology
 
+### ⚡ Performance Benchmarks
+
+The following benchmarks reflect the **Standard 20k Read Survey** (Clinical Gut Metagenome) using the optimized PlatyGeno v1.0.2 engine.
+
+| Mode | Engine Implementation | Runtime (20k Reads) | Discovery Speed |
+| :--- | :--- | :--- | :--- |
+| **v1.0.2 (Current)** | **Batched Mean-Pooling** | **~4.8 Minutes** | **🚀 100% (High Speed)** |
+| **Legacy / Experimental** | Sequential / Padded Only | ~142.5 Minutes | 🐌 3% (30x Slower) |
+
+*Benchmarks conducted on an NVIDIA RTX 4090 (24GB VRAM). Performance scales linearly with GPU memory and batch size.*
+
+### 🧪 Methodology & Tuning
+PlatyGeno combines **Mean-Pooling** (Global Semantic Averaging) to denoise sequence embeddings and **Zero-Gate Discovery** (Unrestricted Semantic Census) to map every active biological concept. Use the internal activation dials to scale discovery from an exhaustive **Panoramic Survey** (Default: -1) to a Precision Mode (**Top 10–50**) that isolates the strongest statistical outliers.
+
+#### 📈 Stability: The Padding Filter
+We utilize **Batched Mean-Pooling** (The Padding Filter) to achieve high-precision discovery. By processing sequences in batches, the engine uses sequence padding to dilate weaker semantic noise, ensuring only high-confidence biological signals survive the pooling phase.
+
+---
+
+## 🧪 Clinical Validation Case Study
+
+### 🚀 Complete Validation Suite
 Researchers can choose to manually run the full discovery-to-validation pipeline for detailed clinical audits:
 
 **One-Line Discovery Pipeline**: `python validation/discovery_pipeline.py --input data/sample.fastq`
@@ -129,52 +166,10 @@ Researchers can choose to manually run the full discovery-to-validation pipeline
 
 > 💡 For more command-line arguments, refer to the **[Technical Documentation](docs/DOCUMENTATION.md)** or run `platygeno --help`.
 
-
-## ⚙️ Hardware Optimization
-
-PlatyGeno is optimized for high-performance discovery through its dedicated **Batched Inference** engine.
-
-### Batch Size Guide (`--batch-size`)
-Parallelizing your scan is the fastest way to get results. Match this setting to your GPU VRAM:
-
-| Hardware | VRAM | Recommended Batch Size |
-| :--- | :--- | :--- |
-| **A100 / H100** | 80GB | `32` – `64` |
-| **RTX 3090 / 4090** | 24GB | `8` – `16` |
-| **RTX 3060 / 4070** | 12GB | `1` – `2` |
-
-> **Out of Memory?** If you encounter an OOM error, simply lower the `--batch-size`.
-
----
-
-## ⚡ Performance Benchmarks
-
-The following benchmarks reflect the **Standard 20k Read Survey** (Clinical Gut Metagenome) using the optimized PlatyGeno v1.0.2 engine.
-
-| Mode | Engine Implementation | Runtime (20k Reads) | Discovery Speed |
-| :--- | :--- | :--- | :--- |
-| **v1.0.2 (Current)** | **Batched Mean-Pooling** | **~4.8 Minutes** | **🚀 100% (High Speed)** |
-| **Legacy / Experimental** | Sequential / Padded Only | ~142.5 Minutes | 🐌 3% (30x Slower) |
-
-*Benchmarks conducted on an NVIDIA RTX 4090 (24GB VRAM). Performance scales linearly with GPU memory and batch size.*
-
----
-
-## 🧪 Methodology & Tuning
-PlatyGeno combines **Mean-Pooling** (Global Semantic Averaging) to denoise sequence embeddings and **Zero-Gate Discovery** (Unrestricted Semantic Census) to map every active biological concept. Use the internal activation dials to scale discovery from an exhaustive **Panoramic Survey** (Default: -1) to a Precision Mode (**Top 10–50**) that isolates the strongest statistical outliers.
-
----
-
-### 📈 Stability: The Padding Filter
-We utilize **Batched Mean-Pooling** (The Padding Filter) to achieve high-precision discovery. By processing sequences in batches, the engine uses sequence padding to dilate weaker semantic noise, ensuring only high-confidence biological signals survive the pooling phase.
-
-
-## 🧪 Validation data (IBD-MDB)
+### 🧪 Validation data (IBD-MDB)
 PlatyGeno includes a clinical validation set (`data/sample.fastq`) from the **[IBD Metagenomic Database](https://ibdmdb.org/)**. This enables researchers to verify the engine's ability to identify autonomous biological landmarks in high-complexity clinical samples with zero-reference databases.
 
----
-
-## 🧪 Initial Use Cases
+### 🧪 Initial Use Cases
 *   **General Genomic Research**: Map functional landmarks (promoters, coding sequences, motifs) to identify the biological identity of any sequenced sample.
 *   **Novel Gene Discovery**: Directly target "Genomic Dark Matter" and novel viruses with reference-free significance mapping.
 *   **Advanced Discovery Pipelines**: Build automated workflows that bridge AI detection with structural modeling (AlphaFold) for high-fidelity validation.
