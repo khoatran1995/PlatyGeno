@@ -86,7 +86,7 @@ To ensure the scientific relevance of the discovery, hits were categorized into 
  
 > **Note on Resolution**: The 50% reduction in "Unclassified" features (from 4 down to 2) is directly attributed to the detection of features like **26953** and **30446**, which were unidentifiable as fragments but successfully resolved via Consensus Assembly.
 
-<img src="fig_taxonomy.png" width="500">
+![Taxonomic Breakdown](fig_taxonomy.png)
 
 **Relevance Check**: The high concentration of **Gut Microbiota** (72% of hits) confirms that the AI is accurately profiling the sample context.
 
@@ -104,10 +104,12 @@ While multiple candidates achieved 'Novel' status (E-value = 10.0), structural v
 ### 🧬 Structural Validation: Feature 7393
 Using **AlphaFold2**, we modeled the 101bp Consensus Landmark. The results provide definitive proof of biological organization:
 
-<img src="feature7393_Alphafold2_plddt.png" width="500">
-<img src="feature7393_Alphafold2_best_structure.png" width="400">
-<img src="feature7393_Alphafold2_coverage.png" width="500">
-<img src="feature7393_Alphafold2_pae.png" width="500">
+<p align="center">
+  <img src="feature7393_Alphafold2_plddt.png" width="500"> <br>
+  <img src="feature7393_Alphafold2_best_structure.png" width="450"> <br>
+  <img src="feature7393_Alphafold2_coverage.png" width="500"> <br>
+  <img src="feature7393_Alphafold2_pae.png" width="500">
+</p>
 
 **Auditing Conclusion**: Feature 7393 demonstrates a structured fold with distinct, high-confidence pLDDT regions, suggesting a functional biological architecture. The presence of off-diagonal islands in the PAE matrix confirms a rigid structural core. The total absence of matches in public databases, combined with this evidence, identifies Feature 7393 as a **high-confidence candidate for a novel genomic landmark** discovered autonomously by PlatyGeno.
 
