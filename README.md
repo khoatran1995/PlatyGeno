@@ -174,9 +174,9 @@ PlatyGeno includes a clinical validation set (`data/sample.fastq`) from the **[I
 ---
 
 ## 🧪 Initial Use Cases
-*   **Fundamental Genomic Research**: Map universal biological landmarks (promoters, coding sequences, motifs) to reveal the functional architecture of any sequenced sample.
-*   **Metagenomic Novelty Mining**: Directly target "Genomic Dark Matter," including novel viruses and exotic enzymes, using reference-free significance mapping.
-*   **Advanced Discovery Workflows**: Build automated pipelines that bridge AI-guided signature detection with structural modeling (e.g., AlphaFold) for end-to-end validation.
+*   **General Genomic Research**: Map functional landmarks (promoters, coding sequences, motifs) to identify the biological identity of any sequenced sample.
+*   **Novel Gene Discovery**: Directly target "Genomic Dark Matter" and novel viruses with reference-free significance mapping.
+*   **Advanced Discovery Pipelines**: Build automated workflows that bridge AI detection with structural modeling (AlphaFold) for high-fidelity validation.
 
 ---
 
