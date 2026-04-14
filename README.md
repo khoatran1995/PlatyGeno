@@ -153,32 +153,24 @@ The following benchmarks reflect the **Standard 20k Read Survey** (Clinical Gut 
 
 ---
 
-## 🧩 Tuning Significance & Breadth
-PlatyGeno uses internal activation states as the primary scientific dials, offering a flexible discovery scale that ranges from an exhaustive **Panoramic Survey Mode** (Default: -1) for identifying every landmark within the scan range, to a **Precision Mode** (10–50) that isolates only the strongest statistical outliers in the dataset.
-
-## 🧪 Core Methodology
-PlatyGeno combines **Mean-Pooling** (Global Semantic Averaging) to denoise sequence embeddings into stable biological summaries and **Zero-Gate Discovery** (Unrestricted Semantic Census), which eliminates Top-K bottlenecks to capture every active biological concept—ensuring that rare regulatory motifs and functional domains are mapped without the noise and limitations of traditional pipelines.
+## 🧪 Methodology & Tuning
+PlatyGeno combines **Mean-Pooling** (Global Semantic Averaging) to denoise sequence embeddings and **Zero-Gate Discovery** (Unrestricted Semantic Census) to map every active biological concept. Use the internal activation dials to scale discovery from an exhaustive **Panoramic Survey** (Default: -1) to a Precision Mode (**Top 10–50**) that isolates the strongest statistical outliers.
 
 ---
 
-### 📈 Validation Stability: The Padding Filter
-We utilize **Batched Mean-Pooling** (The Padding Filter) to achieve high-precision discovery. By processing sequences in batches, the engine uses sequence padding to subtly dilute weaker semantic noise, ensuring that only the most powerful, high-confidence biological signals survive the pooling phase—resulting in a stable, noise-free discovery report.
+### 📈 Stability: The Padding Filter
+We utilize **Batched Mean-Pooling** (The Padding Filter) to achieve high-precision discovery. By processing sequences in batches, the engine uses sequence padding to dilate weaker semantic noise, ensuring only high-confidence biological signals survive the pooling phase.
 
 
-## 🧪 Validation Dataset: Gut Metagenome (IBD-MDB)
-PlatyGeno includes a high-density clinical validation set for testing novelty discovery in complex human samples:
-
-*   **Origin**: Chronic Inflammatory Bowel Disease (IBD) Metagenomic Database.
-*   **Role**: Validating the engine's ability to identify autonomous biological landmarks in high-complexity clinical metagenomes.
-*   **Local Data**: Validation reads are provided in the `data/sample.fastq` file for experimental reproducibility.
+## 🧪 Clinical Validation (IBD-MDB)
+PlatyGeno includes a clinical validation set (`data/sample.fastq`) from the **IBD Metagenomic Database**. This enables researchers to verify the engine's ability to identify autonomous biological landmarks in high-complexity clinical samples with zero-reference databases.
 
 ---
 
-## 🧪 Use Case: Hunting for the Unknown
-
-While PlatyGeno identifies all important genes, it is uniquely tuned for **Genomic Dark Matter**:
-*   **Reference-Free**: Identify significance in exotic metagenomes where no reference genomes exist.
-*   **Structural Discovery**: Feed AI-flagged sequences directly into **AlphaFold** to discover never-before-seen 3D protein folds.
+## 🧪 Use Cases
+*   **General Genomic Research**: Map all biological landmarks (promoters, genes, motifs) in any sequenced sample.
+*   **Novel Gene Discovery**: Target "Genomic Dark Matter" and novel viruses using significance-first mapping.
+*   **Structural Modeling**: Push AI-flagged sequences directly into **AlphaFold** to discover never-before-seen protein folds.
 
 ---
 
