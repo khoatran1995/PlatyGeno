@@ -7,6 +7,7 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/platygeno.svg)](https://pypi.org/project/platygeno/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19568630.svg)](https://doi.org/10.5281/zenodo.19568630)
 
 PlatyGeno is a professional Python package for identifying **genomic landmarks** directly from raw sequence data. By leveraging the **Evo 2 foundation model**, it identifies biologically significant DNA structures (promoters, coding sequences, precise motifs,...) based purely on AI confidence—**without requiring labels, databases, or BLAST.**
 

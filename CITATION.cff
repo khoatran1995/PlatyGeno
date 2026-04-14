@@ -5,4 +5,5 @@ authors:
   given-names: "Khoa Tu"
 title: "PlatyGeno: Unsupervised Gene Discovery via Evo 2 & Sparse Autoencoders"
 version: v1.0.2
+doi: 10.5281/zenodo.19568630
 date-released: 2026-04-14
