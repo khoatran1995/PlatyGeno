@@ -9,27 +9,23 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19568630.svg)](https://doi.org/10.5281/zenodo.19568630)
 
-PlatyGeno is a Python package for identifying **genomic landmarks** directly from raw sequence data. By leveraging the **Evo 2 foundation model**, it identifies biologically significant DNA structures (promoters, coding sequences, precise motifs,...) based purely on AI confidence—**without requiring labels, databases, or BLAST.**
+PlatyGeno identifies **genomic landmarks** directly from raw sequence data. By leveraging the **Evo 2 foundation model**, it isolates biologically significant DNA structures (promoters, coding sequences, precise motifs) based purely on AI confidence—**without requiring labels, databases, or BLAST.**
 
 ---
 
 ## 🏗️ Technical Foundation
 
-### 🔭 Scientific Philosophy: Zero-Reference Significance
+PlatyGeno operates as a **Reference-Free Microscope**, detecting the "Signal" of life directly from genomic grammar.
 
-PlatyGeno is a **Reference-Free Microscope** that detects the "Signal" of life directly from raw DNA, bypassing the need for sequence libraries or databases:
+### 🔭 The Discovery Core
+- **AI-Native Interpretation**: We use a **Sparse Autoencoder (SAE)** to translate the complex DNA "grammar" understood by **Evo 2** into 32,768 human-interpretable biological concepts (e.g., *promoters*, *viral motifs*).
+- **Peak Pinpointing (Layer 26)**: The engine intercepts signals at Layer 26 to identify the exact coordinate where a biological feature fires with the highest intensity.
+- **Dual-Mode Discovery**: Preserves both narrow **Precision Snippets** (separatedly high-interest DNA clips) and **Consensus Assemblies** (overlapping sequences from multiple reads of the same feature pieced together ).
 
-*   **Signals over Samples**: Detects functional peaks in DNA grammar directly. If a sequence is biologically significant, the AI finds it—even if it has never been cataloged.
-*   **Significance First**: Prioritizes **Activation Strength** (AI "excitation") as a primary beacon for functional mapping.
-*   **Optional Novelty Mining**: Isolate "Genomic Dark Matter" (novel viruses or enzymes) by optionally filtering for rare landmarks.
+> [!IMPORTANT]
+> **Performance Highlight**: While both modes are preserved in discovery, validation benchmarks confirm that **Consensus Assembly** yields statistically superior significance (E-values) and cleaner taxonomic resolution.
 
-### 🏗️ Simplified Architecture
-
-PlatyGeno layers a "De-coding" layer on top of the Evo 2 foundation model:
-
-1.  **Evo 2 (The Brain)**: A 7B parameter foundation model by **Together AI** that understands the genomic grammar of all sequenced life.
-2.  **Sparse Autoencoders (The Interpreter)**: We utilize **Goodfire's** Sparse Autoencoders (specifically the `Layer-26-Mixed` expansion) to translate dense AI math into 32,768 discrete, human-interpretable biological concepts.
-3.  **Landmark Scouter**: Scans raw data to find the precise coordinates where these concept nodes fire with the highest intensity.
+👉 **For a full hierarchical deep-dive into the methodology and validation trail, see [Technical Architecture](docs/ARCHITECTURE.md).**
 
 ---
 
@@ -48,51 +44,42 @@ pip install ninja # for faster installation of flash-attn
 pip install flash-attn --no-build-isolation
 
 # 3. Verify & Run Discovery (on the validation sample)
-# Automatically saves to: results/sample_Significance.csv
 platygeno --input data/sample.fastq --limit 5000 --threshold 5.0
 ```
 
 ### 🚀 Quick Start for GitHub Clones
-If you are cloning the repository for research or development, follow these three steps to run your first discovery:
-
 ```bash
 # 1. Clone & Enter
 git clone https://github.com/khoatran1995/PlatyGeno.git
 cd PlatyGeno
 
-# 2. Install high-performance GPU kernels (Mandatory for speed)
-pip install ninja # for faster installation of flash-attn
+# 2. Install High-Performance Kernels & editable package
 pip install flash-attn --no-build-isolation
-
-# 3. Install in Editable Mode
 pip install -e .
 
-# 4. Trigger Discovery (on the validation sample)
+# 3. Trigger Discovery
 platygeno --input data/sample.fastq --limit 5000
 ```
 
-### 📚 Documentation & Reference
-*   **[Technical Documentation](docs/DOCUMENTATION.md)**: Deep dive into Evo 2, Sparse Autoencoders, and technical API Reference.
-*   **[Technical Architecture](docs/ARCHITECTURE.md)**: Details on Mean-Pooling, Zero-Gate Discovery, and the Padding Filter.
-*   **[Validation Methodology](docs/VALIDATION_METHODOLOGY.md)**: Detailed audit trail for clinical gene discovery.
+### 📚 Documentation
+**[API Reference](docs/DOCUMENTATION.md)**: Details on Evo 2 integrations and technical Python parameters.
 
 ---
 
 ## 🚀 Usage & API Reference
 
 ### 🚀 Advanced Python Discovery
-Researchers can integrate the engine into custom discovery pipelines using the Python API:
+Researchers can integrate the engine into custom discovery pipelines:
 
 ```python
 import platygeno
 
-# Advanced Discovery: Tuning parameters for a custom GPU environment
+# Advanced Discovery: Tuning parameters for clinical audits
 results = platygeno.discover_genes(
     input_path="data/sample.fastq",
-    scan_start=0,
     scan_end=5000,
     min_activation=8.0,      # High-confidence threshold
-    batch_size=32            # High-performance batching
+    batch_size=32            # GPU-optimized batching
 )
 
 # View discovered biological features
@@ -106,79 +93,34 @@ print(results[['feature_id', 'feature_name', 'activation', 'sequence']])
 | `min_activation` | `float` | `5.0` | Minimum signal strength. |
 | `rel_freq_max` | `float` | `1.0` | Rarity cap (1.0 = All significance). |
 | `scan_end` | `int` | `None` | Last read index (**None for end of file**). |
-| `top_n` | `int` | `-1` | Max features to return (**-1 for ALL, Default**). |
-
-### ⚙️ Hardware Optimization
-
-PlatyGeno is optimized for high-performance discovery through its dedicated **Batched Inference** engine.
-
-#### Batch Size Guide (`--batch-size`)
-Parallelizing your scan is the fastest way to get results. Match this setting to your GPU VRAM:
-
-| Hardware | VRAM | Recommended Batch Size |
-| :--- | :--- | :--- |
-| **A100 / H100** | 80GB | `32` – `64` |
-| **RTX 3090 / 4090** | 24GB | `8` – `16` |
-| **RTX 3060 / 4070** | 12GB | `1` – `2` |
-
-> **Out of Memory?** If you encounter an OOM error, simply lower the `--batch-size`.
+| `top_n` | `int` | `-1` | Max features to return (**-1 for ALL**). |
 
 ---
 
 ## ⚡ Performance
-
-The following benchmarks reflect the **Standard 20k Read Survey** (Clinical Gut Metagenome) using the optimized PlatyGeno v1.0.2 engine.
-
 | Mode | Engine Implementation | Runtime (20k Reads) | Discovery Speed |
 | :--- | :--- | :--- | :--- |
-| **v1.0.2 (Current)** | **Batched Mean-Pooling** | **~4.8 Minutes** | **🚀 100% (High Speed)** |
-
-*Benchmarks conducted on an NVIDIA RTX 4090 (24GB VRAM). Performance scales linearly with GPU memory and batch size.*
+| **v1.0.2** | **Batched Mean-Pooling** | **~4.8 Minutes** | **🚀 100% (High Speed)** |
 
 ---
 
-## 🧪 Clinical Validation Case Study
+## 🧪 Clinical Validation Case Study (IBD-MDB)
+PlatyGeno includes a clinical validation set (`data/sample.fastq`) from the **[IBD Metagenomic Database](https://ibdmdb.org/)**. This proves the engine's ability to identify autonomous biological landmarks in high-complexity clinical samples with zero-reference databases.
 
-### 🚀 Complete Validation Suite
-Researchers can choose to manually run the full discovery-to-validation pipeline for detailed clinical audits:
-
-**One-Line Discovery Pipeline**: `python validation/discovery_pipeline.py --input data/sample.fastq`
-
-**Manual Step-by-Step Walkthrough:**
-1. **Discovery**: `python validation/step1_discovery.py --input data/sample.fastq --limit 5000 --threshold 8.0`
-   *(Parameters: Change `--limit` or `--threshold` to explore different sensitivity levels)*
-
-2. **Significance Audit**: Result saved to `results/PLG_sample_Significance.csv`.
-
-3. **Viral/Gene Validation**: `python validation/step2_blast.py --input results/PLG_sample_Significance.csv --threads 10`
-   *(Parameters: Increase `--threads` for faster NCBI validation)*
-
-4. **Structural Check**: Push novel sequences to **AlphaFold 2** for 3D modeling:
-   👉 [AlphaFold 2 (ColabFold) Online](https://colab.research.google.com/github/sokrypton/ColabFold/blob/main/AlphaFold2.ipynb)
-
-> 💡 For more command-line arguments, refer to the **[Technical Documentation](docs/DOCUMENTATION.md)** or run `platygeno --help`.
-
-### 🧪 Validation data (IBD-MDB)
-PlatyGeno includes a clinical validation set (`data/sample.fastq`) from the **[IBD Metagenomic Database](https://ibdmdb.org/)**. This enables researchers to verify the engine's ability to identify autonomous biological landmarks in high-complexity clinical samples with zero-reference databases.
-
-### 🧪 Initial Use Cases
-*   **General Genomic Research**: Map functional landmarks (promoters, coding sequences, motifs) to identify the biological identity of any sequenced sample.
-*   **Novel Gene Discovery**: Directly target "Genomic Dark Matter" and novel viruses with reference-free significance mapping.
-*   **Advanced Discovery Pipelines**: Build automated workflows that bridge AI detection with structural modeling (AlphaFold) for high-fidelity validation.
+**Key Findings:**
+*   **Novelty**: Autonomous discovery of **Feature 7393**, a 101bp element with zero high-confidence matches in NCBI databases.
+*   **Relevance**: ~72% of hits correlate with core gut microbiota (*Bacteroides*, etc.).
 
 ---
 
-## ⚠️ Technical Limitations & Scope
-As an AI-native discovery tool, PlatyGeno’s insights are subject to several technical boundaries:
-*   **Pre-training Bias**: PlatyGeno relies on the **Evo 2** foundation model. If specific genomic structures or rare taxa were significantly under-represented or excluded in the model’s pre-training corpus, the engine may demonstrate lower sensitivity for those regions.
-*   **SAE Bottleneck**: While Sparse Autoencoders provide human-interpretable "concepts," they represent a discrete compression of the 7B parameter model. Extremely subtle motifs or novel biological nuances may occasionally fall below the SAE activation threshold.
-*   **Validation Requirement**: A high significance score is a "Biological Beacon," but it is not a final proof of function. All discovery candidates should be cross-verified using structural tools (AlphaFold/ESMFold) and/or experimental assays.
+## ⚠️ Technical Limitations
+*   **Pre-training Bias**: Sensitivity depends on the **Evo 2** pre-training corpus.
+*   **SAE Bottleneck**: Discrete compression may miss extremely subtle biological nuances.
+*   **Validation Requirement**: High significance is a "Beacon," not final functional proof.
 
 ---
 
 ## 📜 References
-
-**1. PlatyGeno (This Package):**
 ```bibtex
 @software{PlatyGeno2026,
   author = {Khoa Tu Tran},
@@ -188,5 +130,4 @@ As an AI-native discovery tool, PlatyGeno’s insights are subject to several te
   year = {2026}
 }
 ```
-
-PlatyGeno is a product of ongoing research into AI-guided, reference-free metagenomic discovery. We extend our professional gratitude to **Together AI** for the Evo 2 foundation model and to **Goodfire AI** for their groundbreaking work on SAE-based interpretability. If your research utilizing this suite yields significant findings, we request that you also cite these foundational contributions as appropriate.
+*Grateful to Together AI (Evo 2) and Goodfire AI (SAE interpretability).*
