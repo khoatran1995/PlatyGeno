@@ -157,17 +157,17 @@ The following benchmarks reflect the **Standard 20k Read Survey** (Clinical Gut 
 
 PlatyGeno uses the AI's "Excitement" as the primary scientific dial:
 
-### 1. Signal Strength (`min_activation`)
-*   **3.0 – 5.0**: "Significance Scouting." Ideal for mapping the general landscape of a sample.
-*   **8.0 – 12.0**: "Landmark Identification." Targets high-confidence biological machinery.
+### 1. Signal Sensitivity (`min_activation`)
+*   **Significance Scouting (3.0 – 5.0)**: Ideal for broad-spectrum mapping of a sample’s biological landscape.
+*   **Landmark Identification (8.0 – 12.0)**: High-resolution focus on high-confidence protein-coding regions and structural motifs.
 
-### 2. Novelty Filter (`--rarity-only`) - Optional
-*   **Default (Off)**: Standard mode (Panoramic). Shows all important genes (Known and Unknown).
-*   **On (`--rarity-only`)**: Novelty mode. Automatically subtracts common housekeeping genes to find "Dark Matter."
+### 2. Novelty Discovery (`--rarity-only`)
+*   **Panoramic Mode (Default)**: Visualizes all biologically significant signals (Known Housekeeping Genes + Unknown Dark Matter).
+*   **Dark Matter Mode (`--rarity-only`)**: Active filtration that subtracts common biological signals to isolate extremely rare or novel genomic features.
 
-### 3. Discovery Breadth (`--top-n`)
-*   **Default (`-1`)**: Panoramic Survey Mode. Returns **every significant landmark** found in the sample (Unlimited).
-*   **Targeted (`10-25`)**: Precision Mode. Focuses only on the strongest outliers.
+### 3. Discovery Resolution (`--top-n`)
+*   **Survey Mode (-1)**: Exhaustive discovery that identifies every significant landmark within the scan range.
+*   **Precision Mode (10–50)**: Targeted discovery that isolates only the strongest statistical outliers in the dataset.
 
 ## 🧪 Core Methodology
 
