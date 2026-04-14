@@ -1,6 +1,6 @@
 <table width="100%">
   <tr>
-    <td width="200"><img src="icon/PlatyGeno_v3.jpg" width="200" alt="PlatyGeno Icon"></td>
+    <td width="200"><img src="https://raw.githubusercontent.com/khoatran1995/PlatyGeno/main/icon/PlatyGeno_v3.jpg" width="200" alt="PlatyGeno Icon"></td>
     <td align="left"><h1>Unsupervised Biological Significance Mapping via <br> Evo 2 & Sparse Autoencoders</h1></td>
   </tr>
 </table>
