@@ -58,6 +58,17 @@ platygeno --input data/sample.fastq --limit 5000
 
 ---
 
+## 🚀 One-Line Discovery (Terminal)
+If you prefer the command line, you can trigger a full biological scan with one command:
+
+```bash
+# Scan 5000 reads and generate a landmark report
+# Automatically saves to: results/sample_Significance.csv
+platygeno --input data/sample.fastq --limit 5000 --threshold 5.0
+```
+
+---
+
 ## 🏗️ Simplified Architecture
 
 PlatyGeno layers a "De-coding" layer on top of the Evo 2 foundation model:
