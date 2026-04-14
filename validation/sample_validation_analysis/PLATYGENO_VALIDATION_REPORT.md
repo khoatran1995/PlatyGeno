@@ -54,6 +54,16 @@ To address potential length bias, we analyzed the **Pearson Correlation ($r$)** 
 | **100 - 110 (Assemblies)** | **40.1** |
 
 ### 2.2 Identifying the "Unfindable": Case Studies in Coverage
+To prove that Consensus Assembly isn't just "better" but is sometimes **essential** for discovery, we analyzed features that were unidentifiable as isolated snippets.
+
+| Feature ID | Snippet E-value (60bp) | Assembly E-value (101bp) | Gain in Certainty |
+|:---|:---:|:---:|:---|
+| **Feature 26953** | 10.0 (No Hit) | **2.39e-38** | ~10^38 times |
+| **Feature 30446** | 10.0 (No Hit) | **2.39e-38** | ~10^38 times |
+
+**Inference**: Isolated high-activation snippets can occasionally fall below the threshold for BLAST identification. Reconstructing the full sequence context via **Consensus Assembly** enables high-confidence identification of features that traditional "window-based" scanning would miss entirely.
+
+---
 
 ## 3. Metrics of Biological Significance
 To assess the "quality" of the discoveries beyond simple counts, we analyzed the intrinsic properties of the identified landmarks.
