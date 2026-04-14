@@ -153,30 +153,16 @@ The following benchmarks reflect the **Standard 20k Read Survey** (Clinical Gut 
 
 ---
 
-## 🧩 The Scientific Dial: Tuning Significance
-
-PlatyGeno uses the AI's "Excitement" as the primary scientific dial:
-
-### 1. Signal Sensitivity (`min_activation`)
-*   **Significance Scouting (3.0 – 5.0)**: Ideal for broad-spectrum mapping of a sample’s biological landscape.
-*   **Landmark Identification (8.0 – 12.0)**: High-resolution focus on high-confidence protein-coding regions and structural motifs.
-
-### 2. Novelty Discovery (`--rarity-only`)
-*   **Panoramic Mode (Default)**: Visualizes all biologically significant signals (Known Housekeeping Genes + Unknown Dark Matter).
-*   **Dark Matter Mode (`--rarity-only`)**: Active filtration that subtracts common biological signals to isolate extremely rare or novel genomic features.
-
-### 3. Discovery Resolution (`--top-n`)
-*   **Survey Mode (-1)**: Exhaustive discovery that identifies every significant landmark within the scan range.
-*   **Precision Mode (10–50)**: Targeted discovery that isolates only the strongest statistical outliers in the dataset.
+## 🧩 Tuning Significance & Breadth
+PlatyGeno uses internal activation states as the primary scientific dials, offering a flexible discovery scale that ranges from an exhaustive **Panoramic Survey Mode** (Default: -1) for identifying every landmark within the scan range, to a **Precision Mode** (10–50) that isolates only the strongest statistical outliers in the dataset.
 
 ## 🧪 Core Methodology
-
-PlatyGeno’s **"Golden Configuration"** combines **Mean-Pooling** (Global Semantic Averaging) to denoise sequence embeddings into stable biological summaries, and **Zero-Gate Discovery** (Unrestricted Semantic Census), which eliminates Top-K bottlenecks to capture every active biological concept—ensuring that rare regulatory motifs and subtle functional domains are never overshadowed by common genomic grammar.
+PlatyGeno’s **"Golden Configuration"** combines **Mean-Pooling** (Global Semantic Averaging) to denoise sequence embeddings into stable biological summaries, and **Zero-Gate Discovery** (Unrestricted Semantic Census), which eliminates Top-K bottlenecks to capture every active biological concept—ensuring that rare regulatory motifs and functional domains are mapped without the noise and limitations of traditional pipelines.
 
 ---
 
 ### 📈 Validation Stability: The Padding Filter
-The "Golden Configuration" (Batched Mean-Pooling) achieves its stable **98-landmark validation** by utilizing a natural "Padding Filter." By processing sequences in batches, the engine uses sequence padding to subtly dilute weaker semantic noise. This ensures that only the most powerful, high-confidence biological signals survive the pooling phase, resulting in a high-precision, noise-free discovery report.
+We utilize **Batched Mean-Pooling** (The Padding Filter) to achieve high-precision discovery. By processing sequences in batches, the engine uses sequence padding to subtly dilute weaker semantic noise, ensuring that only the most powerful, high-confidence biological signals survive the pooling phase—resulting in a stable, noise-free discovery report.
 
 ---
 
