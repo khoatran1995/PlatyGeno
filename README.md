@@ -197,6 +197,7 @@ As an AI-native discovery tool, PlatyGeno’s insights are subject to several te
   author = {Khoa Tu Tran},
   title = {PlatyGeno: Unsupervised Significance Mapping via Evo 2},
   url = {https://github.com/khoatran1995/PlatyGeno},
+  doi = {10.5281/zenodo.19568630},
   year = {2026}
 }
 ```
