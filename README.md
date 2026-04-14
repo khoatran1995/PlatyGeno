@@ -12,7 +12,7 @@
 PlatyGeno identifies **genomic landmarks** directly from raw sequence data. By leveraging the **Evo 2 foundation model**, it isolates biologically significant DNA structures (promoters, coding sequences, precise motifs) based purely on AI confidence—**without requiring labels, databases, or BLAST.**
 
 ## 🧪 Technical Validation (IBD-MDB)
-PlatyGeno v1.0.2 has been validated using the clinical **[IBD Metagenomic Database](https://ibdmdb.org/)** dataset. For complete statistical data and methodology, see the [**PlatyGeno Technical Audit**](./PlatyGeno%20Technical%20Audit.md) and the [**Technical Methodology Supplemental**](./TECHNICAL_SUPPLEMENTAL.md).
+PlatyGeno v1.0.3 has been validated using the clinical **[IBD Metagenomic Database](https://ibdmdb.org/)** dataset. For complete statistical data and methodology, see the [**PlatyGeno Technical Audit**](./PlatyGeno%20Technical%20Audit.md) and the [**PlatyGeno Technical Supplemental**](./PlatyGeno%20Technical%20Supplemental.md).
 
 ### Summary of Results:
 *   **Novel Genomic Landmarks**: Identified **Feature 7393**, a 101bp sequence with no prior database matches and a high-confidence structural fold predicted by AlphaFold2 ($pLDDT \sim 80$).
@@ -109,9 +109,7 @@ print(results[['feature_id', 'feature_name', 'activation', 'sequence']])
 ## ⚡ Performance
 | Mode | Engine Implementation | Runtime (20k Reads) | Discovery Speed |
 | :--- | :--- | :--- | :--- |
-| **v1.0.2** | **Batched Mean-Pooling** | **~4.8 Minutes** | **🚀 100% (High Speed)** |
-
----
+| **v1.0.3** | **Batched Mean-Pooling** | **~4.8 Minutes** | **🚀 100% (High Speed)** |
 
 ---
 

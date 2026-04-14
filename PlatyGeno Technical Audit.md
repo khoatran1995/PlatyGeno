@@ -1,7 +1,7 @@
 # PlatyGeno Technical Audit: Autonomous Genomic Discovery in Clinical Metagenomics
 
 **Date**: April 15, 2026 
-**PlatyGeno v1.0.2**
+**PlatyGeno v1.0.3**
 
 ---
 
