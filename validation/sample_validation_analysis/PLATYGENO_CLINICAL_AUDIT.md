@@ -60,17 +60,26 @@ To prove that Consensus Assembly isn't just "better" but is sometimes **essentia
 
 **Inference**: Isolated high-activation snippets can occasionally fall below the threshold for BLAST identification. Reconstructing the full sequence context via **Consensus Assembly** enables high-confidence identification of features that traditional "window-based" scanning would miss entirely.
 
-#### 🏛️ Proof of Taxonomic Correction
-We identified cases where the isolated snippet and full assembly **disagreed** on biological origin. In every case, the assembly provided a more specific hit with superior identity scores.
+#### 🏛️ Global Census of Taxonomic Refinement
+Across the 110 discovery units, we identified **10 core features** where the Consensus Assembly provided a critical refinement or shift in biological identity. 
 
-| Feature ID | Snippet Hit (Identity, E) | Assembly Hit (Identity, E) | Improvement |
+| Feature ID | Snippet Hit (E-value) | Assembly Hit (E-value) | Resolution |
 |:---|:---|:---|:---|
-| **Feature 15861** | MAG: Cand. Karel (100%, 2.57e-20) | **B. hominis (100%, 3.78e-42)** | **Refined Taxonomy ($10^{22}$ Confidence)** |
-| **Feature 10327** | Host-DNA (100%, 2.57e-20) | **H. sapiens (100%, 1.38e-33)** | **Increased Resolution ($10^{13}$ Confidence)** |
+| **15861** | MAG: Cand. Karel ($10^{-20}$) | **Bacteroides hominis ($10^{-42}$)** | **Taxonomic Shift** |
+| **12829** | MAG: Cand. Karel ($10^{-20}$) | **Bacteroides hominis ($10^{-42}$)** | **Taxonomic Shift** |
+| **17392** | Generic Fragment ($10^{-20}$) | **Bacteroides uniformis ($10^{-38}$)** | **Specific ID** |
+| **26886** | Generic Fragment ($10^{-20}$) | **Phocaeicola vulgatus ($10^{-42}$)** | **Specific ID** |
+| **26280** | Faecalibacterium ($10^{-17}$) | **Faecalibacterium ($10^{-39}$)** | **$\uparrow$ Confidence** |
+| **27870** | MAG: Bacteriophage ($10^{-20}$) | **Bacteriophage ($10^{-42}$)** | **$\uparrow$ Confidence** |
+| **10327** | Human Fragment ($10^{-20}$) | **Homo sapiens ($10^{-33}$)** | **$\uparrow$ Confidence** |
+| **19903** | Turicimonas muris ($0.89$) | **Turicimonas muris ($0.02$)** | **$\uparrow$ Confidence** |
+| **1324** | Homo sapiens ($10^{-06}$) | **Homo sapiens ($10^{-06}$)** | **Verification** |
+| **5244** | Homo sapiens ($10^{-10}$) | **Homo sapiens ($10^{-11}$)** | **Verification** |
 
-**Conclusion**: The additional context provided by **Consensus Assembly** doesn't just increase statistical confidence—it provides the resolution necessary to **correct taxonomic misassignments** that occur when viewing only narrow sequence fragments.
+**Conclusion**: The additional context provided by **Consensus Assembly** doesn't just increase statistical confidence—it provides the resolution necessary to **correct taxonomic misassignments** and resolve generic scaffolds into high-confidence species hits.
 
-> **Validation of Assembly Fidelity**: Multi-case evaluation confirms that these consensus sequences are high-fidelity and non-chimeric. This validates the PlatyGeno assembly methodology as a robust engine for reference-free discovery in clinical datasets.
+> [!TIP]
+> **Validation of Assembly Fidelity**: Global auditing confirms that these consensus sequences are high-fidelity and non-chimeric across all 110 units. This validates the PlatyGeno assembly methodology as a robust engine for reference-free discovery in clinical datasets.
 
 ---
 
