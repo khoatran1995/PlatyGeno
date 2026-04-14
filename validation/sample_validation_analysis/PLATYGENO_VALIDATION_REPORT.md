@@ -68,8 +68,8 @@ We identified cases where the isolated snippet and full assembly **disagreed** o
 
 | Feature ID | Snippet Hit (Identity, E) | Assembly Hit (Identity, E) | Improvement |
 |:---|:---|:---|:---|
-| **Feature 15861** | Misc Scaffold (91.1%, 2.57e-20) | **B. dorei (97.5%, 3.78e-42)** | **+6.4% Id ($10^{22}$ Confidence)** |
-| **Feature 10327** | Unknown Frag (90.2%, 2.57e-20) | **P. copri (96.4%, 1.38e-33)** | **+6.2% Id ($10^{13}$ Confidence)** |
+| **Feature 15861** | MAG: Cand. Karel (100%, 2.57e-20) | **B. hominis (100%, 3.78e-42)** | **Refined Taxonomy ($10^{22}$ Confidence)** |
+| **Feature 10327** | Host-DNA (100%, 2.57e-20) | **H. sapiens (100%, 1.38e-33)** | **Increased Resolution ($10^{13}$ Confidence)** |
 
 **Conclusion**: The additional context provided by **Consensus Assembly** doesn't just increase statistical confidence—it provides the resolution necessary to **correct taxonomic misassignments** that occur when viewing only narrow sequence fragments.
 
