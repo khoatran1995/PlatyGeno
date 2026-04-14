@@ -23,7 +23,7 @@ PlatyGeno is a **Reference-Free Microscope** that detects the "Signal" of life d
 
 ---
 
-## ⚙️ Installation
+## ⚙️ Installation & Quick Start
 
 PlatyGeno requires a CUDA-enabled GPU (RTX 3090, 4090, A100, or H100).
 
@@ -35,6 +35,10 @@ pip install platygeno
 pip install ninja # for faster installation of flash-attn
 pip install flash-attn --no-build-isolation
 
+# 3. Verify & Run Discovery (on the validation sample)
+# Automatically saves to: results/sample_Significance.csv
+platygeno --input data/sample.fastq --limit 5000 --threshold 5.0
+```
 ---
 
 ## 🚀 Quick Start for GitHub Clones
@@ -57,15 +61,6 @@ platygeno --input data/sample.fastq --limit 5000
 ```
 
 ---
-
-## 🚀 One-Line Discovery (Terminal)
-If you prefer the command line, you can trigger a full biological scan with one command:
-
-```bash
-# Scan 5000 reads and generate a landmark report
-# Automatically saves to: results/sample_Significance.csv
-platygeno --input data/sample.fastq --limit 5000 --threshold 5.0
-```
 
 ---
 
