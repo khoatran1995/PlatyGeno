@@ -104,12 +104,14 @@ print(results[['feature_id', 'feature_name', 'activation', 'sequence']])
 
 ---
 
-## 🧪 Clinical Validation Case Study (IBD-MDB)
-PlatyGeno includes a clinical validation set (`data/sample.fastq`) from the **[IBD Metagenomic Database](https://ibdmdb.org/)**. This proves the engine's ability to identify autonomous biological landmarks in high-complexity clinical samples with zero-reference databases.
+## 🧪 Technical Validation & Benchmarking (IBD-MDB)
+PlatyGeno v1.0.2 has been benchmarked using the clinical **[IBD Metagenomic Database](https://ibdmdb.org/)** dataset. For complete statistical data, see the [**PlatyGeno Technical Audit**](./PlatyGeno%20Technical%20Audit.md) and the [**Technical Methodology Supplemental**](./TECHNICAL_SUPPLEMENTAL.md).
 
-**Key Findings:**
-*   **Novelty**: Autonomous discovery of **Feature 7393**, a 101bp element with zero high-confidence matches in NCBI databases.
-*   **Relevance**: ~72% of hits correlate with core gut microbiota (*Bacteroides*, etc.).
+### Summary of Results:
+*   **Novel Genomic Landmarks**: Identified **Feature 7393**, a 101bp sequence with no prior database matches and a high-confidence structural fold ($pLDDT \sim 80$).
+*   **Statistical Correlation**: Verified a Pearson correlation of **$r=0.84$** ($p < 10^{-50}$) between sequence length and match significance.
+*   **Resolution Gain**: Consensus assembly provided a **$10^{38}$ increase** in E-value confidence over isolated 60bp fragments.
+*   **Taxonomic Profile**: 72% of high-activation discoveries cross-validated as target gut microbiota.
 
 ---
 
