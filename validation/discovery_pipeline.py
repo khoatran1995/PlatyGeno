@@ -8,11 +8,6 @@ def run_suite(input_path, limit=20000, batch_size=32, threads=5, panoramic=True)
     print("      PLATYGENO DISCOVERY SUITE: 20K VALIDATION PIPELINE")
     print("="*80)
     
-    # 1.0 Clean up legacy artifacts to ensure a fresh v1.0.1 run
-    if os.path.exists("reports"):
-        import shutil
-        shutil.rmtree("reports")
-    
     # 1.1 Dynamic Naming Prep
     base_name = os.path.splitext(os.path.basename(input_path))[0]
     csv_name = os.path.join("results", f"PLG_{base_name}_Significance.csv")
