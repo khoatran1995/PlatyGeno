@@ -86,7 +86,7 @@ To ensure the scientific relevance of the discovery, hits were categorized into 
  
 > **Note on Resolution**: The 50% reduction in "Unclassified" features (from 4 down to 2) is directly attributed to the detection of features like **26953** and **30446**, which were unidentifiable as fragments but successfully resolved via Consensus Assembly.
 
-![Taxonomic Breakdown](file:///c:/Users/Admin/Desktop/Khoa/Antigravity/EVO2/validation/sample_validation_analysis/fig_taxonomy.png)
+![Taxonomic Breakdown](fig_taxonomy.png)
 
 **Relevance Check**: The high concentration of **Gut Microbiota** (72% of hits) confirms that the AI is accurately profiling the sample context.
 
