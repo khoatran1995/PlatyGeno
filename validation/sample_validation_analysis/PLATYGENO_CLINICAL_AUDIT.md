@@ -69,12 +69,6 @@ Across the 110 discovery units, we identified **10 core features** where the Con
 | **12829** | MAG: Cand. Karel ($10^{-20}$) | **Bacteroides hominis ($10^{-42}$)** | **Taxonomic Shift** |
 | **17392** | Generic Fragment ($10^{-20}$) | **Bacteroides uniformis ($10^{-38}$)** | **Specific ID** |
 | **26886** | Generic Fragment ($10^{-20}$) | **Phocaeicola vulgatus ($10^{-42}$)** | **Specific ID** |
-| **26280** | Faecalibacterium ($10^{-17}$) | **Faecalibacterium ($10^{-39}$)** | **$\uparrow$ Confidence** |
-| **27870** | MAG: Bacteriophage ($10^{-20}$) | **Bacteriophage ($10^{-42}$)** | **$\uparrow$ Confidence** |
-| **10327** | Human Fragment ($10^{-20}$) | **Homo sapiens ($10^{-33}$)** | **$\uparrow$ Confidence** |
-| **19903** | Turicimonas muris ($0.89$) | **Turicimonas muris ($0.02$)** | **$\uparrow$ Confidence** |
-| **1324** | Homo sapiens ($10^{-06}$) | **Homo sapiens ($10^{-06}$)** | **Verification** |
-| **5244** | Homo sapiens ($10^{-10}$) | **Homo sapiens ($10^{-11}$)** | **Verification** |
 
 **Conclusion**: The additional context provided by **Consensus Assembly** doesn't just increase statistical confidence—it provides the resolution necessary to **correct taxonomic misassignments** and resolve generic scaffolds into high-confidence species hits.
 
