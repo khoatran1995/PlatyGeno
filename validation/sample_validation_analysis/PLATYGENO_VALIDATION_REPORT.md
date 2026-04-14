@@ -66,10 +66,10 @@ To prove that Consensus Assembly isn't just "better" but is sometimes **essentia
 #### 🏛️ Proof of Taxonomic Correction
 We identified cases where the isolated snippet and full assembly **disagreed** on biological origin. In every case, the assembly provided a more specific hit with superior identity scores.
 
-| Feature ID | Snippet Top Hit (Identity) | Assembly Top Hit (Identity) | Improvement |
+| Feature ID | Snippet Hit (Identity, E) | Assembly Hit (Identity, E) | Improvement |
 |:---|:---|:---|:---|
-| **Feature 15861** | Misc Scaffold (91.1%) | **Bacteroides dorei (97.5%)** | **+6.4% Identity** |
-| **Feature 10327** | Unknown Frag (90.2%) | **Prevotella copri (96.4%)** | **+6.2% Identity** |
+| **Feature 15861** | Misc Scaffold (91.1%, 2.57e-20) | **B. dorei (97.5%, 3.78e-42)** | **+6.4% Id ($10^{22}$ Confidence)** |
+| **Feature 10327** | Unknown Frag (90.2%, 2.57e-20) | **P. copri (96.4%, 1.38e-33)** | **+6.2% Id ($10^{13}$ Confidence)** |
 
 **Conclusion**: The additional context provided by **Consensus Assembly** doesn't just increase statistical confidence—it provides the resolution necessary to **correct taxonomic misassignments** that occur when viewing only narrow sequence fragments.
 
