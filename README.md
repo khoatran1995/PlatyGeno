@@ -138,3 +138,5 @@ print(results[['feature_id', 'feature_name', 'activation', 'sequence']])
 }
 ```
 *Thanks to Together AI (Evo 2) and Goodfire AI (SAE interpretability) and the IBD Metagenomic Database (IBD-MDB). Please cite the relevant references when using PlatyGeno.*
+
+Software available under Apache 2.0 License; Documentation available under CC BY 4.0.
