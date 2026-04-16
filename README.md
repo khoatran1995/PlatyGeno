@@ -80,7 +80,7 @@ platygeno --input data/sample.fastq --limit 5000
 
 ---
 
-## 🚀 Usage & API Reference
+## 🚀 Usage & API Reference - Quick Start
 
 ### 🚀 Advanced Python Discovery
 Researchers can integrate the engine into custom discovery pipelines:
