@@ -111,13 +111,6 @@ print(results[['feature_id', 'feature_name', 'activation', 'sequence']])
 
 ---
 
-## ⚡ Performance
-| Mode | Engine Implementation | Runtime (20k Reads) | Discovery Speed |
-| :--- | :--- | :--- | :--- |
-| **v1.0.4** | **Batched Mean-Pooling** | **~4.8 Minutes** | **🚀 100% (High Speed)** |
-
----
-
 ## 📜 References
 
 ## ⚠️ Technical Limitations
