@@ -111,8 +111,6 @@ print(results[['feature_id', 'feature_name', 'activation', 'sequence']])
 
 ---
 
-## 📜 References
-
 ## ⚠️ Technical Limitations
 *   **Pre-training Bias**: Sensitivity depends on the **Evo 2** pre-training corpus.
 *   **SAE Bottleneck**: Discrete compression may miss extremely subtle biological nuances.
