@@ -11,6 +11,44 @@
 
 PlatyGeno identifies **genomic landmarks** directly from raw sequence data. By leveraging the **Evo 2 foundation model**, it isolates biologically significant DNA structures (promoters, coding sequences, precise motifs) based purely on AI confidence—**without requiring labels, databases, or BLAST.**
 
+<br>
+<h2 align="center">🔬 PlatyGeno Discovery Engine Workflow</h2>
+<p align="center"><i>From raw unorganized DNA sequences to confident biological landmarks.</i></p>
+
+<table width="100%">
+  <tr align="center">
+    <td width="25%" style="padding: 15px;">
+      <h1 style="margin:0;">📄</h1>
+      <br>
+      <b>1. DATA INPUT & BATCHING</b><br>
+      <i>(Raw Fastq data)</i><br><br>
+      <small>Grouped sequences for parallel GPU processing. No prior databases needed.</small>
+    </td>
+    <td width="25%" style="padding: 15px;">
+      <h1 style="margin:0;">🧠</h1>
+      <br>
+      <b>2. EVO 2 FOUNDATION MODEL</b><br>
+      <i>(Neural net grammar)</i><br><br>
+      <small>Reads the DNA grammar directly. Outputs complex mathematical signals.</small>
+    </td>
+    <td width="25%" style="padding: 15px;">
+      <h1 style="margin:0;">🎛️</h1>
+      <br>
+      <b>3. SIGNAL REFINEMENT & AUTOENCODER</b><br>
+      <i>(Mean-Pooling noise reduction)</i><br><br>
+      <small>Translates math into biological concepts (e.g., virus, promoter) at Layer 26.</small>
+    </td>
+    <td width="25%" style="padding: 15px;">
+      <h1 style="margin:0;">🧩</h1>
+      <br>
+      <b>4. LANDMARK EXTRACTION & ASSEMBLY</b><br>
+      <i>(Precision Snippets)</i><br><br>
+      <small>Pinpoints hotspots and stitches overlaps. Output: complete long-read sequences.</small>
+    </td>
+  </tr>
+</table>
+<br>
+
 ## 🧪 Technical Validation (IBD-MDB)
 PlatyGeno v1.0.4 has been validated using a small part of the clinical **[IBD Metagenomic Database](https://ibdmdb.org/)** dataset. For complete statistical data and methodology, see the [**PlatyGeno Technical Audit**](./PlatyGeno%20Technical%20Audit.md) and the [**PlatyGeno Technical Supplemental**](./PlatyGeno%20Technical%20Supplemental.md).
 
