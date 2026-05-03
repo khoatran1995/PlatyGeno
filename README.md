@@ -13,6 +13,9 @@ PlatyGeno identifies **genomic landmarks** directly from raw sequence data. By l
 
 ---
 
+<h2 align="center">🔬 PlatyGeno Discovery Engine Workflow</h2>
+<p align="center"><i>From raw unorganized DNA sequences to confident biological landmarks.</i></p>
+
 <p align="center">
   <img src="assets/workflow.jpg" alt="PlatyGeno Workflow Graphic" width="100%">
 </p>
