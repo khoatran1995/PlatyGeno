@@ -13,20 +13,9 @@ PlatyGeno identifies **genomic landmarks** directly from raw sequence data. By l
 
 ---
 
-<h2 align="center">🔬 PlatyGeno Discovery Engine Workflow</h2>
-<p align="center"><i>From raw unorganized DNA sequences to confident biological landmarks.</i></p>
-
-> ### 📄 1. DATA INPUT & BATCHING
-> **Raw Fastq data** — Grouped sequences for parallel GPU processing. No prior databases needed.
-> 
-> ### 🧠 2. EVO 2 FOUNDATION MODEL
-> **Genomic Language Model** — Reads the DNA grammar directly. Outputs complex mathematical signals.
-> 
-> ### 🎛️ 3. SIGNAL REFINEMENT & AUTOENCODER
-> **Mean-Pooling noise reduction** — Translates math into biological concepts (e.g., virus, promoter) at Layer 26.
-> 
-> ### 🧩 4. LANDMARK EXTRACTION & ASSEMBLY
-> **Precision Snippets** — Pinpoints hotspots and stitches overlaps. Output: complete long-read sequences.
+<p align="center">
+  <img src="assets/workflow.jpg" alt="PlatyGeno Workflow Graphic" width="100%">
+</p>
 
 ---
 
