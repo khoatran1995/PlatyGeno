@@ -22,6 +22,11 @@ PlatyGeno analyzes raw sequencing reads (unorganized fragments of DNA) to isolat
 1. **Precision Snippets**: Fixed-length local context windows (typically 60 base pairs long) that capture the exact coordinate where the AI detects the highest biological significance.
 2. **Consensus Assembly**: A broader sequence context constructed by layering and merging overlapping reads of the same feature. This pieces together a fuller, more complete genomic landmark (often exceeding 100 base pairs).
 
+<p align="center">
+  <img src="assets/workflow.jpg" alt="PlatyGeno Workflow Graphic" width="100%">
+  <br><i><b>Figure: PlatyGeno Discovery Engine Workflow.</b> From raw unorganized DNA sequences to confident biological landmarks.</i>
+</p>
+
 We validated PlatyGeno on a sample of 20,000 sequence reads from the clinical IBD Metagenomic Database (IBD-MDB) [3]. Identified features were cross-referenced against public databases using BLAST [4] to establish taxonomic origin and calculate statistical certainty. We defined "high-confidence" matches using a rigorous threshold of $E \le 10^{-5}$. Features with no significant database matches were subsequently evaluated for structural viability using AlphaFold2 (v2.3.1) [5].
 
 ---
