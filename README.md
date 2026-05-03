@@ -26,11 +26,11 @@ PlatyGeno identifies **genomic landmarks** directly from raw sequence data. By l
 PlatyGeno v1.0.4 has been validated using a small part of the clinical **[IBD Metagenomic Database](https://ibdmdb.org/)** dataset. For complete statistical data and methodology, see the [**PlatyGeno Technical Audit**](./PlatyGeno%20Technical%20Audit.md) and the [**PlatyGeno Technical Supplemental**](./PlatyGeno%20Technical%20Supplemental.md).
 
 ### Summary of Results:
-*   **Novel Genomic Landmarks**: Identified **Feature 7393**, a 101bp sequence with no prior database matches and a high-confidence structural model (AlphaFold2 best prediction; <i>pLDDT</i> &approx; 80).
+*   **Novel Structural DNA Landmark**: Identified Feature 7393 (101bp), a reference-free discovery with no prior database matches. While AlphaFold2 yielded high structural modeling confidence (pLDDT &approx; 80), integrated validation (CPC2/RNAfold) classifies it as a novel non-coding structural landmark.
 
     <p align="center">
       <img src="assets/feature7393_Alphafold2_best_structure.png" width="450" alt="Feature 7393 Structure">
-      <br><i>Representative best structural prediction (AlphaFold2) of the novel Feature 7393 discovered autonomously by PlatyGeno.</i>
+      <br><i>AlphaFold2 structural prediction of Feature 7393. While yielding a high pLDDT score (&approx; 80), integrated analysis revealed this to be a mathematical consequence of its high internal periodicity, confirming it as a structural DNA landmark rather than a protein.</i>
     </p>
 *   **Statistical Correlation**: Verified a Pearson correlation of <b><i>r</i> = 0.84</b> (<i>p</i> < 10<sup>-50</sup>) between sequence length and match significance.
 *   **Resolution Gain**: Consensus assembly provided a **10<sup>38</sup> increase** in E-value confidence over isolated 60bp fragments.
