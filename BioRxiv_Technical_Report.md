@@ -17,10 +17,10 @@ To overcome this limitation, we present **PlatyGeno**, a novel computational too
 
 ## 2. Methodology
 
-PlatyGeno analyzes raw sequencing reads (unorganized fragments of DNA) to isolate highly active biological signals. The engine captures these signals using two distinct methods:
+PlatyGeno analyzes raw sequencing reads (unorganized fragments of DNA) to isolate highly active biological signals. The engine exports these discoveries into two distinct output formats:
 
-1. **Precision Snippets**: Fixed-length local context windows (typically 60 base pairs long) that capture the exact coordinate where the AI detects the highest biological significance.
-2. **Consensus Assembly**: A broader sequence context constructed by layering and merging overlapping reads of the same feature. This pieces together a fuller, more complete genomic landmark (often exceeding 100 base pairs).
+1. **Precision Snippets**: Fixed-length local context windows (typically 60 base pairs long) that represent the exact coordinate where the AI detects the highest biological significance.
+2. **Consensus Assembly**: A broader sequence context constructed post-discovery by layering and merging overlapping reads of the same feature. This pieces together a fuller, more complete genomic landmark (often exceeding 100 base pairs).
 
 <p align="center">
   <img src="assets/workflow.jpg" alt="PlatyGeno Workflow Graphic" width="100%">
