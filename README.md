@@ -20,7 +20,7 @@ PlatyGeno identifies **genomic landmarks** directly from raw sequence data. By l
 > **Raw Fastq data** — Grouped sequences for parallel GPU processing. No prior databases needed.
 > 
 > ### 🧠 2. EVO 2 FOUNDATION MODEL
-> **Neural net grammar** — Reads the DNA grammar directly. Outputs complex mathematical signals.
+> **Genomic Language Model** — Reads the DNA grammar directly. Outputs complex mathematical signals.
 > 
 > ### 🎛️ 3. SIGNAL REFINEMENT & AUTOENCODER
 > **Mean-Pooling noise reduction** — Translates math into biological concepts (e.g., virus, promoter) at Layer 26.
