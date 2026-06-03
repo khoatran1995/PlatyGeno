@@ -68,7 +68,7 @@ We identified **2 features** where the Consensus Assembly provided a critical re
 | **15861** | MAG: Cand. Karel (10<sup>-20</sup>) | **Bacteroides hominis (10<sup>-42</sup>)** | **Taxonomic Shift** |
 | **12829** | MAG: Cand. Karel (10<sup>-20</sup>) | **Bacteroides hominis (10<sup>-42</sup>)** | **Taxonomic Shift** |
 
-**Conclusion**: The additional context provided by **Consensus Assembly** doesn't just increase statistical confidence—it provides the resolution necessary to **correct taxonomic misassignments** and resolve generic scaffolds into high-confidence species hits.
+**Conclusion**: The additional context provided by **Consensus Assembly** doesn't just increase statistical confidence—it provides the resolution necessary to **correct taxonomic misassignments**.
 
 > **Validation of Assembly Fidelity**: These results confirm that these consensus sequences are high-fidelity and non-chimeric. This validates the PlatyGeno assembly methodology as a robust engine for reference-free discovery in clinical datasets.
 
